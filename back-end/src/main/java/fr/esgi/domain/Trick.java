@@ -1,0 +1,120 @@
+package fr.esgi.domain;
+
+import javax.persistence.*;
+import java.util.List;
+import java.util.Objects;
+
+@Entity
+public class Trick {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String wording;
+
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY)
+    private List<Notation> notations;
+
+    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY)
+    private List<Comment> comments;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<QCM> qcms;
+
+    @ManyToOne
+    @JoinColumn(name = "own_user_id_trick")
+    private User ownUser;
+
+
+    public Trick() { }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getWording() {
+        return wording;
+    }
+
+    public void setWording(String wording) {
+        this.wording = wording;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Notation> getNotations() {
+        return notations;
+    }
+
+    public void setNotations(List<Notation> notations) {
+        this.notations = notations;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<QCM> getQcms() {
+        return qcms;
+    }
+
+    public void setQcms(List<QCM> qcms) {
+        this.qcms = qcms;
+    }
+
+    public User getOwnUser() {
+        return ownUser;
+    }
+
+    public void setOwnUser(User ownUser) {
+        this.ownUser = ownUser;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Trick trick = (Trick) o;
+        return Objects.equals(id, trick.id) &&
+                Objects.equals(wording, trick.wording) &&
+                Objects.equals(description, trick.description) &&
+                Objects.equals(category, trick.category) &&
+                Objects.equals(notations, trick.notations) &&
+                Objects.equals(comments, trick.comments) &&
+                Objects.equals(qcms, trick.qcms) &&
+                Objects.equals(ownUser, trick.ownUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, wording, description, category, notations, comments, qcms, ownUser);
+    }
+}
