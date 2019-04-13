@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<CategoryDTO> findCategoriesByWording(int page, int size, String wording) {
         LOGGER.debug("Find Categories by wording : {}", wording);
-        return categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE, new PageRequest(page, size))
+        return categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE, PageRequest.of(page, size))
                 .map(categoryMapper::categoryToCategoryDTO);
     }
 
@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional(readOnly = true)
     public Page<CategoryDTO> findAll(int page, int size) {
         LOGGER.debug("Request to get all Categories");
-        return categoryRepository.findAll(new PageRequest(page, size))
+        return categoryRepository.findAll(PageRequest.of(page, size))
                 .map(categoryMapper::categoryToCategoryDTO);
     }
 }
