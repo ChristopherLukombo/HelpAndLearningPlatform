@@ -1,7 +1,11 @@
 package fr.esgi.domain;
 
 import javax.persistence.*;
+<<<<<<< Updated upstream
 import java.util.Date;
+=======
+import java.time.LocalDate;
+>>>>>>> Stashed changes
 import java.util.Objects;
 
 @Entity
@@ -11,6 +15,7 @@ public class Subscription {
     private Long id;
 
     @ManyToOne
+<<<<<<< Updated upstream
     @JoinColumn(name = "category_id_subscription")
     private Category category;
 
@@ -19,6 +24,13 @@ public class Subscription {
 
     @ManyToOne
     @JoinColumn(name = "user_id_subscription")
+=======
+    private Category category;
+
+    private LocalDate subscriptionDate;
+
+    @ManyToOne
+>>>>>>> Stashed changes
     private User user;
 
     public Subscription() { }
@@ -39,11 +51,19 @@ public class Subscription {
         this.category = category;
     }
 
+<<<<<<< Updated upstream
     public Date getSubscriptionDate() {
         return subscriptionDate;
     }
 
     public void setSubscriptionDate(Date subscriptionDate) {
+=======
+    public LocalDate getSubscriptionDate() {
+        return subscriptionDate;
+    }
+
+    public void setSubscriptionDate(LocalDate subscriptionDate) {
+>>>>>>> Stashed changes
         this.subscriptionDate = subscriptionDate;
     }
 
