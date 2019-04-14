@@ -1,15 +1,13 @@
 package fr.esgi.service.dto;
 
-public class QCMAnswersDTO {
+public class NotationDTO {
     private Long id;
 
-    private Long qcmId;
-
-    private String answer;
+    private double note;
 
     private Long trickId;
 
-    public QCMAnswersDTO() {
+    public NotationDTO() {
         // Empty constructor needed for Jackson.
     }
 
@@ -21,20 +19,12 @@ public class QCMAnswersDTO {
         this.id = id;
     }
 
-    public Long getQcmId() {
-        return qcmId;
+    public double getNote() {
+        return note;
     }
 
-    public void setQcmId(Long qcmId) {
-        this.qcmId = qcmId;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setNote(double note) {
+        this.note = note;
     }
 
     public Long getTrickId() {
