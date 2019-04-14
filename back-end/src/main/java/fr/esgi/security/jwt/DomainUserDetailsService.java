@@ -1,4 +1,4 @@
-package fr.esgi.security.jwt.jwt;
+package fr.esgi.security.jwt;
 
 import fr.esgi.dao.UserRepository;
 import fr.esgi.domain.User;

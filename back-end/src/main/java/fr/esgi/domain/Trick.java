@@ -24,8 +24,8 @@ public class Trick {
     @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<QCM> qcms;
+    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY)
+    private List<QCMAnswers> qcmAnswers;
 
     @ManyToOne
     @JoinColumn(name = "own_user_id_trick")
@@ -82,12 +82,12 @@ public class Trick {
         this.comments = comments;
     }
 
-    public List<QCM> getQcms() {
-        return qcms;
+    public List<QCMAnswers> getQcmAnswers() {
+        return qcmAnswers;
     }
 
-    public void setQcms(List<QCM> qcms) {
-        this.qcms = qcms;
+    public void setQcmAnswers(List<QCMAnswers> qcmAnswers) {
+        this.qcmAnswers = qcmAnswers;
     }
 
     public User getOwnUser() {
@@ -109,12 +109,12 @@ public class Trick {
                 Objects.equals(category, trick.category) &&
                 Objects.equals(notations, trick.notations) &&
                 Objects.equals(comments, trick.comments) &&
-                Objects.equals(qcms, trick.qcms) &&
+                Objects.equals(qcmAnswers, trick.qcmAnswers) &&
                 Objects.equals(ownUser, trick.ownUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, wording, description, category, notations, comments, qcms, ownUser);
+        return Objects.hash(id, wording, description, category, notations, comments, qcmAnswers, ownUser);
     }
 }

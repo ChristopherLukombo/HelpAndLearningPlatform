@@ -1,4 +1,4 @@
-package fr.esgi.security.jwt.jwt;
+package fr.esgi.security.jwt;
 
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;

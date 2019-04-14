@@ -1,8 +1,8 @@
 package fr.esgi.security;
 
 import fr.esgi.config.CorsFilter;
-import fr.esgi.security.jwt.jwt.JWTConfigurer;
-import fr.esgi.security.jwt.jwt.TokenProvider;
+import fr.esgi.security.jwt.JWTConfigurer;
+import fr.esgi.security.jwt.TokenProvider;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -88,6 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/api/categories/all").permitAll()
+                .antMatchers("/api/subscriptions").permitAll()
                 .antMatchers("/api/authenticate").permitAll()
                 .antMatchers("/api/**").authenticated()
                 .and()
