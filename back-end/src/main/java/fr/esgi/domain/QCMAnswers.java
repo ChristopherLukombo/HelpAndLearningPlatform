@@ -22,7 +22,9 @@ public class QCMAnswers {
     @ManyToOne
     private Trick trick;
 
-    public QCMAnswers() { }
+    public QCMAnswers() {
+        // Empty constructor for Hibernate.
+    }
 
     public Long getId() {
         return id;
