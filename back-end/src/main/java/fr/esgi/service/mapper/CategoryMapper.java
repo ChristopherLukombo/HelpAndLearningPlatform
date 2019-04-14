@@ -19,5 +19,5 @@ public interface CategoryMapper {
     CategoryDTO categoryToCategoryDTO(Category category);
 
     @InheritInverseConfiguration
-    Category categoryDTOToCategory(CategoryDTO categoryDTO) ;
+    Category categoryDTOToCategory(CategoryDTO categoryDTO);
 }
