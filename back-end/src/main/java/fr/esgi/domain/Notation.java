@@ -15,7 +15,9 @@ public class Notation {
     @JoinColumn(name = "trick_id_notation")
     private Trick trick;
 
-    public Notation() { }
+    public Notation() {
+        // Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;
