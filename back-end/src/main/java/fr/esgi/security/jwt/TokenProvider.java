@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
 
-    private final Logger log = LoggerFactory.getLogger(TokenProvider.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
 
@@ -78,20 +78,20 @@ public class TokenProvider {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(authToken);
             return true;
         } catch (SignatureException e) {
-            log.info("Invalid JWT signature.");
-            log.trace("Invalid JWT signature trace: {}", e);
+            LOGGER.info("Invalid JWT signature.");
+            LOGGER.trace("Invalid JWT signature trace: {}", e);
         } catch (MalformedJwtException e) {
-            log.info("Invalid JWT token.");
-            log.trace("Invalid JWT token trace: {}", e);
+            LOGGER.info("Invalid JWT token.");
+            LOGGER.trace("Invalid JWT token trace: {}", e);
         } catch (ExpiredJwtException e) {
-            log.info("Expired JWT token.");
-            log.trace("Expired JWT token trace: {}", e);
+            LOGGER.info("Expired JWT token.");
+            LOGGER.trace("Expired JWT token trace: {}", e);
         } catch (UnsupportedJwtException e) {
-            log.info("Unsupported JWT token.");
-            log.trace("Unsupported JWT token trace: {}", e);
+            LOGGER.info("Unsupported JWT token.");
+            LOGGER.trace("Unsupported JWT token trace: {}", e);
         } catch (IllegalArgumentException e) {
-            log.info("JWT token compact of handler are invalid.");
-            log.trace("JWT token compact of handler are invalid trace: {}", e);
+            LOGGER.info("JWT token compact of handler are invalid.");
+            LOGGER.trace("JWT token compact of handler are invalid trace: {}", e);
         }
         return false;
     }
