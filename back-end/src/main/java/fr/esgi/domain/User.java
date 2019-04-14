@@ -174,6 +174,10 @@ public class User {
         this.friends = friends;
     }
 
+    public void addFriends(List<User> friends) {
+        this.friends.addAll(friends);
+    }
+
     public Authority getAuthority() {
         return authority;
     }
