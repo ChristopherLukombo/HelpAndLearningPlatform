@@ -1,20 +1,13 @@
-package fr.esgi.domain;
+package fr.esgi.service.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import java.util.Objects;
 
-@Entity
-public class QCM {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class QCMDTO {
     private Long id;
 
     private String question;
 
-    public QCM() { }
+    public QCMDTO() { }
 
     public Long getId() {
         return id;
@@ -36,7 +29,7 @@ public class QCM {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        QCM qcm = (QCM) o;
+        QCMDTO qcm = (QCMDTO) o;
         return Objects.equals(id, qcm.id) &&
                 Objects.equals(question, qcm.question);
     }

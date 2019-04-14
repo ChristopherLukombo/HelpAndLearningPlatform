@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -26,7 +27,7 @@ public class CommentResource {
         this.commentService = commentService;
     }
 
-    public ResponseEntity<Object> createComment(@RequestBody CommentDTO commentDTO) throws URISyntaxException {
+    public ResponseEntity<Object> createComment(@RequestBody @Valid CommentDTO commentDTO) throws URISyntaxException {
         final CommentDTO comment = commentService.save(commentDTO);
 
         return ResponseEntity.created(new URI("/api/comments" + comment.getId()))
