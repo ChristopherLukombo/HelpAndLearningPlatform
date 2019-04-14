@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 
@@ -70,8 +71,12 @@ public class User {
     @JoinColumn(name = "authority_id")
     private Authority authority = new Authority();
 
+    private ZonedDateTime dateOfLastConnection;
 
-    public User() { }
+
+    public User() {
+        // Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;
@@ -186,6 +191,14 @@ public class User {
         this.authority = authority;
     }
 
+    public ZonedDateTime getDateOfLastConnection() {
+        return dateOfLastConnection;
+    }
+
+    public void setDateOfLastConnection(ZonedDateTime dateOfLastConnection) {
+        this.dateOfLastConnection = dateOfLastConnection;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -203,11 +216,12 @@ public class User {
                 Objects.equals(imageUrl, user.imageUrl) &&
                 Objects.equals(subscriptions, user.subscriptions) &&
                 Objects.equals(friends, user.friends) &&
-                Objects.equals(authority, user.authority);
+                Objects.equals(authority, user.authority) &&
+                Objects.equals(dateOfLastConnection, user.dateOfLastConnection);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, firstName, lastName, email, countryOfResidence, activated, langKey, imageUrl, subscriptions, friends, authority);
+        return Objects.hash(id, login, password, firstName, lastName, email, countryOfResidence, activated, langKey, imageUrl, subscriptions, friends, authority, dateOfLastConnection);
     }
 }

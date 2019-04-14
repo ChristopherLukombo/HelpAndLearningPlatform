@@ -13,6 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +43,7 @@ public class DomainUserDetailsService implements UserDetailsService {
         Optional<User> userByEmailFromDatabase = userRepository.findOneWithAuthoritiesByEmail(lowercaseLogin);
         return userByEmailFromDatabase.map(user -> {
             try {
-                return createSpringSecurityUser(lowercaseLogin, user);
+                return getUser(lowercaseLogin, user);
             } catch (HelpAndLearningPlatformException e) {
                 return null;
             }
@@ -49,7 +51,7 @@ public class DomainUserDetailsService implements UserDetailsService {
             Optional<User> userByLoginFromDatabase = userRepository.findOneWithAuthoritiesByLogin(lowercaseLogin);
             return userByLoginFromDatabase.map(user -> {
                 try {
-                    return createSpringSecurityUser(lowercaseLogin, user);
+                    return getUser(lowercaseLogin, user);
                 } catch (HelpAndLearningPlatformException e) {
                     return null;
                 }
@@ -59,14 +61,24 @@ public class DomainUserDetailsService implements UserDetailsService {
         });
     }
 
+    private org.springframework.security.core.userdetails.User getUser(String lowercaseLogin, User user) throws HelpAndLearningPlatformException {
+        org.springframework.security.core.userdetails.User springSecurityUser = createSpringSecurityUser(lowercaseLogin, user);
+        updateLastConnection(user);
+        return springSecurityUser;
+    }
+
+    private void updateLastConnection(User user) {
+        user.setDateOfLastConnection(ZonedDateTime.now(ZoneId.of("Europe/Paris")));
+        userRepository.saveAndFlush(user);
+    }
+
     private org.springframework.security.core.userdetails.User createSpringSecurityUser(String lowercaseLogin, User user) throws HelpAndLearningPlatformException {
         if (!user.isActivated()) {
             throw new HelpAndLearningPlatformException("User " + lowercaseLogin + " was not activated");
         }
 
-        // TODO: Gérer les rôles
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+        grantedAuthorities.add(new SimpleGrantedAuthority((null != user.getAuthority()) ? user.getAuthority().getName() : "ROLE"));
 
         return new org.springframework.security.core.userdetails.User(user.getLogin(),
                 user.getPassword(),

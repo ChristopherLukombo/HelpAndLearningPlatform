@@ -25,7 +25,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
 
 	@ExceptionHandler(value = { HelpAndLearningPlatformException.class })
-	protected ResponseEntity<Object> handleBurgerSTerminalException(final HelpAndLearningPlatformException ex, final WebRequest request) {
+	protected ResponseEntity<Object> handleHelpAndLearningPlatformException(final HelpAndLearningPlatformException ex, final WebRequest request) {
 		return handleExceptionInternal(ex, ex.getErrorMessage(), new HttpHeaders(),
 				HttpStatus.valueOf(ex.getErrorCode()), request);
 	}
