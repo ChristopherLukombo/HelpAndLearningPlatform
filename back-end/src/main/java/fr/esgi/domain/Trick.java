@@ -1,6 +1,7 @@
 package fr.esgi.domain;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +31,8 @@ public class Trick {
     @ManyToOne
     @JoinColumn(name = "own_user_id_trick")
     private User ownUser;
+
+    private LocalDate creationDate;
 
 
     public Trick() { }
@@ -98,6 +101,14 @@ public class Trick {
         this.ownUser = ownUser;
     }
 
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,11 +121,12 @@ public class Trick {
                 Objects.equals(notations, trick.notations) &&
                 Objects.equals(comments, trick.comments) &&
                 Objects.equals(qcmAnswers, trick.qcmAnswers) &&
-                Objects.equals(ownUser, trick.ownUser);
+                Objects.equals(ownUser, trick.ownUser) &&
+                Objects.equals(creationDate, trick.creationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, wording, description, category, notations, comments, qcmAnswers, ownUser);
+        return Objects.hash(id, wording, description, category, notations, comments, qcmAnswers, ownUser, creationDate);
     }
 }
