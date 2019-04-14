@@ -9,7 +9,9 @@ public class QCMAnswersDTO {
 
     private Long trickId;
 
-    public QCMAnswersDTO() { }
+    public QCMAnswersDTO() {
+        // Empty constructor needed for Jackson.
+    }
 
     public Long getId() {
         return id;
