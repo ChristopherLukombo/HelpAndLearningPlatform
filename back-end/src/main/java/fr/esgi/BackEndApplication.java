@@ -1,5 +1,6 @@
 package fr.esgi;
 
+import fr.esgi.config.DefaultProfileUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -16,6 +17,7 @@ public class BackEndApplication {
 
 	public static void main(String[] args) throws UnknownHostException {
 		SpringApplication app = new SpringApplication(BackEndApplication.class);
+		DefaultProfileUtil.addDefaultProfile(app);
 		Environment env = app.run(args).getEnvironment();
 		String protocol = "http";
 		if (env.getProperty("server.ssl.key-store") != null) {
@@ -25,13 +27,14 @@ public class BackEndApplication {
 						"Application '{}' is running! Access URLs:\n\t" +
 						"Local: \t\t{}://localhost:{}\n\t" +
 						"External: \t{}://{}:{}\t" +
-						"\n----------------------------------------------------------",
+						"Profile(s): \t{}\n----------------------------------------------------------",
 				env.getProperty("spring.application.name"),
 				protocol,
 				env.getProperty("server.port"),
 				protocol,
 				InetAddress.getLocalHost().getHostAddress(),
-				env.getProperty("server.port"));
+				env.getProperty("server.port"),
+				env.getActiveProfiles());
 	}
 
 }
