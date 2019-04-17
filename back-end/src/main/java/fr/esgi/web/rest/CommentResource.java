@@ -29,7 +29,6 @@ public class CommentResource {
 
     public ResponseEntity<Object> createComment(@RequestBody @Valid CommentDTO commentDTO) throws URISyntaxException {
         final CommentDTO comment = commentService.save(commentDTO);
-
         return ResponseEntity.created(new URI("/api/comments" + comment.getId()))
                 .build();
     }

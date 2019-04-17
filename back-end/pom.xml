@@ -120,6 +120,21 @@ learning for any type of "tips"</description>
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
 		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-bean-validators</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -219,6 +234,7 @@ learning for any type of "tips"</description>
 			</plugins>
 		</pluginManagement>
 	</build>
+
 
 	<scm>
 		<url>scm:git:https://github.com/ChristopherLukombo/HelpAndLearningPlatform</url>
