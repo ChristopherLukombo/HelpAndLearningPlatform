@@ -1,7 +1,5 @@
 package fr.esgi.web.rest;
 
-import fr.esgi.service.CategoryService;
-import fr.esgi.service.dto.CategoryDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esgi.service.CategoryService;
+import fr.esgi.service.dto.CategoryDTO;
+import io.swagger.annotations.Api;
+@Api(value = "Categorie")
 @RestController
 @RequestMapping("/api")
 public class CategoryResource {
@@ -28,16 +30,19 @@ public class CategoryResource {
 
     /**
      * GET  /categories : get all the categories by wording.
+     * @param page 
+     * @param size 
+     * @param wording 
      *
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
      */
-    @GetMapping(value = "/categories")
+    @GetMapping("/categories")
     public ResponseEntity<Page<CategoryDTO>> findCategoriesByWording(
-            @RequestParam(name="page", defaultValue="0") int page,
-            @RequestParam(name="size", defaultValue="5") int size,
-            @RequestParam(name="wording", defaultValue="") String wording
+            @RequestParam(name="page", defaultValue = "0") int page,
+            @RequestParam(name="size", defaultValue = "5") int size,
+            @RequestParam(name="wording", defaultValue = "") String wording
     ) {
-        LOGGER.debug("REST request to find Categories by wording : {}", wording);
+        LOGGER.debug("REST request to find Categories by wording: {}", wording);
 
         return ResponseEntity.ok()
                 .body(categoryService.findCategoriesByWording(page, size, wording));
@@ -45,13 +50,15 @@ public class CategoryResource {
 
     /**
      * GET  /categories : get all the categories.
+     * @param page 
+     * @param size 
      *
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
      */
-    @GetMapping(value = "/categories/all")
+    @GetMapping("/categories/all")
     public ResponseEntity<Page<CategoryDTO>> findCategories(
-            @RequestParam(name="page", defaultValue="0") int page,
-            @RequestParam(name="size", defaultValue="5") int size
+            @RequestParam(name="page", defaultValue = "0") int page,
+            @RequestParam(name="size", defaultValue = "5") int size
     ) {
         LOGGER.debug("REST request to find Categories");
 

@@ -32,8 +32,13 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @Override
+    /**
+     * Add a friend to a user.
+     * @param userDTO
+	 * @param friendToAdd 
+     */
     @Transactional
+    @Override
     public void addFriend(UserDTO userDTO, UserDTO friendToAdd) {
         User user = userMapper.userDTOToUser(userDTO);
 

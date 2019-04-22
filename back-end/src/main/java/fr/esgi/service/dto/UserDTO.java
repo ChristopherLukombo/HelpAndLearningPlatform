@@ -10,6 +10,7 @@ import java.util.Objects;
  * A user.
  */
 public class UserDTO {
+	
     private Long id;
 
     private String login;

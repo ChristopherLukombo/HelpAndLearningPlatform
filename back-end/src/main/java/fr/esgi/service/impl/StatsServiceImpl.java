@@ -9,6 +9,7 @@ import fr.esgi.service.StatsService;
 import fr.esgi.service.dto.StatsDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,13 @@ public class StatsServiceImpl implements StatsService {
         this.subscriptionRepository = subscriptionRepository;
     }
 
+    /**
+	 * Get the stats for a trick
+	 * @param userId
+	 * @param categoryId
+	 * @return stats
+	 */
+    @Transactional(readOnly = true)
     @Override
     public StatsDTO getStatsForTrick(Long userId, Long categoryId) {
         List<Trick> tricks = trickRepository.findAllByOwnUser(userId);

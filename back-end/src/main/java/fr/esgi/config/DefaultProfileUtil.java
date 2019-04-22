@@ -1,9 +1,9 @@
 package fr.esgi.config;
 
-import org.springframework.boot.SpringApplication;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.boot.SpringApplication;
 
 public final class DefaultProfileUtil {
 

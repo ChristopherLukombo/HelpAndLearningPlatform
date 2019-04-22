@@ -22,8 +22,13 @@ public class NotationServiceImpl implements NotationService {
         this.notationMapper = notationMapper;
     }
 
-    @Override
+	/**
+	 * Save a note for a trick
+	 * @param notationDTO
+	 * @return NotationDTO
+	 */
     @Transactional
+    @Override
     public NotationDTO save(NotationDTO notationDTO) {
         Notation notation = notationMapper.notationDTOToNotation(notationDTO);
         notation = notationRepository.save(notation);

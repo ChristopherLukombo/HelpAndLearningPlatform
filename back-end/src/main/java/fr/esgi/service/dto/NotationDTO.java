@@ -1,6 +1,7 @@
 package fr.esgi.service.dto;
 
 public class NotationDTO {
+	
     private Long id;
 
     private double note;

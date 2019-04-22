@@ -1,9 +1,9 @@
 package fr.esgi.config;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Set;
 
 /**
  * ConfigurationService for managing configuration properties.

@@ -1,11 +1,17 @@
 package fr.esgi.service;
 
-import fr.esgi.service.dto.UserDTO;
 import org.springframework.stereotype.Service;
+
+import fr.esgi.service.dto.UserDTO;
 
 @Service
 public interface UserService {
 
+	/**
+     * Add a friend to a user.
+     * @param userDTO
+	 * @param friendToAdd 
+     */
     void addFriend(UserDTO userDTO, UserDTO friendToAdd);
 
     UserDTO registerUser(UserDTO userDTO, String password);

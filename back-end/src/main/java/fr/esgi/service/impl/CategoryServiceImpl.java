@@ -36,6 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
      * @param wording
      * @return page of categories
      */
+    @Transactional(readOnly = true)
     @Override
     public Page<CategoryDTO> findCategoriesByWording(int page, int size, String wording) {
         LOGGER.debug("Find Categories by wording : {}", wording);
@@ -48,8 +49,8 @@ public class CategoryServiceImpl implements CategoryService {
      *
      * @return the list of entities
      */
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public Page<CategoryDTO> findAll(int page, int size) {
         LOGGER.debug("Request to get all Categories");
         return categoryRepository.findAll(PageRequest.of(page, size))

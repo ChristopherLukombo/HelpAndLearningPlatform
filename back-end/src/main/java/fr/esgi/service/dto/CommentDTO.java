@@ -3,6 +3,7 @@ package fr.esgi.service.dto;
 import java.util.Objects;
 
 public class CommentDTO {
+	
     private Long id;
 
     private String name;

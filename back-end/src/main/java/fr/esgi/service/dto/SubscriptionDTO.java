@@ -5,6 +5,7 @@ import fr.esgi.domain.Subscription;
 import java.time.LocalDate;
 
 public class SubscriptionDTO {
+	
     private Long id;
 
     private Long categoryId;

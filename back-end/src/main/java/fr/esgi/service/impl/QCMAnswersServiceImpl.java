@@ -22,8 +22,13 @@ public class QCMAnswersServiceImpl implements QCMAnswersService {
         this.qcmAnswersMapper = qcmAnswersMapper;
     }
 
-    @Override
+    /**
+	 * Save answers to a QCM link to trick
+	 * @param qcmAnswersDTO
+	 * @return qcmAnswersDTO
+	 */
     @Transactional
+    @Override
     public QCMAnswersDTO save(QCMAnswersDTO qcmAnswersDTO) {
         QCMAnswers qcmAnswers = qcmAnswersMapper.qcmanswersDTOToqcmanswers(qcmAnswersDTO);
         qcmAnswers = qcmAnswersRepository.save(qcmAnswers);
