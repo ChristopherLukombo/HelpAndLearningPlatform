@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fr.esgi.security.jwt.JWTConfigurer;
 import fr.esgi.security.jwt.TokenProvider;
 import fr.esgi.web.Login;
+import io.swagger.annotations.Api;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import javax.validation.Valid;
  * UserJWTController to authenticate users.
  * @author christopher
  */
+@Api(value = "UserJWT")
 @RestController
 @RequestMapping("/api")
 public class UserJWTResource {

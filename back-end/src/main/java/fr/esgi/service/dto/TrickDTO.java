@@ -3,6 +3,7 @@ package fr.esgi.service.dto;
 import java.time.LocalDate;
 
 public class TrickDTO {
+	
     private Long id;
 
     private String wording;

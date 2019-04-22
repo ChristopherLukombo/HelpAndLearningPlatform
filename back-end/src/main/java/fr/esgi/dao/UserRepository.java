@@ -1,10 +1,11 @@
 package fr.esgi.dao;
 
-import fr.esgi.domain.User;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import fr.esgi.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

@@ -35,8 +35,13 @@ public class TrickServiceImpl implements TrickService {
         this.trickMapper = trickMapper;
     }
 
-    @Override
+	/**
+     * Find all new tricks which are available according to the id
+	 * @param userId 
+	 * @return list of entities
+     */
     @Transactional
+    @Override
     public List<TrickDTO> findAllNewTricksAvailableByUserId(Long userId) {
         final List<Subscription> subscriptions = subscriptionRepository.findAllByUser(userId);
 

@@ -12,21 +12,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("CommentService")
 public class CommentServiceImpl implements CommentService {
 
-    private final CommentRepository commentRepository;
+	private final CommentRepository commentRepository;
 
-    private final CommentMapper commentMapper;
+	private final CommentMapper commentMapper;
 
-    @Autowired
-    public CommentServiceImpl(CommentRepository commentRepository, CommentMapper commentMapper) {
-        this.commentRepository = commentRepository;
-        this.commentMapper = commentMapper;
-    }
+	@Autowired
+	public CommentServiceImpl(CommentRepository commentRepository, CommentMapper commentMapper) {
+		this.commentRepository = commentRepository;
+		this.commentMapper = commentMapper;
+	}
 
-    @Transactional
-    @Override
-    public CommentDTO save(CommentDTO commentDTO) {
-        Comment comment = commentMapper.CommentDTOToComment(commentDTO);
-        comment = commentRepository.save(comment);
-        return commentMapper.commentToCommentDTO(comment);
-    }
+	/**
+	 * Save a comment for a trick
+	 * @param commentDTO
+	 * @return CommentDTO
+	 */
+	@Transactional
+	@Override
+	public CommentDTO save(CommentDTO commentDTO) {
+		Comment comment = commentMapper.CommentDTOToComment(commentDTO);
+		comment = commentRepository.save(comment);
+		return commentMapper.commentToCommentDTO(comment);
+	}
 }

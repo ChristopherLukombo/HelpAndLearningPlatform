@@ -1,14 +1,17 @@
 package fr.esgi.service;
 
-import fr.esgi.service.dto.CategoryDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+
+import fr.esgi.service.dto.CategoryDTO;
 
 @Service
 public interface CategoryService {
 
     /**
      * Returns all Category by wording.
+     * @param page 
+     * @param size 
      * @param wording
      * @return page of categories
      */
@@ -16,6 +19,8 @@ public interface CategoryService {
 
     /**
      * Get all Categories.
+     * @param page 
+     * @param size 
      *
      * @return the list of entities
      */

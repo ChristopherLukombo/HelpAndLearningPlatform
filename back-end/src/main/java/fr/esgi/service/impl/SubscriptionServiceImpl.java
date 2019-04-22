@@ -23,6 +23,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         this.subscriptionMapper = subscriptionMapper;
     }
 
+	/**
+	 * Save a subscription.
+	 * @param subscriptionDTO
+	 * @return Subscription
+	 */
     @Transactional
     public SubscriptionDTO saveSubscription(SubscriptionDTO subscriptionDTO) {
         Subscription subscription = subscriptionMapper.subscriptionDTOToSubscription(subscriptionDTO);
