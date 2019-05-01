@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.springframework.boot.SpringApplication;
 
+/**
+ * Utility class in order to load Spring profile to be used as default.
+ */
 public final class DefaultProfileUtil {
 
     private static final String SPRING_PROFILE_DEFAULT = "spring.profiles.default";

@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import fr.esgi.domain.Category;
 
+/**
+ * Spring Data JPA repository for the Category entity.
+ */
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 

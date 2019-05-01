@@ -1,11 +1,16 @@
 package fr.esgi.service.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+/**
+ * A DTO for the Comment entity.
+ */
 public class CommentDTO {
 	
     private Long id;
 
+    @NotNull
     private String name;
 
     private Long trickId;
@@ -49,5 +54,14 @@ public class CommentDTO {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, trickId);
+    }
+
+    @Override
+    public String toString() {
+        return "CommentDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", trickId=" + trickId +
+                '}';
     }
 }

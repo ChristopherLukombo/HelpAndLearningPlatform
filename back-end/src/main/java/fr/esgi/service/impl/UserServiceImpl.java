@@ -13,11 +13,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
+import java.util.Optional;
 
+/**
+ * Service Implementation for managing User.
+ */
 @Service("UserService")
+@Transactional
 public class UserServiceImpl implements UserService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     private final UserRepository userRepository;
 
@@ -34,26 +39,22 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Add a friend to a user.
-     * @param userDTO
-	 * @param friendToAdd 
+     * @param userDTO the entity user
+	 * @param friendDTO the friend to add to a user
      */
-    @Transactional
     @Override
-    public void addFriend(UserDTO userDTO, UserDTO friendToAdd) {
-        User user = userMapper.userDTOToUser(userDTO);
-
-        User friend = userMapper.userDTOToUser(friendToAdd);
-
+    public void addFriend(UserDTO userDTO, UserDTO friendDTO) {
+        final User user = userMapper.userDTOToUser(userDTO);
+        final User friend = userMapper.userDTOToUser(friendDTO);
         user.addFriends(Arrays.asList(friend));
-
         userRepository.saveAndFlush(user);
     }
 
     /**
      * Save the user in database.
-     * @param userDTO
-     * @param password
-     * @return UserDTO
+     * @param userDTO the entity to save
+     * @param password the password of entity
+     * @return UserDTO the persisted entity
      */
     public UserDTO registerUser(UserDTO userDTO, String password) {
         User newUser = new User();
@@ -76,24 +77,22 @@ public class UserServiceImpl implements UserService {
 
     /**
      * Returns true if the login is already used.
-     * @param userDTO
-     * @return boolean
+     * @param login of the user
+     * @return the entity
      */
     @Transactional(readOnly = true)
-    public boolean loginIsPresent(UserDTO userDTO) {
-        return userRepository.findOneByLogin(userDTO.getLogin().toLowerCase())
-                .isPresent();
+    public Optional<User> findUserByLogin(String login) {
+        return userRepository.findOneByLoginIgnoreCase(login);
     }
 
     /**
      * Returns true if the email is already used.
-     * @param userDTO
-     * @return boolean
+     * @param email of the user
+     * @return the entity
      */
     @Transactional(readOnly = true)
-    public boolean emailIsPresent(UserDTO userDTO) {
-        return userRepository.findOneByEmailIgnoreCase(userDTO.getEmail())
-                .isPresent();
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findOneByEmailIgnoreCase(email);
     }
 
 }

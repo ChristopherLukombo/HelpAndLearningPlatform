@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.CategoryDTO;
 
+/**
+ * Service Implementation for managing Category.
+ */
 @Service
 public interface CategoryService {
 

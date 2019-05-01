@@ -1,5 +1,6 @@
 package fr.esgi.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -9,8 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+/**
+ * A notation.
+ */
 @Entity
-public class Notation {
+public class Notation implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,5 +69,14 @@ public class Notation {
     @Override
     public int hashCode() {
         return Objects.hash(id, note, trick);
+    }
+
+    @Override
+    public String toString() {
+        return "Notation{" +
+                "id=" + id +
+                ", note=" + note +
+                ", trick=" + trick +
+                '}';
     }
 }

@@ -3,6 +3,9 @@ package fr.esgi.service.dto;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+/**
+ * A DTO for the Contact.
+ */
 public class ContactDTO {
 
     @NotNull

@@ -9,12 +9,15 @@ import org.springframework.stereotype.Repository;
 
 import fr.esgi.domain.Subscription;
 
+/**
+ * Spring Data JPA repository for the Subscription entity.
+ */
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
 
     @Query("SELECT s FROM Subscription s WHERE s.user.id = :userId")
-    List<Subscription> findAllByUser(@Param("userId") Long userId);
+    List<Subscription> findAllByUserId(@Param("userId") Long userId);
 
     @Query("SELECT COUNT(s) FROM Subscription s WHERE s.category.id = :categoryId")
-    Long findNumberSubscriptions(@Param("categoryId") Long categoryId);
+    Long findNumberSubscriptionsByCategoryId(@Param("categoryId") Long categoryId);
 }

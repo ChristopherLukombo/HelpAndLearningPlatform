@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.NotationDTO;
 
+/**
+ * Service Implementation for managing Notation.
+ */
 @Service
 public interface NotationService {
 

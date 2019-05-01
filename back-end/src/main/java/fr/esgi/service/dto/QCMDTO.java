@@ -1,11 +1,16 @@
 package fr.esgi.service.dto;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+/**
+ * A DTO for the QCM entity.
+ */
 public class QCMDTO {
 	
     private Long id;
 
+    @NotNull
     private String question;
 
     public QCMDTO() { }
@@ -38,5 +43,13 @@ public class QCMDTO {
     @Override
     public int hashCode() {
         return Objects.hash(id, question);
+    }
+
+    @Override
+    public String toString() {
+        return "QCMDTO{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                '}';
     }
 }

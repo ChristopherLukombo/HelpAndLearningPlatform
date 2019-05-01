@@ -5,12 +5,20 @@ import fr.esgi.domain.QCMAnswers;
 import fr.esgi.service.QCMAnswersService;
 import fr.esgi.service.dto.QCMAnswersDTO;
 import fr.esgi.service.mapper.QCMAnswersMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service Implementation for managing QCMAnswers.
+ */
 @Service("QCMAnswersService")
+@Transactional
 public class QCMAnswersServiceImpl implements QCMAnswersService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(NotationServiceImpl.class);
 
     private final QCMAnswersRepository qcmAnswersRepository;
 
@@ -24,12 +32,12 @@ public class QCMAnswersServiceImpl implements QCMAnswersService {
 
     /**
 	 * Save answers to a QCM link to trick
-	 * @param qcmAnswersDTO
-	 * @return qcmAnswersDTO
+	 * @param qcmAnswersDTO the entity to save
+	 * @return qcmAnswersDTO the persisted entity
 	 */
-    @Transactional
     @Override
     public QCMAnswersDTO save(QCMAnswersDTO qcmAnswersDTO) {
+        LOGGER.debug("Request to save a QCMAnswers: {}", qcmAnswersDTO);
         QCMAnswers qcmAnswers = qcmAnswersMapper.qcmanswersDTOToqcmanswers(qcmAnswersDTO);
         qcmAnswers = qcmAnswersRepository.save(qcmAnswers);
         return qcmAnswersMapper.qcmanswersToQcmanswersDTO(qcmAnswers);

@@ -1,5 +1,6 @@
 package fr.esgi.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -7,8 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * A company.
+ */
 @Entity
-public class Company {
+public class Company implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,5 +69,16 @@ public class Company {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, address, socialReason, email);
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", socialReason='" + socialReason + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

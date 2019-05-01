@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.SubscriptionDTO;
 
+/**
+ * Service Implementation for managing Subscription.
+ */
 @Service
 public interface SubscriptionService {
 

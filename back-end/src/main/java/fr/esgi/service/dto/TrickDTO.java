@@ -1,13 +1,20 @@
 package fr.esgi.service.dto;
 
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Objects;
 
+/**
+ * A DTO for the Trick entity.
+ */
 public class TrickDTO {
 	
     private Long id;
 
+    @NotNull
     private String wording;
 
+    @NotNull
     private String description;
 
     private Long categoryId;
@@ -68,5 +75,35 @@ public class TrickDTO {
 
     public void setOwnUserId(Long ownUserId) {
         this.ownUserId = ownUserId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TrickDTO trickDTO = (TrickDTO) o;
+        return Objects.equals(id, trickDTO.id) &&
+                Objects.equals(wording, trickDTO.wording) &&
+                Objects.equals(description, trickDTO.description) &&
+                Objects.equals(categoryId, trickDTO.categoryId) &&
+                Objects.equals(ownUserId, trickDTO.ownUserId) &&
+                Objects.equals(creationDate, trickDTO.creationDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, wording, description, categoryId, ownUserId, creationDate);
+    }
+
+    @Override
+    public String toString() {
+        return "TrickDTO{" +
+                "id=" + id +
+                ", wording='" + wording + '\'' +
+                ", description='" + description + '\'' +
+                ", categoryId=" + categoryId +
+                ", ownUserId=" + ownUserId +
+                ", creationDate=" + creationDate +
+                '}';
     }
 }

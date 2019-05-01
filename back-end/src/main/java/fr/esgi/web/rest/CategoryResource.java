@@ -13,7 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.esgi.service.CategoryService;
 import fr.esgi.service.dto.CategoryDTO;
 import io.swagger.annotations.Api;
-@Api(value = "Categorie")
+
+/**
+ * REST controller for managing Category.
+ * @author christopher
+ */
+@Api(value = "Category")
 @RestController
 @RequestMapping("/api")
 public class CategoryResource {
@@ -27,12 +32,11 @@ public class CategoryResource {
         this.categoryService = categoryService;
     }
 
-
     /**
      * GET  /categories : get all the categories by wording.
-     * @param page 
-     * @param size 
-     * @param wording 
+     * @param page the page number
+     * @param size the number of elements
+     * @param wording the wording to search
      *
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
      */
@@ -43,15 +47,14 @@ public class CategoryResource {
             @RequestParam(name="wording", defaultValue = "") String wording
     ) {
         LOGGER.debug("REST request to find Categories by wording: {}", wording);
-
         return ResponseEntity.ok()
                 .body(categoryService.findCategoriesByWording(page, size, wording));
     }
 
     /**
      * GET  /categories : get all the categories.
-     * @param page 
-     * @param size 
+     * @param page the page number
+     * @param size the number of elements
      *
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
      */
@@ -61,7 +64,6 @@ public class CategoryResource {
             @RequestParam(name="size", defaultValue = "5") int size
     ) {
         LOGGER.debug("REST request to find Categories");
-
         return ResponseEntity.ok()
                 .body(categoryService.findAll(page, size));
     }

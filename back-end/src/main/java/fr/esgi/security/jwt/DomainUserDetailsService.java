@@ -27,7 +27,7 @@ import java.util.Optional;
 @Component("userDetailsService")
 public class DomainUserDetailsService implements UserDetailsService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(DomainUserDetailsService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DomainUserDetailsService.class);
 
     private final UserRepository userRepository;
 
@@ -40,7 +40,7 @@ public class DomainUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String login) {
         LOGGER.debug("Authenticating {}", login);
         String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
-        Optional<User> userByEmailFromDatabase = userRepository.findOneWithAuthoritiesByEmail(lowercaseLogin);
+        Optional<User> userByEmailFromDatabase = userRepository.findOneByEmailIgnoreCase(lowercaseLogin);
         return userByEmailFromDatabase.map(user -> {
             try {
                 return getUser(lowercaseLogin, user);
@@ -48,7 +48,7 @@ public class DomainUserDetailsService implements UserDetailsService {
                 return null;
             }
         }).orElseGet(() -> {
-            Optional<User> userByLoginFromDatabase = userRepository.findOneWithAuthoritiesByLogin(lowercaseLogin);
+            Optional<User> userByLoginFromDatabase = userRepository.findOneByLoginIgnoreCase(lowercaseLogin);
             return userByLoginFromDatabase.map(user -> {
                 try {
                     return getUser(lowercaseLogin, user);

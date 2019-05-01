@@ -42,7 +42,7 @@ public class UserJWTResource {
 
     /**
      * Authenticate the user and return the token which identify him.
-     * @param login
+     * @param login of the user
      * @return JWTToken
      */
     @PostMapping("/authenticate")

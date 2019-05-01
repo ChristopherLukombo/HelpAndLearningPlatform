@@ -40,7 +40,7 @@ public class MailServiceImpl implements MailService {
         try {
             LOGGER.debug("Request to send mail to: {}", to);
             final SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(Arrays.toString(to.toArray()));
+            message.setTo(to.stream().toArray(String[]::new));
             message.setSubject(subject);
             message.setText(body);
 

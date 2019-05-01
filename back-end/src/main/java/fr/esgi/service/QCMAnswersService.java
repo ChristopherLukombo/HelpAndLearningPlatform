@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.QCMAnswersDTO;
 
+/**
+ * Service Implementation for managing QCMAnswers.
+ */
 @Service
 public interface QCMAnswersService {
 

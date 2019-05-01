@@ -6,7 +6,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Objects;
 
-
+/**
+ * A DTO for the Category entity.
+ */
 public class CategoryDTO {
 	
     private Long id;
@@ -52,5 +54,13 @@ public class CategoryDTO {
     @Override
     public int hashCode() {
         return Objects.hash(id, wording);
+    }
+
+    @Override
+    public String toString() {
+        return "CategoryDTO{" +
+                "id=" + id +
+                ", wording='" + wording + '\'' +
+                '}';
     }
 }

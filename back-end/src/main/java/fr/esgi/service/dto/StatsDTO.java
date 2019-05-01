@@ -1,5 +1,10 @@
 package fr.esgi.service.dto;
 
+import java.util.Objects;
+
+/**
+ * A DTO for the Stats entity.
+ */
 public class StatsDTO {
 
     private double mark;
@@ -24,5 +29,27 @@ public class StatsDTO {
 
     public void setNumberOfSubscribedUsers(double numberOfSubscribedUsers) {
         this.numberOfSubscribedUsers = numberOfSubscribedUsers;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        StatsDTO statsDTO = (StatsDTO) o;
+        return Double.compare(statsDTO.mark, mark) == 0 &&
+                Double.compare(statsDTO.numberOfSubscribedUsers, numberOfSubscribedUsers) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mark, numberOfSubscribedUsers);
+    }
+
+    @Override
+    public String toString() {
+        return "StatsDTO{" +
+                "mark=" + mark +
+                ", numberOfSubscribedUsers=" + numberOfSubscribedUsers +
+                '}';
     }
 }

@@ -2,23 +2,34 @@ package fr.esgi.service.dto;
 
 import org.apache.commons.lang3.StringUtils;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Locale;
 import java.util.Objects;
 
 
 /**
- * A user.
+ * A DTO for the User entity.
  */
 public class UserDTO {
 	
     private Long id;
 
+    @NotBlank
+    @Pattern(regexp =  "^[_'.@A-Za-z0-9-]*$")
+    @Size(min = 1, max = 50)
     private String login;
 
+    @Size(max = 50)
     private String firstName;
 
+    @Size(max = 50)
     private String lastName;
 
+    @Email
+    @Size(min = 5, max = 100)
     private String email;
 
     private String countryOfResidence;
@@ -142,5 +153,21 @@ public class UserDTO {
     @Override
     public int hashCode() {
         return Objects.hash(id, login, firstName, lastName, email, countryOfResidence, activated, langKey, imageUrl, authorityId);
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", countryOfResidence='" + countryOfResidence + '\'' +
+                ", activated=" + activated +
+                ", langKey='" + langKey + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", authorityId=" + authorityId +
+                '}';
     }
 }
