@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Trips</string>
+    <string name="navigation_drawer_open">Open</string>
+    <string name="navigation_drawer_close">Close</string>
+    <string name="nav_header_title">Trips</string>
+    <string name="nav_header_subtitle">Everyone needs to learn</string>
+    <string name="action_settings">Settings</string>
+    <string name="nav_learning">Cours</string>
+    <string name="nav_profile">Mon profil</string>
+    <string name="nav_user_learning">Mes Cours</string>
+</resources>

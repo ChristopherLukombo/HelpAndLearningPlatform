@@ -1,0 +1,30 @@
+<resources>
+
+    <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light">
+        <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/TripsAquaBlue</item>
+        <item name="colorPrimaryDark">@color/TripsDarkAquaBlue</item>
+        <item name="colorAccent">@color/Black</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="MyActionBar" parent="Theme.AppCompat.Light">
+        <item name="android:background">@drawable/side_nav_bar</item>
+    </style>
+
+
+</resources>
