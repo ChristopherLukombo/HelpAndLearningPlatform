@@ -1,5 +1,10 @@
 package fr.esgi.service.dto;
 
+import java.util.Objects;
+
+/**
+ * A DTO for the QCMAnswers entity.
+ */
 public class QCMAnswersDTO {
 	
     private Long id;
@@ -44,5 +49,31 @@ public class QCMAnswersDTO {
 
     public void setTrickId(Long trickId) {
         this.trickId = trickId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QCMAnswersDTO that = (QCMAnswersDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(qcmId, that.qcmId) &&
+                Objects.equals(answer, that.answer) &&
+                Objects.equals(trickId, that.trickId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, qcmId, answer, trickId);
+    }
+
+    @Override
+    public String toString() {
+        return "QCMAnswersDTO{" +
+                "id=" + id +
+                ", qcmId=" + qcmId +
+                ", answer='" + answer + '\'' +
+                ", trickId=" + trickId +
+                '}';
     }
 }

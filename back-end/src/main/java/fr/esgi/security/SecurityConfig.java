@@ -41,7 +41,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
 
-
     public SecurityConfig(AuthenticationManagerBuilder authenticationManagerBuilder,
                           UserDetailsService userDetailsService, TokenProvider tokenProvider, CorsFilter corsFilter) {
         this.authenticationManagerBuilder = authenticationManagerBuilder;

@@ -39,7 +39,6 @@ public class AccountResource {
 
     private final UserService userService;
 
-
     @Autowired
     public AccountResource(UserService userService) {
         this.userService = userService;
@@ -48,16 +47,16 @@ public class AccountResource {
     /**
      * POST  /register : register the user.
      *
-     * @param managedUser the managed user View Model
-     * @return ResponseEntity
-     * @throws HelpAndLearningPlatformException 
-     * @throws URISyntaxException 
+     * @param managedUser the managed user
+     * @return ResponseEntity with status 201 (Created).
+     * @throws HelpAndLearningPlatformException if there is an error during request
+     * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Successful register"),
         @ApiResponse(code = 400, message = "Bad request"),
         @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Acces denied"),
+        @ApiResponse(code = 403, message = "Access denied"),
         })
     @PostMapping("/register")
     public ResponseEntity<Object> registerAccount(
@@ -67,19 +66,15 @@ public class AccountResource {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
                     "Password is not valid.");
         }
-
-        if (userService.loginIsPresent(managedUser)) {
+        if (userService.findUserByLogin(managedUser.getLogin()).isPresent()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
                    "Login is already registered.");
         }
-
-        if (userService.emailIsPresent(managedUser)) {
+        if (userService.findUserByEmail(managedUser.getEmail()).isPresent()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
                     "Email is already used.");
         }
-
         UserDTO userDTO = userService.registerUser(managedUser, managedUser.getPassword());
-
         return ResponseEntity.created(new URI("/api/users/" + userDTO.getId()))
                 .build();
     }

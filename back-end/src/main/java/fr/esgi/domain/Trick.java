@@ -1,5 +1,6 @@
 package fr.esgi.domain;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
@@ -13,8 +14,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+/**
+ * A trick.
+ */
 @Entity
-public class Trick {
+public class Trick implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -137,5 +143,20 @@ public class Trick {
     @Override
     public int hashCode() {
         return Objects.hash(id, wording, description, category, notations, comments, qcmAnswers, ownUser, creationDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Trick{" +
+                "id=" + id +
+                ", wording='" + wording + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", notations=" + notations +
+                ", comments=" + comments +
+                ", qcmAnswers=" + qcmAnswers +
+                ", ownUser=" + ownUser +
+                ", creationDate=" + creationDate +
+                '}';
     }
 }

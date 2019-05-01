@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.esgi.service.StatsService;
 import fr.esgi.service.dto.StatsDTO;
 import io.swagger.annotations.Api;
+
+/**
+ * REST controller for managing Stats.
+ * @author christopher
+ */
 @Api(value = "Stats")
 @RestController
 @RequestMapping("/api")
@@ -28,10 +33,8 @@ public class StatsResource {
 
     /**
      * GET  /stats : Returns stats of subscriptions.
-     * @param userId 
-     * @param categoryId 
-     * @param qcmAnswersDTO 
-     *
+     * @param userId the userId of the statsDTO to retrieve
+     * @param categoryId the categoryId of the statsDTO to retrieve
      * @return the ResponseEntity with status 200 (OK) and the stats in body
      */
     @GetMapping(value = "/stats")
@@ -39,7 +42,6 @@ public class StatsResource {
             @RequestParam(value = "userId") Long userId,
             @RequestParam(value = "categoryId") Long categoryId) {
         LOGGER.debug("REST request to get stats: {} {}", userId, categoryId);
-
         return ResponseEntity.ok()
                 .body(statsService.getStatsForTrick(userId, categoryId));
     }

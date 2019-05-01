@@ -1,5 +1,8 @@
 package fr.esgi.service.dto;
 
+/**
+ * A DTO for the Notation entity.
+ */
 public class NotationDTO {
 	
     private Long id;
@@ -34,5 +37,14 @@ public class NotationDTO {
 
     public void setTrickId(Long trickId) {
         this.trickId = trickId;
+    }
+
+    @Override
+    public String toString() {
+        return "NotationDTO{" +
+                "id=" + id +
+                ", note=" + note +
+                ", trickId=" + trickId +
+                '}';
     }
 }

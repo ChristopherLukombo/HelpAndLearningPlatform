@@ -1,5 +1,6 @@
 package fr.esgi.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -10,8 +11,13 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * A authority.
+ */
 @Entity
-public class Authority {
+public class Authority implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,4 +58,11 @@ public class Authority {
         return Objects.hash(id, name);
     }
 
+    @Override
+    public String toString() {
+        return "Authority{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

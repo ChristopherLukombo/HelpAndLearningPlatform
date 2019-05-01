@@ -1,5 +1,6 @@
 package fr.esgi.domain;
 
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -30,7 +31,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * A user.
  */
 @Entity
-public class User {
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -239,5 +242,25 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(id, login, password, firstName, lastName, email, countryOfResidence, activated, langKey, imageUrl, subscriptions, friends, authority, dateOfLastConnection);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", countryOfResidence='" + countryOfResidence + '\'' +
+                ", activated=" + activated +
+                ", langKey='" + langKey + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", subscriptions=" + subscriptions +
+                ", friends=" + friends +
+                ", authority=" + authority +
+                ", dateOfLastConnection=" + dateOfLastConnection +
+                '}';
     }
 }

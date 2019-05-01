@@ -10,13 +10,16 @@ import org.springframework.stereotype.Repository;
 
 import fr.esgi.domain.Trick;
 
+/**
+ * Spring Data JPA repository for the Trick entity.
+ */
 @Repository
 public interface TrickRepository extends JpaRepository<Trick, Long> {
 
     @Query("SELECT t FROM Trick t WHERE t.creationDate >= :date AND t.category.id = :categoryId")
-    List<Trick> findAllNewTricksAvailable(@Param("date") LocalDate date,
-                                          @Param("categoryId") Long categoryId);
+    List<Trick> findAllNewTricksAvailableByDateAndCategoryId(@Param("date") LocalDate date,
+                                                             @Param("categoryId") Long categoryId);
 
     @Query("SELECT t FROM Trick t WHERE t.ownUser.id = :userId")
-    List<Trick> findAllByOwnUser(@Param("userId") Long userId);
+    List<Trick> findAllByOwnUserId(@Param("userId") Long userId);
 }

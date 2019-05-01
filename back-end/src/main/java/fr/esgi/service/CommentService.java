@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.CommentDTO;
 
+/**
+ * Service Implementation for managing Comment.
+ */
 @Service
 public interface CommentService {
 

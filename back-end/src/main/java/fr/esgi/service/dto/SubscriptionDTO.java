@@ -3,7 +3,11 @@ package fr.esgi.service.dto;
 import fr.esgi.domain.Subscription;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
+/**
+ * A DTO for the Subscription entity.
+ */
 public class SubscriptionDTO {
 	
     private Long id;
@@ -57,5 +61,29 @@ public class SubscriptionDTO {
         this.subscriptionDate = subscriptionDate;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SubscriptionDTO that = (SubscriptionDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(categoryId, that.categoryId) &&
+                Objects.equals(subscriptionDate, that.subscriptionDate) &&
+                Objects.equals(userId, that.userId);
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, categoryId, subscriptionDate, userId);
+    }
+
+    @Override
+    public String toString() {
+        return "SubscriptionDTO{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", subscriptionDate=" + subscriptionDate +
+                ", userId=" + userId +
+                '}';
+    }
 }

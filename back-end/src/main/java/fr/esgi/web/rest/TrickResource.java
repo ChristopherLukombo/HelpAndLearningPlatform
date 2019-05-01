@@ -7,12 +7,18 @@ import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+/**
+ * REST controller for managing Trick.
+ * @author christopher
+ */
 @Api(value = "Trick")
 @RestController
 @RequestMapping("/api")
@@ -29,16 +35,14 @@ public class TrickResource {
 
     /**
      * GET  /tricks : get all new tricks availaible by user id
-     * @param userId 
-     *
+     * @param userId the userId of user
      * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
      */
     @GetMapping("/tricks/{userId}")
-    public List<TrickDTO> getAllNewTricksAvailableByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<TrickDTO>> getAllNewTricksAvailableByUserId(@PathVariable Long userId) {
         LOGGER.debug("REST request to find all new tricks available: {}", userId);
-
-        return trickService.findAllNewTricksAvailableByUserId(userId);
+        return ResponseEntity.ok()
+                .body(trickService.findAllNewTricksAvailableByUserId(userId));
     }
-
 
 }

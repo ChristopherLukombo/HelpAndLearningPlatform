@@ -12,8 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+/**
+ * Service Implementation for managing Category.
+ */
 @Service("CategoryService")
+@Transactional
 public class CategoryServiceImpl implements CategoryService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
@@ -33,13 +36,13 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * Returns all Category by wording.
      *
-     * @param wording
+     * @param wording to search
      * @return page of categories
      */
     @Transactional(readOnly = true)
     @Override
     public Page<CategoryDTO> findCategoriesByWording(int page, int size, String wording) {
-        LOGGER.debug("Find Categories by wording : {}", wording);
+        LOGGER.debug("Request to find Categories by wording : {}", wording);
         return categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE, PageRequest.of(page, size))
                 .map(categoryMapper::categoryToCategoryDTO);
     }

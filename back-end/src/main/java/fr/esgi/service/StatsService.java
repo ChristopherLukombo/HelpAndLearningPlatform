@@ -4,6 +4,9 @@ import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.StatsDTO;
 
+/**
+ * Service Implementation for managing Stats.
+ */
 @Service
 public interface StatsService {
 

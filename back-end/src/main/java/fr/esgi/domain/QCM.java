@@ -1,5 +1,6 @@
 package fr.esgi.domain;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Entity;
@@ -7,8 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+/**
+ * A qcm.
+ */
 @Entity
-public class QCM {
+public class QCM implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,5 +52,13 @@ public class QCM {
     @Override
     public int hashCode() {
         return Objects.hash(id, question);
+    }
+
+    @Override
+    public String toString() {
+        return "QCM{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                '}';
     }
 }

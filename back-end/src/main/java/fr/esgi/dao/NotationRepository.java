@@ -8,6 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import fr.esgi.domain.Notation;
 
+/**
+ * Spring Data JPA repository for the Notation entity.
+ */
 @Repository
 public interface NotationRepository extends JpaRepository<Notation, Long> {
 

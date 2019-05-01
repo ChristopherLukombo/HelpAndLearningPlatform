@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.TrickDTO;
 
+/**
+ * Service Implementation for managing Trick.
+ */
 @Service
 public interface TrickService {
 
