@@ -6,5 +6,6 @@
     <color name="TripsAquaBlue">#00b8d4</color>
     <color name="TripsDarkAquaBlue">#0088a3</color>
     <color name="TripsLightAquaBlue">#62ebff</color>
+    <color name="White">#ffff</color>
     <color name="Black">#000000</color>
 </resources>

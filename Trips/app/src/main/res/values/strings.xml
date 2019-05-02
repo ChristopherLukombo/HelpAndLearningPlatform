@@ -8,4 +8,7 @@
     <string name="nav_learning">Cours</string>
     <string name="nav_profile">Mon profil</string>
     <string name="nav_user_learning">Mes Cours</string>
+    <string name="nav_contact">Nous contacter</string>
+    <string name="nav_firm_title">Société</string>
+    <string name="nav_parameters">Paramètres</string>
 </resources>
