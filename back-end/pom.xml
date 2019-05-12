@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.1.4.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>fr.esgi</groupId>
 	<artifactId>back-end</artifactId>
@@ -36,17 +37,17 @@ learning for any type of "tips"</description>
 
 		<!-- Sonar properties -->
 		<sonar.issue.ignore.multicriteria>S3437,UndocumentedApi,BoldAndItalicTagsCheck</sonar.issue.ignore.multicriteria>
-		<!-- Rule https://sonarqube.com/coding_rules#rule_key=Web%3ABoldAndItalicTagsCheck
-			is ignored. Even if we agree that using the "i" tag is an awful practice,
+		<!-- Rule https://sonarqube.com/coding_rules#rule_key=Web%3ABoldAndItalicTagsCheck 
+			is ignored. Even if we agree that using the "i" tag is an awful practice, 
 			this is what is recommended by http://fontawesome.io/examples/ -->
 		<sonar.issue.ignore.multicriteria.BoldAndItalicTagsCheck.resourceKey>src/main/webapp/app/**/*.*</sonar.issue.ignore.multicriteria.BoldAndItalicTagsCheck.resourceKey>
 		<sonar.issue.ignore.multicriteria.BoldAndItalicTagsCheck.ruleKey>Web:BoldAndItalicTagsCheck</sonar.issue.ignore.multicriteria.BoldAndItalicTagsCheck.ruleKey>
-		<!-- Rule https://sonarqube.com/coding_rules#rule_key=squid%3AS3437 is
+		<!-- Rule https://sonarqube.com/coding_rules#rule_key=squid%3AS3437 is 
 			ignored, as a JPA-managed field cannot be transient -->
 		<sonar.issue.ignore.multicriteria.S3437.resourceKey>src/main/java/**/*</sonar.issue.ignore.multicriteria.S3437.resourceKey>
 		<sonar.issue.ignore.multicriteria.S3437.ruleKey>squid:S3437</sonar.issue.ignore.multicriteria.S3437.ruleKey>
-		<!-- Rule http://sonarqube.com/coding_rules#rule_key=squid%3AUndocumentedApi
-			is ignored, as we want to follow "clean code" guidelines and classes, methods
+		<!-- Rule http://sonarqube.com/coding_rules#rule_key=squid%3AUndocumentedApi 
+			is ignored, as we want to follow "clean code" guidelines and classes, methods 
 			and arguments names should be self-explanatory -->
 		<sonar.issue.ignore.multicriteria.UndocumentedApi.resourceKey>src/main/java/**/*</sonar.issue.ignore.multicriteria.UndocumentedApi.resourceKey>
 		<sonar.issue.ignore.multicriteria.UndocumentedApi.ruleKey>squid:UndocumentedApi</sonar.issue.ignore.multicriteria.UndocumentedApi.ruleKey>
@@ -87,10 +88,10 @@ learning for any type of "tips"</description>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -145,7 +146,12 @@ learning for any type of "tips"</description>
 			<version>2.9.2</version>
 		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
@@ -164,7 +170,7 @@ learning for any type of "tips"</description>
 							<destFile>${project.testresult.directory}/coverage/jacoco/jacoco.exec</destFile>
 						</configuration>
 					</execution>
-					<!-- Ensures that the code coverage report for unit tests is created
+					<!-- Ensures that the code coverage report for unit tests is created 
 						after unit tests have been run -->
 					<execution>
 						<id>post-unit-test</id>
@@ -209,8 +215,8 @@ learning for any type of "tips"</description>
 						</annotationProcessorPaths>
 					</configuration>
 				</plugin>
-				<!-- This plugin's configuration is used to store Eclipse m2e settings
-					only. It has no influence on the Maven build itself. Remove when the m2e
+				<!-- This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. Remove when the m2e 
 					plugin can correctly bind to Maven lifecycle -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>

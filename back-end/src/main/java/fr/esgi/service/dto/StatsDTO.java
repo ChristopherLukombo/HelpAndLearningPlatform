@@ -9,7 +9,7 @@ public class StatsDTO {
 
     private double mark;
 
-    private double numberOfSubscribedUsers;
+    private long numberOfSubscribedUsers;
 
     public StatsDTO() {
         // Empty constructor needed for Jackson.
@@ -23,11 +23,11 @@ public class StatsDTO {
         this.mark = mark;
     }
 
-    public double getNumberOfSubscribedUsers() {
+    public long getNumberOfSubscribedUsers() {
         return numberOfSubscribedUsers;
     }
 
-    public void setNumberOfSubscribedUsers(double numberOfSubscribedUsers) {
+    public void setNumberOfSubscribedUsers(long numberOfSubscribedUsers) {
         this.numberOfSubscribedUsers = numberOfSubscribedUsers;
     }
 
@@ -37,7 +37,7 @@ public class StatsDTO {
         if (o == null || getClass() != o.getClass()) return false;
         StatsDTO statsDTO = (StatsDTO) o;
         return Double.compare(statsDTO.mark, mark) == 0 &&
-                Double.compare(statsDTO.numberOfSubscribedUsers, numberOfSubscribedUsers) == 0;
+                Long.compare(statsDTO.numberOfSubscribedUsers, numberOfSubscribedUsers) == 0;
     }
 
     @Override

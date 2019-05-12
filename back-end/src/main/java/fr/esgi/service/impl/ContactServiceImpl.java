@@ -42,7 +42,6 @@ public class ContactServiceImpl implements ContactService {
                     configurationService.getRecipients(), contactDTO.getSubject(), contactDTO.getInformation()
             );
         } catch (HelpAndLearningPlatformException e) {
-            LOGGER.error("Error during sending mail", e);
             throw new HelpAndLearningPlatformException("Error during sending mail", e);
         }
     }

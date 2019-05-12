@@ -45,7 +45,6 @@ public class ContactResource {
         try {
             contactService.contact(contactDTO);
         } catch (HelpAndLearningPlatformException e) {
-            LOGGER.error("Error trying to contact Company", e);
             throw new HelpAndLearningPlatformException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Error trying to contact Company", e);
         }

@@ -1,7 +1,7 @@
 package fr.esgi.service.impl;
 
-import fr.esgi.exception.HelpAndLearningPlatformException;
-import fr.esgi.service.MailService;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +10,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Set;
+import fr.esgi.exception.HelpAndLearningPlatformException;
+import fr.esgi.service.MailService;
 
 /**
  * Service Implementation for managing Mail.
@@ -46,7 +46,6 @@ public class MailServiceImpl implements MailService {
 
             this.javaMailSender.send(message);
         } catch (MailException e) {
-            LOGGER.error("Error during sending mail to: {}", to, e);
             throw new HelpAndLearningPlatformException("Error during sending mail to: {}", e);
         }
     }
