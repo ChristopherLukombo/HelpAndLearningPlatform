@@ -3,6 +3,8 @@ package com.example.trips;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,24 +15,35 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private RecyclerView mostRecentTricksRecyclerView;
+    private RecyclerView mostViewedTricksRecyclerView;
+    private ArrayList<Trick> mostRecentTricks;
+    private ArrayList<Trick> mostViewedTricks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
+        mostRecentTricks = new ArrayList<>();
+        mostViewedTricks = new ArrayList<>();
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mostRecentTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostRecentTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostRecentTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+
+        mostViewedTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostViewedTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostViewedTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+
+        initMenuAndToolBar();
+        initRecyclerViews();
     }
 
     @Override
@@ -86,5 +99,39 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void initMenuAndToolBar(){
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initRecyclerViews(){
+        mostRecentTricksRecyclerView = findViewById(R.id.mostRecentTricks);
+        mostViewedTricksRecyclerView = findViewById(R.id.mostViewedTricks);
+        mostRecentTricksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mostViewedTricksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mostRecentTricksRecyclerView.setAdapter(new TrickAdapter(getApplicationContext(), mostRecentTricks, new TrickCustomClickListener() {
+            @Override
+            public void onTrickItemClick(View v, Trick appointment) {
+
+            }
+        }));
+
+        mostViewedTricksRecyclerView.setAdapter(new TrickAdapter(getApplicationContext(), mostViewedTricks, new TrickCustomClickListener() {
+            @Override
+            public void onTrickItemClick(View v, Trick appointment) {
+
+            }
+        }));
     }
 }

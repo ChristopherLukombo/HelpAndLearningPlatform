@@ -17,7 +17,7 @@
     <string name="hint_password">Mot de passe</string>
     <string name="hint_firstname">Nom</string>
     <string name="hint_lastname">Prénom</string>
-    <string name="hint_phoneNumber">Téléphone</string>
+    <string name="hint_country">Pays</string>
     <string name="btn_login">S\'inscrire</string>
     <string name="btn_forgot_password">Vous avez oublié votre mot de passe ?</string>
     <string name="btn_register">Se connecter</string>
@@ -29,4 +29,6 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="most_recent_tricks">Tips les plus récents</string>
+    <string name="most_viewed_tricks">Tips les plus consultés</string>
 </resources>

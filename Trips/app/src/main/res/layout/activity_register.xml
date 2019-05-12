@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
-
+    tools:context=".RegisterActivity">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -15,12 +13,35 @@
         android:orientation="vertical"
         android:padding="@dimen/activity_horizontal_margin">
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:srcCompat="@drawable/trips_logo" />
+            <EditText
+                android:id="@+id/firstname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_firstname"
+                android:inputType="textAutoComplete"
+                android:textColor="?colorAccent"
+                android:textColorHint="?colorAccent" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/lastname"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_lastname"
+                android:inputType="textAutoComplete"
+                android:textColor="?colorAccent"
+                android:textColorHint="?colorAccent" />
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -42,6 +63,21 @@
             android:layout_height="wrap_content">
 
             <EditText
+                android:id="@+id/country"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="@string/hint_country"
+                android:inputType="text"
+                android:textColor="?colorAccent"
+                android:textColorHint="?colorAccent" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
                 android:id="@+id/password"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -53,36 +89,25 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_signup"
             android:layout_width="140dp"
             android:layout_height="45dp"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
+            android:textAllCaps="false"
             android:background="@color/TripsDarkAquaBlue"
             android:textColor="@color/Black"
-            android:text="@string/btn_register"
-            android:textAllCaps="false"
-            android:textSize="15sp" />
+            android:text="@string/btn_login" />
 
         <Button
-            android:id="@+id/btn_signup"
+            android:id="@+id/btn_login"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dip"
             android:background="@color/TripsLightAquaBlue"
             android:textColor="@color/Black"
-            android:text="@string/btn_link_to_register"
-            android:textAllCaps="false"/>
-
-        <Button
-            android:id="@+id/btn_reset_password"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:background="@color/TripsLightAquaBlue"
-            android:text="@string/btn_forgot_password"
-            android:textAllCaps="false"
-            android:textColor="@color/Black" />
+            android:text="@string/btn_link_to_login"
+            android:textAllCaps="false" />
 
     </LinearLayout>
 
@@ -93,4 +118,5 @@
         android:layout_gravity="center|bottom"
         android:layout_marginBottom="20dp"
         android:visibility="gone" />
+
 </android.support.design.widget.CoordinatorLayout>
