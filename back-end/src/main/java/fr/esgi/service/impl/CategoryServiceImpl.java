@@ -1,6 +1,7 @@
 package fr.esgi.service.impl;
 
 import fr.esgi.dao.CategoryRepository;
+import fr.esgi.domain.Category;
 import fr.esgi.service.CategoryService;
 import fr.esgi.service.dto.CategoryDTO;
 import fr.esgi.service.mapper.CategoryMapper;
@@ -43,7 +44,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<CategoryDTO> findCategoriesByWording(int page, int size, String wording) {
         LOGGER.debug("Request to find Categories by wording : {}", wording);
-        return categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE, PageRequest.of(page, size))
+        final Page<Category> categories = categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE, PageRequest.of(page, size));
+		if (null == categories) {
+			return null;
+		}
+        return categories
                 .map(categoryMapper::categoryToCategoryDTO);
     }
 
@@ -56,7 +61,11 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Page<CategoryDTO> findAll(int page, int size) {
         LOGGER.debug("Request to get all Categories");
-        return categoryRepository.findAll(PageRequest.of(page, size))
+        final Page<Category> categories = categoryRepository.findAll(PageRequest.of(page, size));
+        if (null == categories) {
+			return null;
+		}
+		return categories
                 .map(categoryMapper::categoryToCategoryDTO);
     }
 }

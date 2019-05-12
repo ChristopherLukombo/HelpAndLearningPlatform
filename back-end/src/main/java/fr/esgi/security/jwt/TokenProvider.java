@@ -41,7 +41,7 @@ public class TokenProvider {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
 
-        long now = (new Date()).getTime();
+        final long now = (new Date()).getTime();
         Date validity;
         if (rememberMe) {
             validity = new Date(now + this.tokenValidityInMillisecondsForRememberMe);
@@ -58,7 +58,7 @@ public class TokenProvider {
     }
 
     public String createToken() {
-        long now = (new Date()).getTime();
+        final long now = (new Date()).getTime();
         Date validity;
             validity = new Date(now + this.tokenValidityInMillisecondsForRememberMe);
 

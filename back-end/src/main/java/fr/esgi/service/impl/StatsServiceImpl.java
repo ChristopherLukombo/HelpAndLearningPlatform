@@ -67,7 +67,6 @@ public class StatsServiceImpl implements StatsService {
 
         final StatsDTO statsDTO = new StatsDTO();
         statsDTO.setMark((sum.isPresent() && sum.get() > 0) ? sum.get() / notations.size() : 0);
-        statsDTO.getNumberOfSubscribedUsers();
         statsDTO.setNumberOfSubscribedUsers(subscriptionRepository.findNumberSubscriptionsByCategoryId(categoryId));
 
         return statsDTO;
