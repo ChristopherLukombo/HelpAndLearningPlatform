@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list  xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- The background color, preferably the same as your normal theme -->
+    <item android:drawable="@drawable/side_nav_bar"/>
+
+    <!-- Your product logo - 144dp color version of your app icon -->
+    <item  android:top="100dp">
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/trips_logo"
+
+            />
+    </item>
+    <item android:bottom="200dp">
+        <bitmap
+            android:src="@drawable/trips_title"
+            android:gravity="center"
+            />
+    </item>
+
+</layer-list >
