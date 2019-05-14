@@ -1,0 +1,14 @@
+use projet_annuel;
+
+DROP TABLE IF EXISTS user;
+
+CREATE TABLE user (
+  id INT AUTO_INCREMENT,
+  login VARCHAR(64),
+  password VARCHAR(32),
+PRIMARY KEY (id)) ENGINE=InnoDB;
+
+INSERT INTO user (login, password)
+values ("kyllian", "kyllian"),
+       ("christopher", "christopher"),
+       ("gregoire", "gregoire");

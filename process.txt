@@ -1,0 +1,13 @@
+/**
+ * Ce fichier détaille les manipulations à faire pour que le projet soit fonctionnel pour la prochaine personne.
+ */
+
+------------------------------------------------------------------------------------------------------------------------
+Ajouter les variables de conf dans le fichier de configuration :
+app.mail.host = smtp.gmail.com
+app.mail.port = 587
+app.mail.username = devfirst.learning@gmail.com
+app.mail.password = dev.learning9!
+# recipients separated by a comma
+app.mail.recipients = christopher.lukombo@outlook.fr
+------------------------------------------------------------------------------------------------------------------------

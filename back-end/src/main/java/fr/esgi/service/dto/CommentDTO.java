@@ -1,0 +1,67 @@
+package fr.esgi.service.dto;
+
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
+
+/**
+ * A DTO for the Comment entity.
+ */
+public class CommentDTO {
+	
+    private Long id;
+
+    @NotNull
+    private String name;
+
+    private Long trickId;
+
+    public CommentDTO() { }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Long getTrickId() {
+        return trickId;
+    }
+
+    public void setTrickId(Long trickId) {
+        this.trickId = trickId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CommentDTO that = (CommentDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(trickId, that.trickId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, trickId);
+    }
+
+    @Override
+    public String toString() {
+        return "CommentDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", trickId=" + trickId +
+                '}';
+    }
+}

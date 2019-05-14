@@ -32,3 +32,4 @@ HELP.md
 /node/
 yarn.lock
 
+/back-end/target/
