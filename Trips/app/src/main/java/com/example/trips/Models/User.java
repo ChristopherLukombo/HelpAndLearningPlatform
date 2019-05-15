@@ -1,4 +1,4 @@
-package com.example.trips;
+package com.example.trips.Models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,23 +7,31 @@ public class User {
 
     private boolean activated;
     private String countryOfResidence;
+    private int authorityId;
     private String dateOfLastConnection;
     private String email;
-    private String firstname;
-    private String lastname;
-    private ArrayList<User> friends;
-    private static int id;
+    private String firstName;
+    private String lastName;
+    private List<User> friends;
+    private String pseudo;
+    private long id;
     private String imageUrl;
     private String langKey;
     private String login;
-    private ArrayList<Subscription> subscriptions;
+    private List<Subscription> subscriptions;
 
-    public User(String email, String firstname, String lastname, String login) {
+    public User(String email, String pseudo, String firstName, String lastName) {
         this.email = email;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.login = login;
-        this.id ++;
+        this.pseudo = pseudo;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.authorityId = 1;
+        this.countryOfResidence = "France";
+        this.langKey = "FR";
+        this.imageUrl = "";
+        this.activated = true;
+        this.friends = new ArrayList<>();
+        this.subscriptions = new ArrayList<>();
     }
 
     public boolean isActivated() {
@@ -58,31 +66,31 @@ public class User {
         this.email = email;
     }
 
-    public String getFirstname() {
-        return firstname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstName(String firstname) {
+        this.firstName = firstname;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastname) {
+        this.lastName = lastName;
     }
 
     public List<User> getFriends() {
         return friends;
     }
 
-    public void setFriends(ArrayList<User> friends) {
+    public void setFriends(List<User> friends) {
         this.friends = friends;
     }
 
-    public static int getId() {
+    public long getId() {
         return id;
     }
 

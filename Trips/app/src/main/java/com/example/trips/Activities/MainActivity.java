@@ -1,8 +1,7 @@
-package com.example.trips;
+package com.example.trips.Activities;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,8 +14,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.trips.Models.Category;
+import com.example.trips.Models.Trick;
+import com.example.trips.R;
+import com.example.trips.TrickAdapter;
+import com.example.trips.TrickCustomClickListener;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -34,13 +38,15 @@ public class MainActivity extends AppCompatActivity
         mostRecentTricks = new ArrayList<>();
         mostViewedTricks = new ArrayList<>();
 
-        mostRecentTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostRecentTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostRecentTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        Category category = new Category("Big Trick");
 
-        mostViewedTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostViewedTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostViewedTricks.add(new Trick(1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostRecentTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostRecentTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostRecentTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+
+        mostViewedTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostViewedTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostViewedTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
 
         initMenuAndToolBar();
         initRecyclerViews();
@@ -86,9 +92,11 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_learn) {
+        } else if (id == R.id.nav_tricks) {
+            startActivity(new Intent(getApplicationContext(), TricksListActivity.class));
 
-        } else if (id == R.id.nav_learning) {
+        } else if (id == R.id.nav_my_tricks) {
+            startActivity(new Intent(getApplicationContext(), TrickActivity.class));
 
         } else if (id == R.id.nav_parameter) {
 

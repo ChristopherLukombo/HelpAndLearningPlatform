@@ -8,6 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.example.trips.Models.Trick;
+
 import java.util.ArrayList;
 
 public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder> {

@@ -1,20 +1,19 @@
-package com.example.trips;
+package com.example.trips.Models;
 
 public class Subscription {
 
-    private static int id;
+    private long id;
     private String subscriptionDate;
     private User creator;
-    private Category category;
+    private Trick trick;
 
-    public Subscription(String subscriptionDate, User creator, Category category) {
+    public Subscription(String subscriptionDate, User creator, Trick trick) {
         this.subscriptionDate = subscriptionDate;
         this.creator = creator;
-        this.category = category;
-        this.id ++;
+        this.trick = trick;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -34,11 +33,11 @@ public class Subscription {
         this.creator = creator;
     }
 
-    public Category getCategory() {
-        return category;
+    public Trick getTrick() {
+        return trick;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setTrick(Trick trick) {
+        this.trick = trick;
     }
 }

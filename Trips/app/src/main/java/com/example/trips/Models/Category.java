@@ -1,15 +1,14 @@
-package com.example.trips;
+package com.example.trips.Models;
 
 public class Category {
-    private static int id;
+    private long id;
     private String name;
 
     public Category(String name) {
         this.name = name;
-        this.id ++;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

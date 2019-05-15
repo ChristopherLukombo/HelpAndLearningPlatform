@@ -1,4 +1,4 @@
-package com.example.trips;
+package com.example.trips.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import com.example.trips.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

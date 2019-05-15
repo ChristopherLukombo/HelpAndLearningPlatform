@@ -31,4 +31,7 @@
     <string name="error_field_required">This field is required</string>
     <string name="most_recent_tricks">Tips les plus récents</string>
     <string name="most_viewed_tricks">Tips les plus consultés</string>
+    <string name="title_activity_tricks">TricksActivity</string>
+    <string name="title_activity_tricks_list">Tous les trucs et astuces</string>
+    <string name="title_activity_trick">TrickActivity</string>
 </resources>

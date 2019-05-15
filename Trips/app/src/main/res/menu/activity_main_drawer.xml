@@ -9,11 +9,11 @@
             android:icon="@drawable/profile"
             android:title="@string/nav_profile" />
         <item
-            android:id="@+id/nav_learn"
+            android:id="@+id/nav_tricks"
             android:icon="@drawable/learn"
             android:title="@string/nav_learning" />
         <item
-            android:id="@+id/nav_learning"
+            android:id="@+id/nav_my_tricks"
             android:icon="@drawable/learning"
             android:title="@string/nav_user_learning" />
         <item

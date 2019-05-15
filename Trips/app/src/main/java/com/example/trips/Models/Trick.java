@@ -1,27 +1,26 @@
-package com.example.trips;
+package com.example.trips.Models;
 
 public class Trick {
 
-    private int categoryId;
+    private Category category;
     private String creationDate;
     private String description;
     private String name;
-    private static int id;
+    private long id;
 
-    public Trick(int categoryId, String creationDate, String description, String name) {
-        this.categoryId = categoryId;
+    public Trick(Category category, String creationDate, String description, String name) {
+        this.category = category;
         this.creationDate = creationDate;
         this.description = description;
         this.name = name;
-        this.id ++;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategoryId(int categoryI) {
-        this.categoryId = categoryI;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getCreationDate() {
@@ -48,7 +47,7 @@ public class Trick {
         this.name = name;
     }
 
-    public static int getId() {
+    public long getId() {
         return id;
     }
 }
