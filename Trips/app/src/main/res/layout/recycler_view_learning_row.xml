@@ -28,27 +28,38 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:layout_marginBottom="10dp"
-            android:background="@null">
+            android:background="@null"
+            android:layout_marginLeft="10dp">
 
             <TextView
                 android:id="@+id/rowTrickTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:text="Apprendre l'anglais"
                 android:textStyle="bold"
-                android:layout_marginLeft="20dp"/>
+                android:fontFamily="serif"/>
+
+            <RatingBar
+                android:id="@+id/trickListRatingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:isIndicator="true"
+                android:stepSize="0.1"/>
 
             <TextView
                 android:id="@+id/rowTrickCategoryName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="5"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:text="Langues"
                 android:textStyle="italic"
                 android:gravity="end"
+                android:fontFamily="serif"
                 android:layout_marginRight="20dp"/>
 
         </LinearLayout>
@@ -57,9 +68,24 @@
             android:id="@+id/rowTrickDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:textSize="10dp"
+            android:layout_marginLeft="10dp"
             android:text="Un petit guide pour vous aider à apprendre l'anglais plus facilement."
+            android:fontFamily="serif"
             android:layout_marginTop="5dp"/>
+
+            <Button
+                android:id="@+id/subscribeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="right"
+                android:layout_margin="10dp"
+                android:background="@color/TripsAquaBlue"
+                android:fontFamily="serif"
+                android:text="Suivre"
+                android:textSize="10dp" />
+
+
 
     </LinearLayout>
 

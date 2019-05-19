@@ -10,13 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.trips.Models.Trick;
-
 import java.util.ArrayList;
+import java.util.List;
 
 public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder> {
 
     Context context;
-    ArrayList<Trick> tricks;
+    List<Trick> tricks;
     TrickCustomClickListener listener;
 
     public TrickAdapter(Context context, ArrayList<Trick> tricks, TrickCustomClickListener listener) {

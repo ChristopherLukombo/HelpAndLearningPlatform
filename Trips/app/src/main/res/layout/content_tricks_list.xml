@@ -8,18 +8,23 @@
     tools:context=".Activities.TricksListActivity"
     tools:showIn="@layout/activity_tricks_list"
     android:orientation="vertical"
+    android:background="@drawable/side_nav_bar"
     android:layout_gravity="center">
 
     <TextView
         android:id="@+id/TricksCategoryTitle"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
         android:text="@string/title_activity_tricks_list"
         android:textAlignment="center"/>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/trickListRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"/>
+        android:background="@drawable/side_nav_drawer"
+        android:textAlignment="center"
+        android:layout_gravity="center"/>
 
 </LinearLayout>

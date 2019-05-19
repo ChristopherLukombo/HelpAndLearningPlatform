@@ -22,8 +22,7 @@ import com.example.trips.TrickCustomClickListener;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity  {
 
     private RecyclerView mostRecentTricksRecyclerView;
     private RecyclerView mostViewedTricksRecyclerView;
@@ -38,17 +37,19 @@ public class MainActivity extends AppCompatActivity
         mostRecentTricks = new ArrayList<>();
         mostViewedTricks = new ArrayList<>();
 
-        Category category = new Category("Big Trick");
+        Category langage = new Category("Langues");
+        Category autre = new Category("autres");
+        Category jeuxVideos = new Category("Jeux Video");
 
-        mostRecentTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostRecentTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostRecentTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
 
-        mostViewedTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostViewedTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostViewedTricks.add(new Trick(category, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostRecentTricks.add(new Trick(langage, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais"));
+        mostRecentTricks.add(new Trick(autre, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostRecentTricks.add(new Trick(jeuxVideos, "12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser"));
 
-        initMenuAndToolBar();
+        mostViewedTricks.add(new Trick(langage, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais"));
+        mostViewedTricks.add(new Trick(autre, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
+        mostViewedTricks.add(new Trick(jeuxVideos, "12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser"));
+
         initRecyclerViews();
     }
 
@@ -60,66 +61,6 @@ public class MainActivity extends AppCompatActivity
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_profile) {
-            // Handle the camera action
-        } else if (id == R.id.nav_tricks) {
-            startActivity(new Intent(getApplicationContext(), TricksListActivity.class));
-
-        } else if (id == R.id.nav_my_tricks) {
-            startActivity(new Intent(getApplicationContext(), TrickActivity.class));
-
-        } else if (id == R.id.nav_parameter) {
-
-        }  else if (id == R.id.nav_info) {
-
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-    private void initMenuAndToolBar(){
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void initRecyclerViews(){
@@ -142,4 +83,6 @@ public class MainActivity extends AppCompatActivity
             }
         }));
     }
+
+
 }

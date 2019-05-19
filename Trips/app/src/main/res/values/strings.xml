@@ -5,9 +5,9 @@
     <string name="nav_header_title">Trips</string>
     <string name="nav_header_subtitle">Everyone needs to learn</string>
     <string name="action_settings">Settings</string>
-    <string name="nav_learning">Cours</string>
+    <string name="nav_learning">Astuces</string>
     <string name="nav_profile">Mon profil</string>
-    <string name="nav_user_learning">Mes Cours</string>
+    <string name="nav_user_learning">Mes astuces</string>
     <string name="nav_contact">Nous contacter</string>
     <string name="nav_firm_title">Société</string>
     <string name="nav_parameters">Paramètres</string>
@@ -32,6 +32,11 @@
     <string name="most_recent_tricks">Tips les plus récents</string>
     <string name="most_viewed_tricks">Tips les plus consultés</string>
     <string name="title_activity_tricks">TricksActivity</string>
-    <string name="title_activity_tricks_list">Tous les trucs et astuces</string>
-    <string name="title_activity_trick">TrickActivity</string>
+    <string name="title_activity_tricks_list">Toutes les astuces</string>
+    <string name="nav_user_finished_tricks">Astuces terminées</string>
+    <string name="nav_user_followed_tricks">Astuces en cours</string>
+    <string name="nav_home">Accueil</string>
+    <string name="nav_parameters_title">Paramètres</string>
+    <string name="title_activity_base">BaseActivity</string>
+
 </resources>
