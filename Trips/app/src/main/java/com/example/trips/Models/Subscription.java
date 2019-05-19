@@ -40,4 +40,8 @@ public class Subscription {
     public void setTrick(Trick trick) {
         this.trick = trick;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

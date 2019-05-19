@@ -19,4 +19,8 @@ public class Category {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 }

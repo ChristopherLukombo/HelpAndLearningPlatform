@@ -125,4 +125,24 @@ public class User {
     public void setSubscriptions(ArrayList<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getPseudo() {
+        return pseudo;
+    }
+
+    public void setPseudo(String pseudo) {
+        this.pseudo = pseudo;
+    }
+
+    public int getAuthorityId() {
+        return authorityId;
+    }
+
+    public void setAuthorityId(int authorityId) {
+        this.authorityId = authorityId;
+    }
 }
