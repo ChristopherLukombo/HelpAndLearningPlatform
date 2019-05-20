@@ -70,4 +70,16 @@ public class TrickServiceImpl implements TrickService {
         final LocalDate today = LocalDate.now();
         return today.minusDays(2);
     }
+
+    /**
+     * Update a Trick
+     * @param trick
+     * @return entity
+     */
+	@Override
+	public TrickDTO update(TrickDTO trickDTO) {
+		Trick trick = trickMapper.trickDTOToTrick(trickDTO);
+    	trick = trickRepository.saveAndFlush(trick);
+    	return trickMapper.trickToTrickDTO(trick);
+	}
 }
