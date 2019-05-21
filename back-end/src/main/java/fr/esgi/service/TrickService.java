@@ -18,4 +18,12 @@ public interface TrickService {
 	 * @return list of entities
      */
     List<TrickDTO> findAllNewTricksAvailableByUserId(Long userId);
+    
+    /**
+     * Update a Trick
+     * @param trick
+     * @return entity
+     */
+    TrickDTO update(TrickDTO trickDTO);
+
 }
