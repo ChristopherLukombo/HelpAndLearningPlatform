@@ -1,10 +1,8 @@
 package fr.esgi.service.impl;
 
-import fr.esgi.dao.UserRepository;
-import fr.esgi.domain.User;
-import fr.esgi.service.UserService;
-import fr.esgi.service.dto.UserDTO;
-import fr.esgi.service.mapper.UserMapper;
+import java.util.Arrays;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +10,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Optional;
+import fr.esgi.dao.AuthorityRepository;
+import fr.esgi.dao.UserRepository;
+import fr.esgi.domain.Authority;
+import fr.esgi.domain.User;
+import fr.esgi.service.UserService;
+import fr.esgi.service.dto.UserDTO;
+import fr.esgi.service.mapper.UserMapper;
 
 /**
  * Service Implementation for managing User.
@@ -27,17 +30,21 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final UserMapper userMapper;
+    
+    private final AuthorityRepository authorityRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,
+			AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.userMapper = userMapper;
+		this.authorityRepository = authorityRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 
-    /**
+	/**
      * Add a friend to a user.
      * @param userDTO the entity user
 	 * @param friendDTO the friend to add to a user
@@ -67,6 +74,10 @@ public class UserServiceImpl implements UserService {
         newUser.setEmail(userDTO.getEmail());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setCountryOfResidence(userDTO.getCountryOfResidence());
+        final Optional<Authority> authority = authorityRepository.findById(userDTO.getAuthorityId());
+        if (authority.isPresent()) {
+            newUser.setAuthority(authority.get());
+        }
         // new user is active
         newUser.setActivated(true);
         newUser = userRepository.save(newUser);

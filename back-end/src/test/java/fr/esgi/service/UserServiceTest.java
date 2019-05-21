@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import fr.esgi.dao.AuthorityRepository;
 import fr.esgi.dao.UserRepository;
 import fr.esgi.domain.User;
 import fr.esgi.service.dto.UserDTO;
@@ -48,6 +49,9 @@ public class UserServiceTest {
 
 	@Mock
     private UserMapper userMapper;
+	
+	@Mock 
+	private AuthorityRepository authorityRepository;
 
 	@Mock
     private PasswordEncoder passwordEncoder;
@@ -58,7 +62,7 @@ public class UserServiceTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
-		userServiceImpl = new UserServiceImpl(userRepository, userMapper, passwordEncoder);
+		userServiceImpl = new UserServiceImpl(userRepository, userMapper, authorityRepository, passwordEncoder);
 	}
 
 	@Test
