@@ -168,6 +168,7 @@ learning for any type of "tips"</description>
 				<excludes>
 					<exclude>**/logback-spring.xml</exclude>
 					<exclude>**/helpAndLearningPlatform.properties</exclude>
+					 <exclude>**/sql/*.sql</exclude>
 				</excludes>
 			</resource>
 		</resources>
