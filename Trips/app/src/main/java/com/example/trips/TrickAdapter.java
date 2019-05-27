@@ -27,7 +27,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
 
     @Override
     public TrickAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int i) {
-        View view= LayoutInflater.from(context).inflate(R.layout.recycler_view_learning_row, parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.recycler_view_trick_row, parent,false);
         return new MyViewHolder(view);
     }
 

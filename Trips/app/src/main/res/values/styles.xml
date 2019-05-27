@@ -4,7 +4,7 @@
         <item name="android:windowBackground">@drawable/launch_screen</item>
     </style>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/TripsAquaBlue</item>
         <item name="colorPrimaryDark">@color/TripsDarkAquaBlue</item>

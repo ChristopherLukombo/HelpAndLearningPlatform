@@ -3,6 +3,7 @@ package com.example.trips.Models;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class User {
@@ -160,5 +161,22 @@ public class User {
 
     public void setAuthorityId(int authorityId) {
         this.authorityId = authorityId;
+    }
+
+    public HashMap<String, String> getHashMap(String password){
+        HashMap<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("email", getEmail());
+        hashMap.put("password", password);
+        hashMap.put("lastName", getLastName());
+        hashMap.put("firstName", getFirstName());
+        hashMap.put("login", getPseudo());
+        hashMap.put("langKey", getLangKey());
+        hashMap.put("activated", String.valueOf(isActivated()));
+        hashMap.put("countryOfResidence", getCountryOfResidence());
+        hashMap.put("id", String.valueOf(getId()));
+        hashMap.put("authorityId", String.valueOf(getAuthorityId()));
+        hashMap.put("imageUrl", getImageUrl());
+
+        return hashMap;
     }
 }

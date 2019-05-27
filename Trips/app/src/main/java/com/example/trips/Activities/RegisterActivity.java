@@ -9,19 +9,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.trips.Authenticator;
 import com.example.trips.Models.User;
 import com.example.trips.R;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -47,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignup = findViewById(R.id.btn_signup);
         btnLogin = findViewById(R.id.btn_login);
         this.url = "http://192.168.0.12:8080/api/";
+
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,8 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent( getApplicationContext(), LoginActivity.class));
-                //register();
+                register();
             }
         });
     }
@@ -80,9 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
         if(inputsAreValid) {
-            register(email, password, lastName, firstName, pseudo);
+            sendRequest(email, password, lastName, firstName, pseudo);
         }
-
     }
 
 
@@ -111,47 +100,19 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
-    private void register(String email, String password, String lastname, String firstname, String pseudo ){
+    private void sendRequest(String email, String password, String lastname, String firstname, String pseudo ){
 
         String url = this.url + "register";
         User user = new User(email, pseudo, firstname, lastname);
-        Map<String, String> params = makeHashMap(user, password);
+        Map<String, String> params =user.getHashMap(password);
 
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent( getApplicationContext(), MainActivity.class));
-                        finish();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "PAS POSSIBLE", Toast.LENGTH_LONG).show();
-                    }
-                }) {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                finish();
+                startActivity(new Intent( RegisterActivity.this, MainActivity.class));
+            }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-    }
-
-    private Map<String, String> makeHashMap(User user, String password){
-        Map<String, String> hashMap = new HashMap<String, String>();
-        hashMap.put("email", user.getEmail());
-        hashMap.put("password", password);
-        hashMap.put("lastName", user.getLastName());
-        hashMap.put("firstName", user.getFirstName());
-        hashMap.put("login", user.getPseudo());
-        hashMap.put("langKey", user.getLangKey());
-        hashMap.put("activated", String.valueOf(user.isActivated()));
-        hashMap.put("countryOfResidence", user.getCountryOfResidence());
-        hashMap.put("id", String.valueOf(user.getId()));
-        hashMap.put("authorityId", String.valueOf(user.getAuthorityId()));
-        hashMap.put("imageUrl", user.getImageUrl());
-
-        return hashMap;
+        Authenticator.register(getApplicationContext(), url, params, runnable);
     }
 }

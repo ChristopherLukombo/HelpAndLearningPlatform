@@ -10,19 +10,8 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.trips.Models.User;
+import com.example.trips.Authenticator;
 import com.example.trips.R;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,9 +37,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //attemptLogin();
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                finish();
+                attemptLogin();
             }
         });
 
@@ -100,24 +87,16 @@ public class LoginActivity extends AppCompatActivity {
         String url = getString(R.string.api_url) + "authenticate";
         Map<String, String> params = makeHashMap(login, password);
 
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-                        startActivity(new Intent( getApplicationContext(), MainActivity.class));
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "PAS POSSIBLE", Toast.LENGTH_LONG).show();
-                    }
-                }) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                finish();
+                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+            }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+        Authenticator.authenticate(getApplicationContext(), url, params, runnable);
     }
 
     private Map<String, String> makeHashMap(String login, String password){

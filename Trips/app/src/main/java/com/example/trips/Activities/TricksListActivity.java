@@ -146,8 +146,8 @@ public class TricksListActivity extends BaseActivity{
     }
 
     private Trick fromJSONTrickToObject(JSONObject jsonObject){
-        Trick trick = new Trick(null, null, null, null, null, null);
+        //Trick trick = new Trick(null, null, null, null, null, null);
 
-        return trick;
+        return null;//trick;
     }
 }
