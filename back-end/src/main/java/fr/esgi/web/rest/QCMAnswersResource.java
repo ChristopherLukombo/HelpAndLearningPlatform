@@ -45,7 +45,7 @@ public class QCMAnswersResource {
      * @throws URISyntaxException URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping(value = "/qcmanswers")
-    public ResponseEntity<Object> createQCMAnswers(@RequestBody @Valid QCMAnswersDTO qcmAnswersDTO) throws URISyntaxException, HelpAndLearningPlatformException {
+    public ResponseEntity<QCMAnswersDTO> createQCMAnswers(@RequestBody @Valid QCMAnswersDTO qcmAnswersDTO) throws URISyntaxException, HelpAndLearningPlatformException {
 		LOGGER.debug("REST request to save a QCM: {}", qcmAnswersDTO);
         if (null != qcmAnswersDTO.getId()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
@@ -53,6 +53,6 @@ public class QCMAnswersResource {
         }
 		QCMAnswersDTO qcmAnswers = qcmAnswersService.save(qcmAnswersDTO);
 		return ResponseEntity.created(new URI("/qcmanswers/" + qcmAnswers.getId()))
-                .build();
+				.body(qcmAnswers);
     }
 }
