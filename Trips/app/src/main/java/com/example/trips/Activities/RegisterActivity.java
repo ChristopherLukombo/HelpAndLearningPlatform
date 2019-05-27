@@ -10,13 +10,26 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.trips.Models.User;
 import com.example.trips.R;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword, inputFirstname, inputLastname;
+    private EditText inputEmail, inputPassword, inputFirstname, inputLastname, inputPseudo;
     private Button btnSignup, btnLogin;
     private ProgressBar progressBar ;
+    private String url;
 
     private String userId;
 
@@ -26,14 +39,14 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         inputEmail = findViewById(R.id.email);
+        inputPseudo = findViewById(R.id.pseudo);
         inputPassword = findViewById(R.id.password);
         inputFirstname = findViewById(R.id.firstname);
         inputLastname = findViewById(R.id.lastname);
-        //inputCountry = findViewById(R.id.country);
         progressBar = findViewById(R.id.progressBar);
         btnSignup = findViewById(R.id.btn_signup);
         btnLogin = findViewById(R.id.btn_login);
-
+        this.url = "http://192.168.0.12:8080/api/";
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +58,8 @@ public class RegisterActivity extends AppCompatActivity {
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                register();
+                startActivity(new Intent( getApplicationContext(), LoginActivity.class));
+                //register();
             }
         });
     }
@@ -60,19 +74,19 @@ public class RegisterActivity extends AppCompatActivity {
         final String password = inputPassword.getText().toString();
         final String lastName = inputLastname.getText().toString();
         final String firstName = inputFirstname.getText().toString();
-        //final String phoneNumber = inputPhoneNumber.getText().toString();
+        final String pseudo = inputPseudo.getText().toString();
 
-        boolean inputsAreValid = validateInputs(email, password, lastName, firstName);
+        boolean inputsAreValid = validateInputs(email, password, lastName, firstName, pseudo);
 
         progressBar.setVisibility(View.VISIBLE);
         if(inputsAreValid) {
-
+            register(email, password, lastName, firstName, pseudo);
         }
 
     }
 
 
-    private boolean validateInputs(String email, String password, String lastname, String firstname){
+    private boolean validateInputs(String email, String password, String lastname, String firstname, String pseudo){
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Veuillez indiquer votre adresse mail!", Toast.LENGTH_SHORT).show();
@@ -80,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre mçot de passe!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre mot de passe!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -94,15 +108,50 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        /*if (TextUtils.isEmpty(phoneNumber)) {
-            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre numéro de téléphone!", Toast.LENGTH_SHORT).show();
-            return false;
-        }*/
-
         return true;
     }
 
-    public void createUser(String email, String password, String lastname, String firstname, String phoneNumber){
+    private void register(String email, String password, String lastname, String firstname, String pseudo ){
 
+        String url = this.url + "register";
+        User user = new User(email, pseudo, firstname, lastname);
+        Map<String, String> params = makeHashMap(user, password);
+
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent( getApplicationContext(), MainActivity.class));
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "PAS POSSIBLE", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private Map<String, String> makeHashMap(User user, String password){
+        Map<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("email", user.getEmail());
+        hashMap.put("password", password);
+        hashMap.put("lastName", user.getLastName());
+        hashMap.put("firstName", user.getFirstName());
+        hashMap.put("login", user.getPseudo());
+        hashMap.put("langKey", user.getLangKey());
+        hashMap.put("activated", String.valueOf(user.isActivated()));
+        hashMap.put("countryOfResidence", user.getCountryOfResidence());
+        hashMap.put("id", String.valueOf(user.getId()));
+        hashMap.put("authorityId", String.valueOf(user.getAuthorityId()));
+        hashMap.put("imageUrl", user.getImageUrl());
+
+        return hashMap;
     }
 }

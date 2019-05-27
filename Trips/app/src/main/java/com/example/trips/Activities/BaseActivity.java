@@ -50,16 +50,24 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        Intent intent;
 
         if (id == R.id.nav_home) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_tricks) {
+            intent = new Intent(getApplicationContext(), TricksListActivity.class);
+            intent.putExtra("TRICKS", "ALL");
             startActivity(new Intent(getApplicationContext(), TricksListActivity.class));
 
         } else if (id == R.id.nav_followed_tricks) {
-            startActivity(new Intent(getApplicationContext(), TricksListActivity.class));
+            intent = new Intent(getApplicationContext(), TricksListActivity.class);
+            intent.putExtra("TRICKS", "FOLLOWED");
+            startActivity(intent);
         } else if (id == R.id.nav_finished_tricks) {
-            startActivity(new Intent(getApplicationContext(), TricksListActivity.class));
+            intent = new Intent(getApplicationContext(), TricksListActivity.class);
+            intent.putExtra("TRICKS", "FINISHED");
+            startActivity(intent);
 
         } else if (id == R.id.nav_info) {
 
@@ -72,3 +80,5 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 }
+
+

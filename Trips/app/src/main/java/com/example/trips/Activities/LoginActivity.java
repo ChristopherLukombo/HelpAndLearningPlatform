@@ -10,21 +10,35 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.trips.Models.User;
 import com.example.trips.R;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword;
+    private EditText inputLogin, inputPassword;
     private Button btnSignup, btnLogin, btnReset;
     private ProgressBar progressBar ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        inputEmail = findViewById(R.id.email);
+        inputLogin = findViewById(R.id.login);
         inputPassword = findViewById(R.id.password);
         progressBar = findViewById(R.id.progressBar);
         btnSignup = findViewById(R.id.btn_signup);
@@ -47,7 +61,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-
         btnSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,20 +70,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void attemptLogin() {
-        String email = inputEmail.getText().toString();
+        String login = inputLogin.getText().toString();
         final String password = inputPassword.getText().toString();
-        boolean inputsAreValid = validateInputs(email, password);
+        boolean inputsAreValid = validateInputs(login, password);
 
         //authenticate user
         if(inputsAreValid) {
-
+            authenticate(login, password);
         }
     }
 
-    private boolean validateInputs(String email, String password){
+    private boolean validateInputs(String login, String password){
 
-        if (TextUtils.isEmpty(email)) {
-            Toast.makeText(getApplicationContext(), "Enter email address!", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(login)) {
+            Toast.makeText(getApplicationContext(), "Enter your username!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -80,5 +93,39 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void authenticate(String login, String password){
+
+        String url = getString(R.string.api_url) + "authenticate";
+        Map<String, String> params = makeHashMap(login, password);
+
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+                        startActivity(new Intent( getApplicationContext(), MainActivity.class));
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "PAS POSSIBLE", Toast.LENGTH_LONG).show();
+                    }
+                }) {
+        };
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private Map<String, String> makeHashMap(String login, String password){
+        Map<String, String> hashMap = new HashMap<String, String>();
+        hashMap.put("password", password);
+        hashMap.put("username", login);
+        hashMap.put("rememberMe", "true");
+
+        return hashMap;
     }
 }

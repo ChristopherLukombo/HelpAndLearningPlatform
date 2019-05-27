@@ -42,13 +42,13 @@ public class MainActivity extends BaseActivity  {
         Category jeuxVideos = new Category("Jeux Video");
 
 
-        mostRecentTricks.add(new Trick(langage, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais"));
-        mostRecentTricks.add(new Trick(autre, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostRecentTricks.add(new Trick(jeuxVideos, "12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser"));
+        mostRecentTricks.add(new Trick(1,1, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais", "Contenu de l'astuce"));
+        mostRecentTricks.add(new Trick(1, 1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY", "Contenu de l'astuce"));
+        mostRecentTricks.add(new Trick(1, 1,"12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser", "Contenu de l'astuce"));
 
-        mostViewedTricks.add(new Trick(langage, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais"));
-        mostViewedTricks.add(new Trick(autre, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY"));
-        mostViewedTricks.add(new Trick(jeuxVideos, "12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser"));
+        mostViewedTricks.add(new Trick(1, 1, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais", "Contenu de l'astuce"));
+        mostViewedTricks.add(new Trick(1, 1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY", "Contenu de l'astuce"));
+        mostViewedTricks.add(new Trick(1, 1, "12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser", "Contenu de l'astuce"));
 
         initRecyclerViews();
     }

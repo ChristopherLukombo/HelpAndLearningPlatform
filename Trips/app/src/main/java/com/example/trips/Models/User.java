@@ -1,23 +1,46 @@
 package com.example.trips.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class User {
 
+    @SerializedName("activated")
     private boolean activated;
+
+    @SerializedName("countryOfResidence")
     private String countryOfResidence;
+
+    @SerializedName("authorityId")
     private int authorityId;
+
     private String dateOfLastConnection;
+
+    @SerializedName("email")
     private String email;
+
+    @SerializedName("firstName")
     private String firstName;
+
+    @SerializedName("lastName")
     private String lastName;
+
     private List<User> friends;
+
+    @SerializedName("login")
     private String pseudo;
+
+    @SerializedName("id")
     private long id;
+
+    @SerializedName("imageUrl")
     private String imageUrl;
+
+    @SerializedName("langKey")
     private String langKey;
-    private String login;
+
     private List<Subscription> subscriptions;
 
     public User(String email, String pseudo, String firstName, String lastName) {
@@ -28,7 +51,7 @@ public class User {
         this.authorityId = 1;
         this.countryOfResidence = "France";
         this.langKey = "FR";
-        this.imageUrl = "";
+        this.imageUrl = " ";
         this.activated = true;
         this.friends = new ArrayList<>();
         this.subscriptions = new ArrayList<>();
@@ -110,13 +133,6 @@ public class User {
         this.langKey = langKey;
     }
 
-    public String getLogin() {
-        return login;
-    }
-
-    public void setLogin(String login) {
-        this.login = login;
-    }
 
     public List<Subscription> getSubscriptions() {
         return subscriptions;

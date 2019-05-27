@@ -1,20 +1,33 @@
 package com.example.trips.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Subscription {
 
+    @SerializedName("id")
     private long id;
-    private String subscriptionDate;
-    private User creator;
-    private Trick trick;
 
-    public Subscription(String subscriptionDate, User creator, Trick trick) {
+    @SerializedName("subscriptionDate")
+    private String subscriptionDate;
+
+    @SerializedName("userId")
+    private long userId;
+
+    @SerializedName("categoryId")
+    private long trickId;
+
+    public Subscription(String subscriptionDate, long userId, long trickId) {
         this.subscriptionDate = subscriptionDate;
-        this.creator = creator;
-        this.trick = trick;
+        this.userId = userId;
+        this.trickId = trickId;
     }
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getSubscriptionDate() {
@@ -25,23 +38,19 @@ public class Subscription {
         this.subscriptionDate = subscriptionDate;
     }
 
-    public User getCreator() {
-        return creator;
+    public long getUserId() {
+        return userId;
     }
 
-    public void setCreator(User creator) {
-        this.creator = creator;
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
-    public Trick getTrick() {
-        return trick;
+    public long getTrickId() {
+        return trickId;
     }
 
-    public void setTrick(Trick trick) {
-        this.trick = trick;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public void setTrickId(long trickId) {
+        this.trickId = trickId;
     }
 }
