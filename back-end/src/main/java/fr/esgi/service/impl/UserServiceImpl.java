@@ -48,13 +48,15 @@ public class UserServiceImpl implements UserService {
      * Add a friend to a user.
      * @param userDTO the entity user
 	 * @param friendDTO the friend to add to a user
+	 * @return entity
      */
     @Override
-    public void addFriend(UserDTO userDTO, UserDTO friendDTO) {
+    public UserDTO addFriend(UserDTO userDTO, UserDTO friendDTO) {
         final User user = userMapper.userDTOToUser(userDTO);
         final User friend = userMapper.userDTOToUser(friendDTO);
         user.addFriends(Arrays.asList(friend));
-        userRepository.saveAndFlush(user);
+       
+        return userMapper.userToUserDTO(userRepository.saveAndFlush(user));
     }
 
     /**
