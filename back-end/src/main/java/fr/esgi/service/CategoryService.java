@@ -1,6 +1,7 @@
 package fr.esgi.service;
 
-import org.springframework.data.domain.Page;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.CategoryDTO;
@@ -13,19 +14,14 @@ public interface CategoryService {
 
     /**
      * Returns all Category by wording.
-     * @param page 
-     * @param size 
-     * @param wording
-     * @return page of categories
+     * @return the list of categories
      */
-    Page<CategoryDTO> findCategoriesByWording(int page, int size, String wording);
+    List<CategoryDTO> findCategoriesByWording(String wording);
 
     /**
      * Get all Categories.
-     * @param page 
-     * @param size 
      *
      * @return the list of entities
      */
-    Page<CategoryDTO> findAll(int page, int size);
+    List<CategoryDTO> findAll();
 }

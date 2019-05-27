@@ -37,6 +37,18 @@ public class TrickResource {
         this.trickService = trickService;
     }
 
+    @GetMapping("/tricks")
+    public ResponseEntity<List<TrickDTO>> getAll() throws HelpAndLearningPlatformException {
+        LOGGER.debug("REST request to find all new tricks");
+        final List<TrickDTO> tricksDTO = trickService.findAll();
+        if (tricksDTO.isEmpty()) {
+           	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+        			"Pas de tricks");
+        }
+        return ResponseEntity.ok()
+                .body(tricksDTO);
+    }
+    
     /**
      * GET  /tricks/{userId} : get all new tricks available by user id
      * @param userId the userId of user

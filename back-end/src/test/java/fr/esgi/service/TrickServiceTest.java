@@ -60,7 +60,18 @@ public class TrickServiceTest {
 		MockitoAnnotations.initMocks(this);
 		trickServiceImpl = new TrickServiceImpl(
 				trickRepository, subscriptionRepository, trickMapper);
+	}
+	
+	@Test
+	public void shouldfindAllTricksWhenIsEmpty() {
+		// Given
+		List<TrickDTO> tricksDTOs = new ArrayList<>();
 
+		// When
+		when(trickServiceImpl.findAll()).thenReturn(tricksDTOs);
+
+		// Then
+		assertThat(trickServiceImpl.findAll()).isEqualTo(tricksDTOs);
 	}
 
 	@Test

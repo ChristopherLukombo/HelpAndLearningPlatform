@@ -1,17 +1,20 @@
 package fr.esgi.service.impl;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import fr.esgi.dao.CategoryRepository;
 import fr.esgi.domain.Category;
 import fr.esgi.service.CategoryService;
 import fr.esgi.service.dto.CategoryDTO;
 import fr.esgi.service.mapper.CategoryMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing Category.
@@ -42,14 +45,14 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Page<CategoryDTO> findCategoriesByWording(int page, int size, String wording) {
+    public List<CategoryDTO> findCategoriesByWording(String wording) {
         LOGGER.debug("Request to find Categories by wording : {}", wording);
-        final Page<Category> categories = categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE, PageRequest.of(page, size));
+        final List<Category> categories = categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE);
 		if (null == categories) {
-			return null;
+			return Collections.emptyList();
 		}
-        return categories
-                .map(categoryMapper::categoryToCategoryDTO);
+        return categories.stream()
+                .map(categoryMapper::categoryToCategoryDTO).collect(Collectors.toList());
     }
 
     /**
@@ -59,13 +62,13 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Transactional(readOnly = true)
     @Override
-    public Page<CategoryDTO> findAll(int page, int size) {
+    public List<CategoryDTO> findAll() {
         LOGGER.debug("Request to get all Categories");
-        final Page<Category> categories = categoryRepository.findAll(PageRequest.of(page, size));
+        final List<Category> categories = categoryRepository.findAll();
         if (null == categories) {
-			return null;
+			return Collections.emptyList();
 		}
-		return categories
-                .map(categoryMapper::categoryToCategoryDTO);
+		return categories.stream()
+                .map(categoryMapper::categoryToCategoryDTO).collect(Collectors.toList());
     }
 }

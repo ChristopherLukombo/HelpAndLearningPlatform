@@ -1,5 +1,17 @@
 package fr.esgi.service.impl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import fr.esgi.dao.SubscriptionRepository;
 import fr.esgi.dao.TrickRepository;
 import fr.esgi.domain.Subscription;
@@ -7,17 +19,6 @@ import fr.esgi.domain.Trick;
 import fr.esgi.service.TrickService;
 import fr.esgi.service.dto.TrickDTO;
 import fr.esgi.service.mapper.TrickMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing Trick.
@@ -41,6 +42,22 @@ public class TrickServiceImpl implements TrickService {
         this.subscriptionRepository = subscriptionRepository;
         this.trickMapper = trickMapper;
     }
+    
+    /**
+	 * Find all tricks.
+	 * @return list of entities
+	 */
+    @Transactional(readOnly = true)
+    @Override
+	public List<TrickDTO> findAll() {
+		LOGGER.debug("Request to retrieve all tricks");
+		final List<Trick> tricks = trickRepository.findAll();
+		if (null == tricks) {
+			return Collections.emptyList();
+		}
+		return tricks.stream()
+				.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
+	}
 
 	/**
      * Find all new tricks which are available according to the id

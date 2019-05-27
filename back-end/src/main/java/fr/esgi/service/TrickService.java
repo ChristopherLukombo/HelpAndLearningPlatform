@@ -11,6 +11,12 @@ import fr.esgi.service.dto.TrickDTO;
  */
 @Service
 public interface TrickService {
+	
+	/**
+	 * Find all tricks.
+	 * @return list of entities
+	 */
+	List<TrickDTO> findAll();
 
 	/**
      * Find all new tricks which are available according to the id
