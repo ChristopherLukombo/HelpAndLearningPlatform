@@ -44,7 +44,7 @@ public class NotationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping(value = "/notations")
-    public ResponseEntity<Object> createNotation(@RequestBody @Valid NotationDTO notationDTO) throws URISyntaxException, HelpAndLearningPlatformException {
+    public ResponseEntity<NotationDTO> createNotation(@RequestBody @Valid NotationDTO notationDTO) throws URISyntaxException, HelpAndLearningPlatformException {
         LOGGER.debug("REST request to create a notation: {}", notationDTO);
         if (null != notationDTO.getId()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
@@ -52,6 +52,6 @@ public class NotationResource {
         }
         final NotationDTO notation = notationService.save(notationDTO);
         return ResponseEntity.created(new URI("/notations/" + notation.getId()))
-                .build();
+        		.body(notation);
     }
 }

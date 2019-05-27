@@ -1,10 +1,9 @@
 package fr.esgi.web.rest;
 
-import fr.esgi.domain.Subscription;
-import fr.esgi.exception.HelpAndLearningPlatformException;
-import fr.esgi.service.SubscriptionService;
-import fr.esgi.service.dto.SubscriptionDTO;
-import io.swagger.annotations.Api;
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,9 +15,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
+import fr.esgi.exception.HelpAndLearningPlatformException;
+import fr.esgi.service.SubscriptionService;
+import fr.esgi.service.dto.SubscriptionDTO;
+import io.swagger.annotations.Api;
 
 /**
  * REST controller for managing Subscription.
@@ -45,7 +45,7 @@ public class SubscriptionResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
     @PostMapping(value = "/subscriptions")
-    public ResponseEntity<Subscription> createSubscription(@RequestBody @Valid SubscriptionDTO subscriptionDTO) throws URISyntaxException, HelpAndLearningPlatformException {
+    public ResponseEntity<SubscriptionDTO> createSubscription(@RequestBody @Valid SubscriptionDTO subscriptionDTO) throws URISyntaxException, HelpAndLearningPlatformException {
         LOGGER.debug("REST request to save Subscription: {}", subscriptionDTO);
         if (null != subscriptionDTO.getId()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
@@ -53,6 +53,6 @@ public class SubscriptionResource {
         }
         SubscriptionDTO subscription = subscriptionService.saveSubscription(subscriptionDTO);
         return ResponseEntity.created(new URI("/api/subscription/" + subscription.getId()))
-                .build();
+        		.body(subscription);
     }
 }

@@ -51,7 +51,7 @@ public class CommentResource {
 	        @ApiResponse(code = 403, message = "Access denied"),
 	        })
 	@PostMapping("/comments")
-	public ResponseEntity<Object> createComment(@RequestBody @Valid CommentDTO commentDTO) throws URISyntaxException, HelpAndLearningPlatformException {
+	public ResponseEntity<CommentDTO> createComment(@RequestBody @Valid CommentDTO commentDTO) throws URISyntaxException, HelpAndLearningPlatformException {
 		LOGGER.debug("REST request to save a comment: {}", commentDTO);
 		if (null != commentDTO.getId()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
@@ -59,6 +59,6 @@ public class CommentResource {
 		}
 		final CommentDTO comment = commentService.save(commentDTO);
 		return ResponseEntity.created(new URI("/api/comments" + comment.getId()))
-				.build();
+				.body(comment);
 	}
 }
