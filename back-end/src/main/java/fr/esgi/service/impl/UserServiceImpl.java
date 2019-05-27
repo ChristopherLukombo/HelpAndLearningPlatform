@@ -74,10 +74,12 @@ public class UserServiceImpl implements UserService {
         newUser.setEmail(userDTO.getEmail());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setCountryOfResidence(userDTO.getCountryOfResidence());
+        newUser.setLangKey(userDTO.getLangKey());
         final Optional<Authority> authority = authorityRepository.findById(userDTO.getAuthorityId());
         if (authority.isPresent()) {
             newUser.setAuthority(authority.get());
         }
+    
         // new user is active
         newUser.setActivated(true);
         newUser = userRepository.save(newUser);

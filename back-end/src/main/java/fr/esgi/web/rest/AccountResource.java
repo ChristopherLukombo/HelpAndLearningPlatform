@@ -76,7 +76,7 @@ public class AccountResource {
         }
         UserDTO userDTO = userService.registerUser(managedUser, managedUser.getPassword());
         return ResponseEntity.created(new URI("/api/users/" + userDTO.getId()))
-                .build();
+        		.body(userDTO);
     }
 
 
