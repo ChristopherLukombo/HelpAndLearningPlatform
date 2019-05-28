@@ -1,6 +1,8 @@
 package com.example.trips.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -21,6 +23,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText inputLogin, inputPassword;
     private Button btnSignup, btnLogin, btnReset;
     private ProgressBar progressBar ;
+    private boolean authenticated = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         btnSignup = findViewById(R.id.btn_signup);
         btnLogin = findViewById(R.id.btn_login);
         btnReset = findViewById(R.id.btn_reset_password);
+
+        userIsAuthenticated();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +59,18 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), RegisterActivity.class));
             }
         });
+    }
+
+    private void userIsAuthenticated() {
+        SharedPreferences prefs = this.getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
+
+        String login = prefs.getString("LOGIN_PSEUDO", "");
+        String password = prefs.getString("LOGIN_PWD", "");
+
+        if(!login.isEmpty() || !password.isEmpty()){
+            authenticated = true;
+            authenticate(login, password);
+        }
     }
 
     private void attemptLogin() {
@@ -82,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void authenticate(String login, String password){
+    private void authenticate(final String login, final String password){
 
         String url = getString(R.string.api_url) + "authenticate";
         Map<String, String> params = makeHashMap(login, password);
@@ -90,9 +107,20 @@ public class LoginActivity extends AppCompatActivity {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
+                if(!authenticated){
+                    this.saveUserSharedPreferences(login,password);
+                }
+
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            }
 
+            private void saveUserSharedPreferences(String login, String password) {
+                SharedPreferences prefs = getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("LOGIN_PSEUDO", login);
+                editor.putString("LOGIN_PWD", password);
+                editor.commit();
             }
         };
 

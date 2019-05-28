@@ -12,7 +12,7 @@
     <string name="nav_contact">Nous contacter</string>
     <string name="nav_firm_title">Société</string>
     <string name="nav_parameters">Paramètres</string>
-
+    <string name="nav_deconnexion">Déconnexion</string>
 
     <string name="hint_email">Adresse Mail</string>
     <string name="hint_password">Mot de passe</string>
@@ -39,6 +39,9 @@
     <string name="nav_user_followed_tricks">Astuces en cours</string>
     <string name="nav_home">Accueil</string>
     <string name="nav_parameters_title">Paramètres</string>
-    <string name="title_activity_base">BaseActivity</string>hint_pseudo
+    <string name="title_activity_base">BaseActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>hint_pseudo
 
 </resources>

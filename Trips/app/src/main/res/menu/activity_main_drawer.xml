@@ -34,6 +34,10 @@
                 android:id="@+id/nav_profile"
                 android:icon="@drawable/profile"
                 android:title="@string/nav_profile" />
+            <item
+                android:id="@+id/nav_deconnexion"
+                android:icon="@drawable/nav_deconnexion"
+                android:title="@string/nav_deconnexion" />
         </menu>
     </item>
     <item android:title="@string/nav_firm_title">

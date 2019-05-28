@@ -1,6 +1,8 @@
 package com.example.trips.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -100,7 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
-    private void sendRequest(String email, String password, String lastname, String firstname, String pseudo ){
+    private void sendRequest(String email,final String password, String lastname, String firstname, final String pseudo ){
 
         String url = this.url + "register";
         User user = new User(email, pseudo, firstname, lastname);
@@ -108,8 +110,17 @@ public class RegisterActivity extends AppCompatActivity {
 
         Runnable runnable = new Runnable() {
             public void run() {
+                saveUserSharedPreferences(pseudo, password);
                 finish();
-                startActivity(new Intent( RegisterActivity.this, MainActivity.class));
+                startActivity(new Intent( RegisterActivity.this, LoginActivity.class));
+            }
+
+            private void saveUserSharedPreferences(String login, String password) {
+                SharedPreferences prefs = getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("LOGIN_PSEUDO", login);
+                editor.putString("LOGIN_PWD", password);
+                editor.commit();
             }
         };
 

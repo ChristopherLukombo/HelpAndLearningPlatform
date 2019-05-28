@@ -1,6 +1,8 @@
 package com.example.trips.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -74,10 +76,22 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_profile) {
             // Handle the camera action
         }
+        else if (id == R.id.nav_deconnexion) {
+            clearSharedPreferences();
+            finishAffinity();
+        }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void clearSharedPreferences(){
+        SharedPreferences prefs = getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("LOGIN_PSEUDO", "");
+        editor.putString("LOGIN_PWD", "");
+        editor.commit();
     }
 }
 
