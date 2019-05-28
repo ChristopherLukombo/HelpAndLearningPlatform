@@ -40,8 +40,7 @@
     <string name="nav_home">Accueil</string>
     <string name="nav_parameters_title">Paramètres</string>
     <string name="title_activity_base">BaseActivity</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>hint_pseudo
+    <string name="mark_title">Notez l\'astuce !</string>
+    <string name="button_trick_finished">J\ai suivi l\'astuce !</string>
 
 </resources>

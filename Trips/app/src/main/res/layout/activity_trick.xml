@@ -1,46 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.TrickActivity">
+    android:background="@drawable/side_nav_drawer"
+    tools:context=".Activities.LoginActivity">
 
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical">
 
-    </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center">
+                <TextView
+                    android:id="@+id/trickTilte"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Title"
+                    android:layout_gravity="center"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:id="@+id/trickAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Author"
+                    android:textStyle="italic"
+                    android:layout_gravity="center"
+                    android:layout_weight="2"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/TrickCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="13dp"
+                android:text="Category"/>
+
+            <EditText
+                android:id="@+id/trickContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="textMultiLine"
+                android:gravity="start"
+                android:text="This a ultra fucking Huge text \n to have some ultra fun \n Yeah \n really mega fun.\n
+                            Firstable just fucking finish this trick and make some monkeys drink some milk. They would love that !!!! \n \n Holly crap it's late and i'm really hungry.\n\n
+                            plesae help me i need help."
+                android:layout_weight="10"/>
+
+            <Button
+                android:id="@+id/buttonFinish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/button_trick_finished" />
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </FrameLayout>
+        </LinearLayout>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

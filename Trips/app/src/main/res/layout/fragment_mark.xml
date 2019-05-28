@@ -2,13 +2,31 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragment.MarkFragment">
+    android:layout_height="wrap_content"
+    android:background="@drawable/side_nav_drawer"
+    tools:context=".Fragment.MarkFragment"
+    android:id="@+id/markFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/markTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mark_title"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
+        <RatingBar
+            android:id="@+id/trickRating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="0.1"
+            android:layout_gravity="center"/>
+    </LinearLayout>
 
 </FrameLayout>
