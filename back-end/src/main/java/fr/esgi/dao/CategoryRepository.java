@@ -15,7 +15,7 @@ import fr.esgi.domain.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query("SELECT c FROM Category c WHERE c.wording LIKE wording")
+    @Query("SELECT c FROM Category c WHERE c.wording LIKE :wording")
     List<Category> findCategoriesByWording(@Param("wording") String wording);
 
 }

@@ -17,6 +17,7 @@ public interface NotationMapper {
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "note", target = "note"),
             @Mapping(source = "trick.id", target = "trickId"),
+            @Mapping(source = "user.id", target = "userId"),
     })
     NotationDTO notationToNotationDTO(Notation notation);
 

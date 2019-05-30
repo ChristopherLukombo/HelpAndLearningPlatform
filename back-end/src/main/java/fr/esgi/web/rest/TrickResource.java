@@ -74,8 +74,9 @@ public class TrickResource {
         	throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(), 
         			"Erreur l'id du trick ne peut être nul !");
         }
-    	return ResponseEntity.ok()
-    			.body(trickService.update(trickDTO));
+    	final TrickDTO trick = trickService.update(trickDTO);
+		return ResponseEntity.ok()
+    			.body(trick);
     	
     }
 

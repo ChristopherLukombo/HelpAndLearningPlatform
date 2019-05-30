@@ -51,7 +51,7 @@ public class SubscriptionResource {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
                     "A new subscription cannot already have an ID");
         }
-        SubscriptionDTO subscription = subscriptionService.saveSubscription(subscriptionDTO);
+        final SubscriptionDTO subscription = subscriptionService.saveSubscription(subscriptionDTO);
         return ResponseEntity.created(new URI("/api/subscription/" + subscription.getId()))
         		.body(subscription);
     }
