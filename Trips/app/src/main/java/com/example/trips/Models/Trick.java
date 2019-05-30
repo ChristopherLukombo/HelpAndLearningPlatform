@@ -6,45 +6,33 @@ import java.io.Serializable;
 
 public class Trick implements Serializable {
 
-    @SerializedName("categoryId")
     private long categoryId;
-
-    @SerializedName("creationDate")
+    private Category category;
     private String creationDate;
-
-    @SerializedName("content")
     private String content;
-
-    @SerializedName("description")
     private String description;
-
-    @SerializedName("wording")
     private String name;
-
-    @SerializedName("id")
     private long id;
-
-    @SerializedName("userId")
     private long userId;
-
-    @SerializedName("viewNumber")
     private long viewNumber;
+    public int mark;
 
     public Trick(long categoryId, long userId, String creationDate, String description, String name, String content) {
-        this.categoryId = categoryId;
         this.creationDate = creationDate;
         this.description = description;
         this.name = name;
         this.content = content;
         this.userId = userId;
-    }
-
-    public long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(long categoryId) {
+        this.mark = 0;
         this.categoryId = categoryId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public String getCreationDate() {
@@ -101,5 +89,21 @@ public class Trick implements Serializable {
 
     public void setViewNumber(long viewNumber) {
         this.viewNumber = viewNumber;
+    }
+
+    public int getMark() {
+        return mark;
+    }
+
+    public void setMark(int mark) {
+        this.mark = mark;
+    }
+
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
     }
 }

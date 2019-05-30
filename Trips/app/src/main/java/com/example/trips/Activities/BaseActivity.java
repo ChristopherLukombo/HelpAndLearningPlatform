@@ -57,15 +57,17 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         if (id == R.id.nav_home) {
             intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_tricks) {
             intent = new Intent(getApplicationContext(), TricksListActivity.class);
             intent.putExtra("TRICKS", "ALL");
-            startActivity(new Intent(getApplicationContext(), TricksListActivity.class));
+            startActivity(intent);
 
         } else if (id == R.id.nav_followed_tricks) {
             intent = new Intent(getApplicationContext(), TricksListActivity.class);
             intent.putExtra("TRICKS", "FOLLOWED");
             startActivity(intent);
+
         } else if (id == R.id.nav_finished_tricks) {
             intent = new Intent(getApplicationContext(), TricksListActivity.class);
             intent.putExtra("TRICKS", "FINISHED");

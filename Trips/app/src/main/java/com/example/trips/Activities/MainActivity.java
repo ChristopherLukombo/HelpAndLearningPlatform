@@ -37,19 +37,6 @@ public class MainActivity extends BaseActivity  {
         mostRecentTricks = new ArrayList<>();
         mostViewedTricks = new ArrayList<>();
 
-        Category langage = new Category("Langues");
-        Category autre = new Category("autres");
-        Category jeuxVideos = new Category("Jeux Video");
-
-
-        mostRecentTricks.add(new Trick(1,1, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais", "Contenu de ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssl'astuce"));
-        mostRecentTricks.add(new Trick(1, 1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY", "Contenu de l'astuce"));
-        mostRecentTricks.add(new Trick(1, 1,"12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser", "Contenu de l'astuce"));
-
-        mostViewedTricks.add(new Trick(1, 1, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais", "Contenu de l'astuce"));
-        mostViewedTricks.add(new Trick(1, 1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY", "Contenu de l'astuce"));
-        mostViewedTricks.add(new Trick(1, 1, "12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser", "Contenu de l'astuce"));
-
         initRecyclerViews();
     }
 

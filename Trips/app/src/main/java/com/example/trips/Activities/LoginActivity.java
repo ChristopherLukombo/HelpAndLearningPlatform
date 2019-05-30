@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.trips.Authenticator;
+import com.example.trips.Helpers.AuthenticatorHelper;
 import com.example.trips.R;
 
 import java.util.HashMap;
@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         };
 
-        Authenticator.authenticate(getApplicationContext(), url, params, runnable);
+        AuthenticatorHelper.authenticate(getApplicationContext(), url, params, runnable);
     }
 
     private Map<String, String> makeHashMap(String login, String password){

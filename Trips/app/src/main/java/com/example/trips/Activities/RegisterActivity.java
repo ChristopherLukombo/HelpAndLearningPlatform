@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import com.example.trips.Authenticator;
+import com.example.trips.Helpers.AuthenticatorHelper;
 import com.example.trips.Models.User;
 import com.example.trips.R;
 import java.util.Map;
@@ -124,6 +124,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
-        Authenticator.register(getApplicationContext(), url, params, runnable);
+        AuthenticatorHelper.register(getApplicationContext(), url, params, runnable);
     }
 }

@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.trips.Models.Trick;
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder> {
@@ -19,7 +19,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
     List<Trick> tricks;
     TrickCustomClickListener listener;
 
-    public TrickAdapter(Context context, ArrayList<Trick> tricks, TrickCustomClickListener listener) {
+    public TrickAdapter(Context context, List<Trick> tricks, TrickCustomClickListener listener) {
         this.context = context;
         this.tricks = tricks;
         this.listener = listener;
@@ -35,7 +35,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
     public void onBindViewHolder(TrickAdapter.MyViewHolder myViewHolder, int position) {
         final Trick trick = tricks.get(position);
         myViewHolder.rowTrickTitle.setText(trick.getName());
-        myViewHolder.rowTrickCategoryName.setText("Ma catégorie");
+        myViewHolder.rowTrickCategoryName.setText(trick.getCategory().getName());
         myViewHolder.rowTrickDescription.setText(trick.getDescription());
         myViewHolder.trickRow.setOnClickListener(new View.OnClickListener() {
             @Override

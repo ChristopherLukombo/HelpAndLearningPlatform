@@ -1,46 +1,34 @@
 package com.example.trips.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.example.trips.Helpers.HTTPRequestHelper;
+import com.example.trips.Helpers.JSONHelper;
 import com.example.trips.Models.Category;
 import com.example.trips.Models.Trick;
 import com.example.trips.R;
 import com.example.trips.TrickAdapter;
 import com.example.trips.TrickCustomClickListener;
+import com.example.trips.VolleyCallback;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TricksListActivity extends BaseActivity{
+public class TricksListActivity extends BaseActivity {
 
     private RecyclerView tricksRecyclerView;
-    private ArrayList<Trick> tricks;
+    private List<Trick> tricks;
+    private List<Category> categories;
     private long userId;
+    String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,34 +36,24 @@ public class TricksListActivity extends BaseActivity{
         setContentView(R.layout.activity_tricks_list);
         super.useToolbar();
         Intent intent = getIntent();
-
-        //handleIntent(intent);
+        url = getString(R.string.api_url);
 
         tricks = new ArrayList<>();
-        Category langage = new Category("Langues");
-        Category autre = new Category("autres");
-        Category jeuxVideos = new Category("Jeux Video");
+        categories = new ArrayList<>();
 
+        handleIntent(intent);
+    }
 
-        tricks.add(new Trick(1,1, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais", "This a ultra fucking Huge text \n to have some ultra fun \n Yeah \n really mega fun.\n\n" +
-                "                            Firstable just fucking finish this trick and make some monkeys drink some milk. They would love that !!!! \n \n Holly crap it's late and i'm really hungry.\n\n\n" +
-                "                            plesae help me i need help.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\n\nggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"));
-        tricks.add(new Trick(1, 1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY", "Contenu de l'astuce"));
-        tricks.add(new Trick(1, 1,"12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser", "Contenu de l'astuce"));
-
-        tricks.add(new Trick(1, 1, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais", "Contenu de l'astuce"));
-        tricks.add(new Trick(1, 1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY", "Contenu de l'astuce"));
-        tricks.add(new Trick(1, 1, "12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser", "Contenu de l'astuce"));
-
+    private void setAdapter(){
         tricksRecyclerView = findViewById(R.id.trickListRecyclerView);
         tricksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         tricksRecyclerView.setAdapter(new TrickAdapter(getApplicationContext(), tricks, new TrickCustomClickListener() {
             @Override
             public void onTrickItemClick(View v, Trick trick) {
-                    Intent intent = new Intent(TricksListActivity.this, TrickActivity.class);
-                    intent.putExtra("trick", trick);
-                    startActivity(intent);
+                Intent intent = new Intent(TricksListActivity.this, TrickActivity.class);
+                intent.putExtra("trick", trick);
+                startActivity(intent);
             }
         }));
     }
@@ -84,74 +62,82 @@ public class TricksListActivity extends BaseActivity{
         String value = intent.getExtras().getString("TRICKS");
 
         if("ALL".equals(value)){
-            getAllTricks();
+            getData(this.userId);
         }
         else{
-            getUserTricks();
+            getData(new Long(0));
         }
     }
 
-    private void getUserTricks() {
-        getTricks(this.userId);
-    }
+    private void getData(Long id){
+        String tricksUrl = makeTrickUrl(id, "tricks");
+        final String categoryUrl = this.url + "categories/all";
+        final String markUrl = this.url + "catgories/all";
+        final JSONArray[] jsonArrays = new JSONArray[3];
+        final String token = getToken();
 
-
-    private void getAllTricks() {
-        getTricks(new Long(0));
-    }
-
-    private void getTricks(Long id){
-        String url = makeUrl(id);
-
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        try{
-                            for (int i = 0; i < response.length(); i++) {
-
-                                JSONObject jsonObject = response.getJSONObject(i);
-
-
-                            }
-                        }
-                        catch (JSONException exception){
-
-                        }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "PAS POSSIBLE", Toast.LENGTH_LONG).show();
-                    }
-                }) {
+        final VolleyCallback categoryVolleyCallback = new VolleyCallback() {
+            @Override
+            public void onResponse(JSONArray result) {
+                jsonArrays[1] = result;
+                setData(jsonArrays);
+            }
         };
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(jsonArrayRequest);
+        final VolleyCallback markVolleyCallback = new VolleyCallback() {
+            @Override
+            public void onResponse(JSONArray result) {
+                jsonArrays[2] = result;
+            }
+        };
 
+        VolleyCallback trickVolleyCallback = new VolleyCallback() {
+            @Override
+            public void onResponse(JSONArray result) {
+                jsonArrays[0] = result;
+                HTTPRequestHelper.getRequest(getApplicationContext(), categoryUrl, categoryVolleyCallback, token);
+            }
+        };
+
+        HTTPRequestHelper.getRequest(getApplicationContext(), tricksUrl, trickVolleyCallback,token);
 
     }
 
-    private String makeUrl(Long id){
-        String url = getString(R.string.api_url) + "tricks/";
+    private void setData(JSONArray[] jsonArrays) {
+        this.tricks = JSONHelper.trickListFromJSONObject(jsonArrays[0]);
+        this.categories = JSONHelper.categoryListFromJSONObject(jsonArrays[1]);
+        setTricksCategories();
+        setmarks(jsonArrays[2]);
+        setAdapter();
+    }
+
+    private void setTricksCategories() {
+        for (Trick trick: tricks){
+            for (Category category: categories) {
+                if(trick.getCategoryId() == category.getId()){
+                    trick.setCategory(category);
+                }
+            }
+        }
+    }
+
+    private String makeTrickUrl(Long id, String urlExtension){
+        String newUrl = this.url + urlExtension;
         if(!id.equals(0)){
-            url += "?userId=" + id.toString();
+            newUrl += "?userId=" + id.toString();
         }
 
-        return url;
+        return newUrl;
     }
 
-    private void addTricksToList(JSONObject jsonObject){
-        Trick trick = fromJSONTrickToObject(jsonObject);
+    private void setmarks(JSONArray markJSONArray){
 
-        this.tricks.add(trick);
     }
 
-    private Trick fromJSONTrickToObject(JSONObject jsonObject){
-        //Trick trick = new Trick(null, null, null, null, null, null);
+    private String getToken(){
+        SharedPreferences sharedPreferences = getSharedPreferences("TOKEN", Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString("token", "");
 
-        return null;//trick;
+        return token;
     }
 }

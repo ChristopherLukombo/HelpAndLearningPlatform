@@ -1,4 +1,4 @@
-package com.example.trips;
+package com.example.trips.Helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import java.util.Map;
 
-public class Authenticator {
+public class AuthenticatorHelper {
 
     public static void register(final Context context, String url, Map<String, String> params, final Runnable runnable ){
 

@@ -3,11 +3,9 @@ package com.example.trips.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -21,7 +19,6 @@ public class TrickActivity extends BaseActivity {
     private TextView trickTilte, trickAuthor, trickCategory,trickContent;
     private Button buttonFinish;
     private Fragment markFragment;
-    private FrameLayout framelayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
