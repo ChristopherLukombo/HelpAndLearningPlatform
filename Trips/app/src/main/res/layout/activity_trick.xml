@@ -1,77 +1,87 @@
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/side_nav_drawer"
+    android:orientation="vertical"
     tools:context=".Activities.LoginActivity">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
+        android:background="@drawable/side_nav_drawer"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
-                <TextView
-                    android:id="@+id/trickTilte"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Title"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textSize="18dp"
-                    android:layout_weight="2"/>
-                <TextView
-                    android:id="@+id/trickAuthor"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Author"
-                    android:textStyle="italic"
-                    android:layout_gravity="center"
-                    android:layout_weight="2"/>
-            </LinearLayout>
+            android:layout_height="wrap_content"
+            android:id="@+id/header"
+            android:background="@color/TripsAquaBlue"
+            android:orientation="horizontal"
+            android:layout_weight="1">
 
             <TextView
-                android:id="@+id/TrickCategory"
+                android:id="@+id/trickAuthor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="13dp"
-                android:text="Category"/>
+                android:layout_gravity="bottom"
+                android:gravity="bottom"
+                android:layout_weight="2"
+                android:text="Author"
+                android:layout_marginLeft="10dp"
+                android:textStyle="italic" />
 
-            <EditText
+            <TextView
+                android:id="@+id/trickTilte"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="Title"
+                android:textSize="18dp"
+                android:layout_weight="2"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/trickCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="bottom|end"
+                android:layout_marginRight="10dp"
+                android:textSize="13dp"
+                android:text="Category"
+                android:layout_weight="2"/>
+        </LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="15"
+            android:background="@drawable/side_nav_drawer"
+            android:orientation="vertical">
+
+            <TextView
                 android:id="@+id/trickContent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:gravity="start"
+                android:layout_height="match_parent"
                 android:text="This a ultra fucking Huge text \n to have some ultra fun \n Yeah \n really mega fun.\n
-                            Firstable just fucking finish this trick and make some monkeys drink some milk. They would love that !!!! \n \n Holly crap it's late and i'm really hungry.\n\n
-                            plesae help me i need help."
-                android:layout_weight="10"/>
+                                Firstable just fucking finish this trick and make some monkeys drink some milk. They would love that !!!! \n \n Holly crap it's late and i'm really hungry.\n\n
+                                plesae help me i need help.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\n\nggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg" />
+        </ScrollView>
 
-            <Button
-                android:id="@+id/buttonFinish"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/button_trick_finished" />
+        <Button
+            android:id="@+id/buttonFinish"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@color/TripsAquaBlue"
+            android:text="@string/button_trick_finished" />
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-            </FrameLayout>
-        </LinearLayout>
-
-    </ScrollView>
-
-</android.support.design.widget.CoordinatorLayout>
+        <FrameLayout
+            android:id="@+id/markLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"></FrameLayout>
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

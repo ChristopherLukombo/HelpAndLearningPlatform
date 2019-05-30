@@ -2,7 +2,9 @@ package com.example.trips.Models;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Trick {
+import java.io.Serializable;
+
+public class Trick implements Serializable {
 
     @SerializedName("categoryId")
     private long categoryId;

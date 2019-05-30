@@ -49,7 +49,7 @@ public class TricksListActivity extends BaseActivity{
         super.useToolbar();
         Intent intent = getIntent();
 
-        handleIntent(intent);
+        //handleIntent(intent);
 
         tricks = new ArrayList<>();
         Category langage = new Category("Langues");
@@ -57,7 +57,9 @@ public class TricksListActivity extends BaseActivity{
         Category jeuxVideos = new Category("Jeux Video");
 
 
-        tricks.add(new Trick(1,1, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais", "Contenu de l'astuce"));
+        tricks.add(new Trick(1,1, "12/04/2019", "Un petit guide pour vous aider à apprendre l'anglais plus facilement.", "Apprendre l'anglais", "This a ultra fucking Huge text \n to have some ultra fun \n Yeah \n really mega fun.\n\n" +
+                "                            Firstable just fucking finish this trick and make some monkeys drink some milk. They would love that !!!! \n \n Holly crap it's late and i'm really hungry.\n\n\n" +
+                "                            plesae help me i need help.ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\n\nggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg"));
         tricks.add(new Trick(1, 1, "12/04/2019", "Le trick de ses morts qui va changer ta vie de ses morts", "TRICKY", "Contenu de l'astuce"));
         tricks.add(new Trick(1, 1,"12/04/2019", "Configure ton pc pour jouer aux fps de manère optimale", "FPS Optimiser", "Contenu de l'astuce"));
 
@@ -70,8 +72,10 @@ public class TricksListActivity extends BaseActivity{
 
         tricksRecyclerView.setAdapter(new TrickAdapter(getApplicationContext(), tricks, new TrickCustomClickListener() {
             @Override
-            public void onTrickItemClick(View v, Trick appointment) {
-
+            public void onTrickItemClick(View v, Trick trick) {
+                    Intent intent = new Intent(TricksListActivity.this, TrickActivity.class);
+                    intent.putExtra("trick", trick);
+                    startActivity(intent);
             }
         }));
     }

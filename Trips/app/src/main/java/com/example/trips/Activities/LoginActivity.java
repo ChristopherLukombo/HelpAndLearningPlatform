@@ -27,6 +27,7 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        userIsAuthenticated();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btn_login);
         btnReset = findViewById(R.id.btn_reset_password);
 
-        userIsAuthenticated();
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
