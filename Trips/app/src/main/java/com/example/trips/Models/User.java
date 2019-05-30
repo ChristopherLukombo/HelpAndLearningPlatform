@@ -1,45 +1,22 @@
 package com.example.trips.Models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class User {
 
-    @SerializedName("activated")
     private boolean activated;
-
-    @SerializedName("countryOfResidence")
     private String countryOfResidence;
-
-    @SerializedName("authorityId")
     private int authorityId;
-
     private String dateOfLastConnection;
-
-    @SerializedName("email")
     private String email;
-
-    @SerializedName("firstName")
     private String firstName;
-
-    @SerializedName("lastName")
     private String lastName;
-
     private List<User> friends;
-
-    @SerializedName("login")
     private String pseudo;
-
-    @SerializedName("id")
     private long id;
-
-    @SerializedName("imageUrl")
     private String imageUrl;
-
-    @SerializedName("langKey")
     private String langKey;
 
     private List<Subscription> subscriptions;

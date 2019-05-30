@@ -1,19 +1,10 @@
 package com.example.trips.Models;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Subscription {
 
-    @SerializedName("id")
     private long id;
-
-    @SerializedName("subscriptionDate")
     private String subscriptionDate;
-
-    @SerializedName("userId")
     private long userId;
-
-    @SerializedName("categoryId")
     private long trickId;
 
     public Subscription(String subscriptionDate, long userId, long trickId) {

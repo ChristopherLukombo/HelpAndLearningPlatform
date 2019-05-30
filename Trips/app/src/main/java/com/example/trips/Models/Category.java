@@ -1,13 +1,8 @@
 package com.example.trips.Models;
 
-import com.google.gson.annotations.SerializedName;
-
 public class Category {
 
-    @SerializedName("id")
     private long id;
-
-    @SerializedName("wording")
     private String name;
 
     public Category(String name) {
