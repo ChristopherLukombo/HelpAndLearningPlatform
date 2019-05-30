@@ -43,11 +43,11 @@ VALUES (5, 'ok', 'la prehistoire', 5, 1, NULL, 1, 'bien');
 
 -- notation
 SELECT '[INFO] Insertion dans la table "notation"' as '';
-INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(1, 10.0, 1, 1);
-INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(2, 8.0, 2, 2);
-INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(3, 17.0, 3, 3);
-INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(4, 18.0, 4, 4);
-INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(5, 11.0, 5, 5);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(1, 2.0, 1, 1);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(2, 4.0, 2, 2);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(3, 3.0, 3, 3);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(4, 5.0, 4, 4);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(5, 1.0, 5, 5);
 
 -- subscription
 SELECT '[INFO] Insertion dans la table "subscription"' as '';
