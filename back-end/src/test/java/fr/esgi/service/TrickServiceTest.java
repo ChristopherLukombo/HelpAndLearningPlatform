@@ -144,9 +144,3 @@ public class TrickServiceTest {
 		assertThat(trc).isNotNull();
 	}
 }
-
-class DateProvider{
-	public LocalDate getNow(){
-		return LocalDate.now();
-	}
-}
