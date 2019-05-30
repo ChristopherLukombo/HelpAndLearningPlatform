@@ -1,17 +1,19 @@
 package fr.esgi.service.mapper;
 
-import fr.esgi.domain.User;
-import fr.esgi.service.dto.UserDTO;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
+import org.mapstruct.ReportingPolicy;
+
+import fr.esgi.domain.User;
+import fr.esgi.service.dto.UserDTO;
 
 /**
  * Mapper for the entity User and its DTO called UserDTO.
  * @author christopher
  */
-@Mapper(uses = { UserDTO.class }, componentModel = "spring")
+@Mapper(uses = { UserDTO.class }, componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserMapper {
 
     @Mappings({

@@ -43,11 +43,11 @@ VALUES (5, 'ok', 'la prehistoire', 5, 1, NULL, 1, 'bien');
 
 -- notation
 SELECT '[INFO] Insertion dans la table "notation"' as '';
-INSERT INTO notation (id, note, trick_id_notation) VALUES(1, 10.0, 1);
-INSERT INTO notation (id, note, trick_id_notation) VALUES(2, 8.0, 2);
-INSERT INTO notation (id, note, trick_id_notation) VALUES(3, 17.0, 3);
-INSERT INTO notation (id, note, trick_id_notation) VALUES(4, 18.0, 4);
-INSERT INTO notation (id, note, trick_id_notation) VALUES(5, 11.0, 5);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(1, 10.0, 1, 1);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(2, 8.0, 2, 2);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(3, 17.0, 3, 3);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(4, 18.0, 4, 4);
+INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(5, 11.0, 5, 5);
 
 -- subscription
 SELECT '[INFO] Insertion dans la table "subscription"' as '';
@@ -90,16 +90,16 @@ VALUES (5, 'Non !', 5, 5);
 
 -- comment
 SELECT '[INFO] Insertion dans la table "comment"' as '';
-INSERT INTO comment (id, name, trick_id_comment)
-VALUES (1, 'Bien', 1);
-INSERT INTO comment (id, name, trick_id_comment)
-VALUES (2, 'Tres bonne astuce', 2);
-INSERT INTO comment (id, name, trick_id_comment)
-VALUES (3, 'Very good !', 3);
-INSERT INTO comment (id, name, trick_id_comment)
-VALUES (4, 'Excellent', 4);
-INSERT INTO comment (id, name, trick_id_comment)
-VALUES (5, 'Nul !', 5);
+INSERT INTO comment (id, name, trick_id_comment, user_id)
+VALUES (1, 'Bien', 1, 1);
+INSERT INTO comment (id, name, trick_id_comment, user_id)
+VALUES (2, 'Tres bonne astuce', 2, 2);
+INSERT INTO comment (id, name, trick_id_comment, user_id)
+VALUES (3, 'Very good !', 3, 2);
+INSERT INTO comment (id, name, trick_id_comment, user_id)
+VALUES (4, 'Excellent', 4, 3);
+INSERT INTO comment (id, name, trick_id_comment, user_id)
+VALUES (5, 'Nul !', 5, 4);
 
 -- user_friends
 SELECT '[INFO] Insertion dans la table "user_friends"' as '';
