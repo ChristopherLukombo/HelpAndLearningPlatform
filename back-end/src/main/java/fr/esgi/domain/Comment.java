@@ -31,7 +31,9 @@ public class Comment implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Comment() { }
+    public Comment() {
+    	// Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;
