@@ -22,7 +22,9 @@ public class QCM implements Serializable {
 
     private String question;
 
-    public QCM() { }
+    public QCM() {
+    	// Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;

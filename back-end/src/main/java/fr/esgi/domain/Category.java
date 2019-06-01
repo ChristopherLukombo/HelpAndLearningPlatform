@@ -26,7 +26,9 @@ public class Category implements Serializable {
     @Size(min = 3, max = 30)
     private String wording;
 
-    public Category() { }
+    public Category() {
+    	// Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;

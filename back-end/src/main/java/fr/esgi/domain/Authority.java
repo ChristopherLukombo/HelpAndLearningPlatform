@@ -28,7 +28,11 @@ public class Authority implements Serializable {
     @Column(length = 50)
     private String name;
 
-    public Long getId() {
+    public Authority() {
+		// Empty constructor needed for Hibernate.
+	}
+
+	public Long getId() {
         return id;
     }
 

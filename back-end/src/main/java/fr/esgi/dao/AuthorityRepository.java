@@ -7,7 +7,6 @@ import fr.esgi.domain.Authority;
 
 /**
  * Spring Data JPA repository for the AuthorityRepository entity.
- * @author christopher
  */
 @Repository
 public interface AuthorityRepository extends JpaRepository<Authority, Long> {
