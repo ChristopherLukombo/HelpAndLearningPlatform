@@ -6,6 +6,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
 
 import java.util.Optional;
 
@@ -21,6 +22,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.esgi.dao.AuthorityRepository;
 import fr.esgi.dao.UserRepository;
+import fr.esgi.domain.Authority;
 import fr.esgi.domain.User;
 import fr.esgi.service.dto.UserDTO;
 import fr.esgi.service.impl.UserServiceImpl;
@@ -106,7 +108,12 @@ public class UserServiceTest {
 		userDTO.setCountryOfResidence(COUNTRY_OF_RESIDENCE);
 		userDTO.setAuthorityId(AUTHORITY_ID);
 		
+		Authority authority = new Authority();
+		authority.setId(AUTHORITY_ID);
+		authority.setName("ROLE_CUSTOMER");
+		
 		// When
+		when(authorityRepository.findById(anyLong())).thenReturn(Optional.of(authority));
 		when(userServiceImpl.registerUser(mock(UserDTO.class), anyString())).thenReturn(userDTO);
 		
 		// Then

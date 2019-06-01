@@ -1,6 +1,5 @@
 package fr.esgi.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,9 +47,6 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDTO> findCategoriesByWording(String wording) {
         LOGGER.debug("Request to find Categories by wording : {}", wording);
         final List<Category> categories = categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE);
-		if (null == categories) {
-			return Collections.emptyList();
-		}
         return categories.stream()
                 .map(categoryMapper::categoryToCategoryDTO).collect(Collectors.toList());
     }
@@ -65,9 +61,6 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDTO> findAll() {
         LOGGER.debug("Request to get all Categories");
         final List<Category> categories = categoryRepository.findAll();
-        if (null == categories) {
-			return Collections.emptyList();
-		}
 		return categories.stream()
                 .map(categoryMapper::categoryToCategoryDTO).collect(Collectors.toList());
     }

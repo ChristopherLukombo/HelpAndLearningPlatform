@@ -52,9 +52,6 @@ public class TrickServiceImpl implements TrickService {
 	public List<TrickDTO> findAll() {
 		LOGGER.debug("Request to retrieve all tricks");
 		final List<Trick> tricks = trickRepository.findAll();
-		if (null == tricks) {
-			return Collections.emptyList();
-		}
 		return tricks.stream()
 				.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
 	}
