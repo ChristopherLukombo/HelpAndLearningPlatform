@@ -61,7 +61,7 @@ public class TricksListActivity extends BaseActivity {
     private void handleIntent(Intent intent) {
         String value = intent.getExtras().getString("TRICKS");
 
-        if("ALL".equals(value)){
+        if(!"ALL".equals(value)){
             getData(this.userId);
         }
         else{

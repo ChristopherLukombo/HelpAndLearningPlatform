@@ -56,12 +56,4 @@ public class HTTPRequestHelper {
         requestQueue.add(stringRequest);
     }
 
-    private static JSONObject getJSONObjectHeader(String token){
-        HashMap<String, String> params = new HashMap<>();
-
-
-        return new JSONObject(params);
-    }
-
-
 }

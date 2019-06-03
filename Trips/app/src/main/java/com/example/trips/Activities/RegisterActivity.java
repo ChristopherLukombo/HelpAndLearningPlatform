@@ -38,7 +38,6 @@ public class RegisterActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         btnSignup = findViewById(R.id.btn_signup);
         btnLogin = findViewById(R.id.btn_login);
-        this.url = "http://192.168.0.12:8080/api/";
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void sendRequest(String email,final String password, String lastname, String firstname, final String pseudo ){
 
-        String url = this.url + "register";
+        String url = getString(R.string.api_url) + "register";
         User user = new User(email, pseudo, firstname, lastname);
         Map<String, String> params =user.getHashMap(password);
 
