@@ -83,12 +83,16 @@ public class NotationResource {
      * GET  /notations/trick/{trickId} : get the notations according the trickId.
      * @param trickId the trick of notation
      * @return the ResponseEntity with status 200 (OK) and the list of entities notations in body
+     * @throws HelpAndLearningPlatformException if the notations are not found
      */
     @ApiOperation(value = "Get the notations according the trickId.")
     @GetMapping("/notations/trick/{trickId}")
-    public ResponseEntity<List<NotationDTO>> findAllNotationsByTrickID(@PathVariable Long trickId) {
+    public ResponseEntity<List<NotationDTO>> findAllNotationsByTrickID(@PathVariable Long trickId) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find all Notation by Trick ID : {}", trickId);
     	final List<NotationDTO> notationsDTO = notationService.findAllByTrickId(trickId);
+    	if (notationsDTO.isEmpty()) {
+    		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), "Pas de notations trouvés");
+    	}
     	return ResponseEntity.ok().body(notationsDTO);
     }
 }
