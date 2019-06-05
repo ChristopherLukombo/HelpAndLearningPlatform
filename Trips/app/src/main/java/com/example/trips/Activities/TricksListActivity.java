@@ -11,7 +11,9 @@ import android.view.View;
 import com.example.trips.Helpers.HTTPRequestHelper;
 import com.example.trips.Helpers.JSONHelper;
 import com.example.trips.Models.Category;
+import com.example.trips.Models.Mark;
 import com.example.trips.Models.Trick;
+import com.example.trips.Models.User;
 import com.example.trips.R;
 import com.example.trips.TrickAdapter;
 import com.example.trips.TrickCustomClickListener;
@@ -27,6 +29,8 @@ public class TricksListActivity extends BaseActivity {
     private RecyclerView tricksRecyclerView;
     private List<Trick> tricks;
     private List<Category> categories;
+    private List<User> users;
+    private List<Mark> marks;
     private long userId;
     String url;
 
@@ -40,6 +44,7 @@ public class TricksListActivity extends BaseActivity {
 
         tricks = new ArrayList<>();
         categories = new ArrayList<>();
+        users = new ArrayList<>();
 
         handleIntent(intent);
     }
@@ -72,22 +77,27 @@ public class TricksListActivity extends BaseActivity {
     private void getData(Long id){
         String tricksUrl = makeTrickUrl(id, "tricks");
         final String categoryUrl = this.url + "categories/all";
-        final String markUrl = this.url + "catgories/all";
-        final JSONArray[] jsonArrays = new JSONArray[3];
+        final String userUrl = this.url + "categories/all";
+        final String markUrl = this.url + "notations/trick/";
+        final JSONArray[] jsonArrays = new JSONArray[4];
         final String token = getToken();
+
+
+
+        final VolleyCallback userVolleyCallback = new VolleyCallback() {
+            @Override
+            public void onResponse(JSONArray result) {
+                jsonArrays[2] = result;
+                setData(jsonArrays);
+            }
+        };
 
         final VolleyCallback categoryVolleyCallback = new VolleyCallback() {
             @Override
             public void onResponse(JSONArray result) {
                 jsonArrays[1] = result;
                 setData(jsonArrays);
-            }
-        };
-
-        final VolleyCallback markVolleyCallback = new VolleyCallback() {
-            @Override
-            public void onResponse(JSONArray result) {
-                jsonArrays[2] = result;
+                //HTTPRequestHelper.getRequest(getApplicationContext(), userUrl, userVolleyCallback, token);
             }
         };
 
@@ -106,9 +116,44 @@ public class TricksListActivity extends BaseActivity {
     private void setData(JSONArray[] jsonArrays) {
         this.tricks = JSONHelper.trickListFromJSONObject(jsonArrays[0]);
         this.categories = JSONHelper.categoryListFromJSONObject(jsonArrays[1]);
+        this.users = JSONHelper.userListFromJSONObject(jsonArrays[2]);
+        this.marks = JSONHelper.markListFromJSONObject(jsonArrays[3]);
+
+        setTricksMark();
         setTricksCategories();
-        setmarks(jsonArrays[2]);
+        //setTricksUsers();
+        setTricksMark();
+
         setAdapter();
+    }
+
+    private void setTricksUsers() {
+        for (Trick trick: tricks){
+            for (User user: users) {
+                if(trick.getUserId() == user.getId()){
+                    trick.setUser(user);
+                }
+            }
+        }
+    }
+
+    private void setTricksMark() {
+
+        String markUrl = this.url + "notations/trick/";
+        for (final Trick trick: tricks){
+            markUrl +=  "?trickId=" + trick.getId();
+
+            VolleyCallback markVolleyCallback = new VolleyCallback() {
+                @Override
+                public void onResponse(JSONArray result) {
+                    List<Mark> marks = JSONHelper.markListFromJSONObject(result);
+
+                    trick.setMark(marks.get(0));
+                }
+            };
+
+            HTTPRequestHelper.getRequest(getApplicationContext(), markUrl, markVolleyCallback, getToken());
+        }
     }
 
     private void setTricksCategories() {
@@ -130,9 +175,6 @@ public class TricksListActivity extends BaseActivity {
         return newUrl;
     }
 
-    private void setmarks(JSONArray markJSONArray){
-
-    }
 
     private String getToken(){
         SharedPreferences sharedPreferences = getSharedPreferences("TOKEN", Context.MODE_PRIVATE);

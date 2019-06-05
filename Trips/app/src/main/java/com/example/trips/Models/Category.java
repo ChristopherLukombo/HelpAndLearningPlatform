@@ -1,6 +1,8 @@
 package com.example.trips.Models;
 
-public class Category {
+import java.io.Serializable;
+
+public class Category implements Serializable {
 
     private long id;
     private String name;

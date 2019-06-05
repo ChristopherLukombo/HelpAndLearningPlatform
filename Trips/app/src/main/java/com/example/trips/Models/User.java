@@ -1,10 +1,11 @@
 package com.example.trips.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class User {
+public class User implements Serializable {
 
     private boolean activated;
     private String countryOfResidence;

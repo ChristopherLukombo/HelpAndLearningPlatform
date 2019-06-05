@@ -1,6 +1,8 @@
 package com.example.trips.Models;
 
-public class Subscription {
+import java.io.Serializable;
+
+public class Subscription implements Serializable {
 
     private long id;
     private String subscriptionDate;

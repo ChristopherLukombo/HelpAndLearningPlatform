@@ -1,21 +1,20 @@
 package com.example.trips.Models;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 public class Trick implements Serializable {
 
     private long categoryId;
-    private Category category;
+    private transient Category category;
     private String creationDate;
     private String content;
     private String description;
     private String name;
     private long id;
     private long userId;
+    private transient  User user;
     private long viewNumber;
-    public int mark;
+    public transient  Mark mark;
 
     public Trick(long categoryId, long userId, String creationDate, String description, String name, String content) {
         this.creationDate = creationDate;
@@ -23,7 +22,6 @@ public class Trick implements Serializable {
         this.name = name;
         this.content = content;
         this.userId = userId;
-        this.mark = 0;
         this.categoryId = categoryId;
     }
 
@@ -91,11 +89,11 @@ public class Trick implements Serializable {
         this.viewNumber = viewNumber;
     }
 
-    public int getMark() {
+    public Mark getMark() {
         return mark;
     }
 
-    public void setMark(int mark) {
+    public void setMark(Mark mark) {
         this.mark = mark;
     }
 
@@ -105,5 +103,13 @@ public class Trick implements Serializable {
 
     public void setCategoryId(long categoryId) {
         this.categoryId = categoryId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

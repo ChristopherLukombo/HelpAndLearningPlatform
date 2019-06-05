@@ -1,7 +1,9 @@
 package com.example.trips.Helpers;
 
 import com.example.trips.Models.Category;
+import com.example.trips.Models.Mark;
 import com.example.trips.Models.Trick;
+import com.example.trips.Models.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,5 +63,58 @@ public class JSONHelper {
         return categories;
     }
 
+    public static List<User> userListFromJSONObject(JSONArray userJSONArray) {
+        List<User> usersList = new ArrayList<>();
 
+        for(int i = 0; i < userJSONArray.length(); i++){
+            try{
+                JSONObject jsonobject = userJSONArray.getJSONObject(i);
+                int authorityId = jsonobject.getInt("authorityId");
+                boolean activated = jsonobject.getBoolean("activated");
+                String countryOfResidence = jsonobject.getString("countryOfResidence");
+                String email = jsonobject.getString("email");
+                String lastName = jsonobject.getString("lastName");
+                String firstName = jsonobject.getString("firstName");
+                String login = jsonobject.getString("login");
+                String langKey = jsonobject.getString("langKey");
+                long id = jsonobject.getLong("id");
+
+                User user = new User(email, login, firstName, lastName);
+                user.setId(id);
+                user.setAuthorityId(authorityId);
+                user.setCountryOfResidence(countryOfResidence);
+                user.setLangKey(langKey);
+                user.setActivated(activated);
+                usersList.add(user);
+            }
+            catch (JSONException exception){
+
+            }
+        }
+
+        return usersList;
+    }
+
+    public static List<Mark> markListFromJSONObject(JSONArray markJSONArray) {
+        List<Mark> marksList = new ArrayList<>();
+
+        for(int i = 0; i < markJSONArray.length(); i++){
+            try{
+                JSONObject jsonobject = markJSONArray.getJSONObject(i);
+                long id = jsonobject.getLong("authorityId");
+                long note = jsonobject.getLong("note");
+                long trickId = jsonobject.getLong("trickId");
+                long userId = jsonobject.getLong("userId");
+
+                Mark mark = new Mark(note, trickId, userId);
+                mark.setId(id);
+                marksList.add(mark);
+            }
+            catch (JSONException exception){
+
+            }
+        }
+
+        return marksList;
+    }
 }

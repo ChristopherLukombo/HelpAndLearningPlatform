@@ -16,7 +16,7 @@ import com.example.trips.R;
 public class TrickActivity extends BaseActivity {
 
     private Trick trick;
-    private TextView trickTilte, trickAuthor, trickCategory,trickContent;
+    private TextView trickTitle, trickAuthor, trickCategory,trickContent;
     private Button buttonFinish;
     private Fragment markFragment;
 
@@ -24,7 +24,7 @@ public class TrickActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trick);
-        trickTilte = findViewById(R.id.trickTilte);
+        trickTitle = findViewById(R.id.trickTitle);
         trickAuthor = findViewById(R.id.trickAuthor);
         trickCategory = findViewById(R.id.trickCategory);
         trickContent = findViewById(R.id.trickContent);
@@ -37,9 +37,9 @@ public class TrickActivity extends BaseActivity {
     }
 
     private void setValues() {
-        trickTilte.setText(trick.getName());
-        trickAuthor.setText("Author");
-        trickCategory.setText("Catégorie");
+        trickTitle.setText(trick.getName());
+        trickAuthor.setText(trick.getUser().getFirstName() + " " + trick.getUser().getLastName() );
+        trickCategory.setText(trick.getCategory().getName());
         trickContent.setText(trick.getContent());
 
         buttonFinish.setOnClickListener(new View.OnClickListener() {
