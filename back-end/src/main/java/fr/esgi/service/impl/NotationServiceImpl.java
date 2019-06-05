@@ -1,12 +1,5 @@
 package fr.esgi.service.impl;
 
-import fr.esgi.dao.NotationRepository;
-import fr.esgi.domain.Notation;
-import fr.esgi.exception.HelpAndLearningPlatformException;
-import fr.esgi.service.NotationService;
-import fr.esgi.service.dto.NotationDTO;
-import fr.esgi.service.mapper.NotationMapper;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import fr.esgi.dao.NotationRepository;
+import fr.esgi.domain.Notation;
+import fr.esgi.service.NotationService;
+import fr.esgi.service.dto.NotationDTO;
+import fr.esgi.service.mapper.NotationMapper;
 
 /**
  * Service Implementation for managing Notation.
@@ -62,13 +61,15 @@ public class NotationServiceImpl implements NotationService {
 		    .map(notationMapper::notationToNotationDTO).collect(Collectors.toList());
 	}
 
-	@Override
-	public NotationDTO findOne(Long id) throws HelpAndLearningPlatformException {
-		final Optional<Notation> notation = notationRepository.findById(id);
-		if (notation.isPresent()) {
-			return notationMapper.notationToNotationDTO(notation.get());
-		} else {
-			throw new HelpAndLearningPlatformException("Notation not found by id");
-		}
-	}
+    /**
+     * Find a notation by id
+     * @param trickId : id of trick
+     * @return the entity
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<NotationDTO> findOne(Long id) {
+    	final Optional<Notation> notation = notationRepository.findById(id);
+    	return notation.map(notationMapper::notationToNotationDTO);
+    }
 }
