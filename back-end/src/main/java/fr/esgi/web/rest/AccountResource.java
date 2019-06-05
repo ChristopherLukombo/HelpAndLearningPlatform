@@ -2,6 +2,7 @@ package fr.esgi.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -78,6 +79,8 @@ public class AccountResource {
         return ResponseEntity.created(new URI("/api/users/" + userDTO.getId()))
         		.body(userDTO);
     }
+    
+    
 
 
     /**
@@ -96,6 +99,17 @@ public class AccountResource {
         return !StringUtils.isEmpty(password) &&
                 password.length() >= ManagedUser.PASSWORD_MIN_LENGTH &&
                 password.length() <= ManagedUser.PASSWORD_MAX_LENGTH;
+    }
+    
+    /**
+     * GET  /users : returns all users
+     * @return the list of entities
+     */
+    @GetMapping("/users")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+    	LOGGER.debug("REST request to get all users");
+    	final List<UserDTO> users = userService.findAll();
+    	return ResponseEntity.ok().body(users);
     }
 
 }

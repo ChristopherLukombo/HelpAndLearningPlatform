@@ -1,7 +1,9 @@
 package fr.esgi.service.impl;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +67,7 @@ public class UserServiceImpl implements UserService {
      * @param password the password of entity
      * @return UserDTO the persisted entity
      */
+    @Override
     public UserDTO registerUser(UserDTO userDTO, String password) {
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
@@ -96,6 +99,7 @@ public class UserServiceImpl implements UserService {
      * @return the entity
      */
     @Transactional(readOnly = true)
+    @Override
     public Optional<User> findUserByLogin(String login) {
         return userRepository.findOneByLoginIgnoreCase(login);
     }
@@ -106,8 +110,21 @@ public class UserServiceImpl implements UserService {
      * @return the entity
      */
     @Transactional(readOnly = true)
+    @Override
     public Optional<User> findUserByEmail(String email) {
         return userRepository.findOneByEmailIgnoreCase(email);
     }
+
+    /**
+	 * Returns all users.
+	 * @return the list of entities
+	 */
+    @Transactional(readOnly = true)
+	@Override
+	public List<UserDTO> findAll() {
+    	LOGGER.debug("Get all users");
+		return userRepository.findAll().stream()
+				.map(userMapper::userToUserDTO).collect(Collectors.toList());
+	}
 
 }
