@@ -29,7 +29,9 @@ public class Subscription implements Serializable {
     @ManyToOne
     private User user;
 
-    public Subscription() { }
+    public Subscription() {
+    	// Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;

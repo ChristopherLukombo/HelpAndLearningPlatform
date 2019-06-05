@@ -28,7 +28,9 @@ public class Company implements Serializable {
 
     private String email;
 
-    public Company() { }
+    public Company() {
+    	// Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;

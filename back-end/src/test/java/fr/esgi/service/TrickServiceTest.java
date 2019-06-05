@@ -1,7 +1,9 @@
 package fr.esgi.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
@@ -73,6 +75,19 @@ public class TrickServiceTest {
 		// Then
 		assertThat(trickServiceImpl.findAll()).isEqualTo(tricksDTOs);
 	}
+	
+	@Test
+	public void shouldfindAllTricksWhenIsKO() {
+		// Given
+		List<TrickDTO> tricksDTOs = null;
+
+		// When
+		when(trickServiceImpl.findAll()).thenReturn(tricksDTOs);
+		
+		// Then
+		assertThatThrownBy(() -> trickServiceImpl.findAll())
+        .isInstanceOf(NullPointerException.class);
+	}
 
 	@Test
 	public void shouldfindAllNewTricksAvailableByUserIdWhenIsEmpty() {
@@ -143,10 +158,33 @@ public class TrickServiceTest {
 		// Then
 		assertThat(trc).isNotNull();
 	}
-}
-
-class DateProvider{
-	public LocalDate getNow(){
-		return LocalDate.now();
+	
+	@Test
+	public void shouldUpdateTrickWhenIsOK() {
+		// Given
+		TrickDTO trickDTO = new TrickDTO();
+		trickDTO.setId(ID);
+		trickDTO.setWording(WORDING);
+		trickDTO.setCategoryId(ID);
+		trickDTO.setCreationDate(LocalDate.now());
+		trickDTO.setDescription(DESCRIPTION);
+		
+		// When
+		when(trickServiceImpl.update(mock(TrickDTO.class))).thenReturn(trickDTO);
+		
+		// Then
+		assertThat(trickServiceImpl.update(mock(TrickDTO.class))).isEqualTo(trickDTO);
+	}
+	
+	@Test
+	public void shouldUpdateTrickWhenIsKO() {
+		// Given
+		TrickDTO trickDTO = null;
+		
+		// When
+		when(trickServiceImpl.update(mock(TrickDTO.class))).thenReturn(trickDTO);
+		
+		// Then
+		assertThat(trickServiceImpl.update(mock(TrickDTO.class))).isEqualTo(trickDTO);
 	}
 }

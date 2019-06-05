@@ -44,7 +44,7 @@ public class UserDTO {
 
 
     public UserDTO() {
-        // Empty constructor for Jackson.
+        // Empty constructor needed for Jackson.
     }
 
     public Long getId() {
