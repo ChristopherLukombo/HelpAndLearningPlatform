@@ -21,6 +21,7 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing Notation.
@@ -67,13 +68,12 @@ public class NotationResource {
     @GetMapping("/notations/{id}")
     public ResponseEntity<NotationDTO> findNotation(@PathVariable Long id) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find a notation: {}", id);
-    	NotationDTO notationDTO = null;
-		try {
-			notationDTO = notationService.findOne(id);
-		} catch (HelpAndLearningPlatformException e) {
-			throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), "Notation non trouvé");
-		}
-		return ResponseEntity.ok().body(notationDTO);
+    	final Optional<NotationDTO> notationDTO = notationService.findOne(id);
+        if (notationDTO.isPresent()) {
+        	return ResponseEntity.ok().body(notationDTO.get());
+        } else {
+        	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), "Notation non trouvé");
+        }
     }
     
     /**

@@ -1,10 +1,10 @@
 package fr.esgi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.dto.NotationDTO;
 
 /**
@@ -28,10 +28,9 @@ public interface NotationService {
     List<NotationDTO> findAllByTrickId(Long trickId);
     
     /**
-     * 
-     * @param id
-     * @return
-     * @throws HelpAndLearningPlatformException 
+     * Find a notation by id
+     * @param trickId : id of trick
+     * @return the entity
      */
-    NotationDTO findOne(Long id) throws HelpAndLearningPlatformException;
+    Optional<NotationDTO> findOne(Long id);
 }
