@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.UserDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -36,5 +37,11 @@ public interface UserService {
 	 * @return the entity
 	 */
 	Optional<User> findUserByEmail(String email);
+	
+	/**
+	 * Returns all users.
+	 * @return the list of entities
+	 */
+	List<UserDTO> findAll();
 
 }
