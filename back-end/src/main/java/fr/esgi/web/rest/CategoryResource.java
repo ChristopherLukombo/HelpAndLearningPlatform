@@ -16,6 +16,7 @@ import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.CategoryService;
 import fr.esgi.service.dto.CategoryDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Category.
@@ -42,6 +43,7 @@ public class CategoryResource {
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
      * @throws HelpAndLearningPlatformException 
      */
+    @ApiOperation(value = "Get all the categories by wording.")
     @GetMapping("/categories")
     public ResponseEntity<List<CategoryDTO>> findCategoriesByWording(
             @RequestParam(name="wording", defaultValue = "") String wording
@@ -64,6 +66,7 @@ public class CategoryResource {
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
      * @throws HelpAndLearningPlatformException 
      */
+    @ApiOperation(value = "Get all the categories.")
     @GetMapping("/categories/all")
     public ResponseEntity<List<CategoryDTO>> findCategories() throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to find Categories");

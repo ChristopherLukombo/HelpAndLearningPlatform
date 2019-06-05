@@ -16,6 +16,7 @@ import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.UserService;
 import fr.esgi.service.dto.UserDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing User.
@@ -41,6 +42,7 @@ public class UserResource {
      * @param friendDTO the friend to add
      * @return the ResponseEntity with status 200 (OK)
      */
+    @ApiOperation(value = "Add a friend to an user.")
     @PatchMapping(value = "/users/friend")
     public ResponseEntity<UserDTO> addFriend(@RequestBody @Valid UserDTO userDTO, @RequestBody @Valid UserDTO friendDTO) throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to add a friend to an user: {}, {}", userDTO, friendDTO);

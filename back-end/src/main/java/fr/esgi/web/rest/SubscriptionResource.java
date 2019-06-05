@@ -19,6 +19,7 @@ import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.SubscriptionService;
 import fr.esgi.service.dto.SubscriptionDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Subscription.
@@ -39,11 +40,12 @@ public class SubscriptionResource {
     }
 
     /**
-     * POST  /subscriptions : course subscription
-     * @param subscriptionDTO the assignmentModuleDTO to create
+     * POST  /subscriptions : create a subscription
+     * @param subscriptionDTO : the subscriptionDTO to create
      * @return the ResponseEntity with status 201 (OK) and the subscription in body
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @ApiOperation(value = "Create a subscription.")
     @PostMapping(value = "/subscriptions")
     public ResponseEntity<SubscriptionDTO> createSubscription(@RequestBody @Valid SubscriptionDTO subscriptionDTO) throws URISyntaxException, HelpAndLearningPlatformException {
         LOGGER.debug("REST request to save Subscription: {}", subscriptionDTO);

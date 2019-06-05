@@ -4,6 +4,7 @@ import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.NotationService;
 import fr.esgi.service.dto.NotationDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +43,12 @@ public class NotationResource {
     }
 
     /**
-     * POST  /notations : save the notation
+     * POST  /notations : save the notation.
      * @param notationDTO the ResponseEntity with status 201 (Created)
      * @return the ResponseEntity with status 201 (OK) and the entity notation in body
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @ApiOperation(value = "Save the notation.")
     @PostMapping("/notations")
     public ResponseEntity<NotationDTO> createNotation(@RequestBody @Valid NotationDTO notationDTO) throws URISyntaxException, HelpAndLearningPlatformException {
         LOGGER.debug("REST request to create a notation: {}", notationDTO);
@@ -60,11 +62,12 @@ public class NotationResource {
     }
     
     /**
-     * GET /notations/{id}
-     * @param id : id of the notation
+     * GET /notations/{id} : get the notation by its id.
+     * @param id : id of the notation.
      * @return the ResponseEntity with status 200 (OK) and the entity notation in body
      * @throws HelpAndLearningPlatformException if the notation is not found
      */
+    @ApiOperation(value = "Get the notation by its id.")
     @GetMapping("/notations/{id}")
     public ResponseEntity<NotationDTO> findNotation(@PathVariable Long id) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find a notation: {}", id);
@@ -77,10 +80,11 @@ public class NotationResource {
     }
     
     /**
-     * GET  /notations/trick/{trickId} : get the notations according the trickId
+     * GET  /notations/trick/{trickId} : get the notations according the trickId.
      * @param trickId the trick of notation
      * @return the ResponseEntity with status 200 (OK) and the list of entities notations in body
      */
+    @ApiOperation(value = "Get the notations according the trickId.")
     @GetMapping("/notations/trick/{trickId}")
     public ResponseEntity<List<NotationDTO>> findAllNotationsByTrickID(@PathVariable Long trickId) {
     	LOGGER.debug("REST request to find all Notation by Trick ID : {}", trickId);
