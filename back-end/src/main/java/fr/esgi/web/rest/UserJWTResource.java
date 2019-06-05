@@ -5,6 +5,7 @@ import fr.esgi.security.jwt.JWTConfigurer;
 import fr.esgi.security.jwt.TokenProvider;
 import fr.esgi.web.Login;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -45,6 +46,7 @@ public class UserJWTResource {
      * @param login of the user
      * @return JWTToken
      */
+    @ApiOperation(value = "Authenticate the user and return the token which identify him.")
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody Login login) {
 

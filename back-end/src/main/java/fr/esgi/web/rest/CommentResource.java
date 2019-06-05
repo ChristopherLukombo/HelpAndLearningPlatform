@@ -4,6 +4,7 @@ import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.CommentService;
 import fr.esgi.service.dto.CommentDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
@@ -44,6 +45,7 @@ public class CommentResource {
 	 * @return the ResponseEntity with status 201 (Created) and with body the new comment.
 	 * @throws URISyntaxException if the Location URI syntax is incorrect
 	 */
+	@ApiOperation(value = "Save a comment.")
 	@ApiResponses(value = {
 	        @ApiResponse(code = 201, message = "Successful register"),
 	        @ApiResponse(code = 400, message = "Bad request"),

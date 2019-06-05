@@ -13,6 +13,7 @@ import fr.esgi.service.StatsService;
 import fr.esgi.service.dto.StatsDTO;
 import fr.esgi.service.dto.StatsTrickDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Stats.
@@ -38,7 +39,8 @@ public class StatsResource {
      * @param categoryId the categoryId of the statsDTO to retrieve
      * @return the ResponseEntity with status 200 (OK) and the stats in body
      */
-    @GetMapping("/stats/")
+    @ApiOperation(value = "Returns stats of subscriptions.")
+    @GetMapping("/stats/owner")
     public ResponseEntity<StatsDTO> getStatsTricksForOwner(
             @RequestParam(value = "userId") Long userId,
             @RequestParam(value = "categoryId") Long categoryId) {
@@ -53,6 +55,7 @@ public class StatsResource {
      * @param trickId the trickId of the StatsTrickDTO to retrieve
      * @return the ResponseEntity with status 200 (OK) and the stats in body
      */
+    @ApiOperation(value = "Returns stats of a trick.")
     @GetMapping("/stats/trick")
     public ResponseEntity<StatsTrickDTO> getStatsForTrick(@RequestParam(value = "trickId") Long trickId) {
     	LOGGER.debug("REST request to get stats for a trick: {}", trickId);
