@@ -5,11 +5,11 @@ import java.io.Serializable;
 public class Mark implements Serializable {
 
     private long id;
-    private long note;
+    private double note;
     private long trickId;
     private long userId;
 
-    public Mark(long note, long trickId, long userId) {
+    public Mark(double note, long trickId, long userId) {
         this.note = note;
         this.trickId = trickId;
         this.userId = userId;
@@ -23,11 +23,11 @@ public class Mark implements Serializable {
         this.id = id;
     }
 
-    public long getNote() {
+    public double getNote() {
         return note;
     }
 
-    public void setNote(long note) {
+    public void setNote(double note) {
         this.note = note;
     }
 

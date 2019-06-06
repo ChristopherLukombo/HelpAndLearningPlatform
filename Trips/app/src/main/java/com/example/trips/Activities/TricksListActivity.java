@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RatingBar;
 
 import com.example.trips.Helpers.HTTPRequestHelper;
 import com.example.trips.Helpers.JSONHelper;
@@ -30,7 +31,6 @@ public class TricksListActivity extends BaseActivity {
     private List<Trick> tricks;
     private List<Category> categories;
     private List<User> users;
-    private List<Mark> marks;
     private long userId;
     String url;
 
@@ -77,12 +77,9 @@ public class TricksListActivity extends BaseActivity {
     private void getData(Long id){
         String tricksUrl = makeTrickUrl(id, "tricks");
         final String categoryUrl = this.url + "categories/all";
-        final String userUrl = this.url + "categories/all";
-        final String markUrl = this.url + "notations/trick/";
-        final JSONArray[] jsonArrays = new JSONArray[4];
+        final String userUrl = this.url + "users";
+        final JSONArray[] jsonArrays = new JSONArray[3];
         final String token = getToken();
-
-
 
         final VolleyCallback userVolleyCallback = new VolleyCallback() {
             @Override
@@ -96,8 +93,7 @@ public class TricksListActivity extends BaseActivity {
             @Override
             public void onResponse(JSONArray result) {
                 jsonArrays[1] = result;
-                setData(jsonArrays);
-                //HTTPRequestHelper.getRequest(getApplicationContext(), userUrl, userVolleyCallback, token);
+                HTTPRequestHelper.getRequest(getApplicationContext(), userUrl, userVolleyCallback, token);
             }
         };
 
@@ -117,11 +113,10 @@ public class TricksListActivity extends BaseActivity {
         this.tricks = JSONHelper.trickListFromJSONObject(jsonArrays[0]);
         this.categories = JSONHelper.categoryListFromJSONObject(jsonArrays[1]);
         this.users = JSONHelper.userListFromJSONObject(jsonArrays[2]);
-        this.marks = JSONHelper.markListFromJSONObject(jsonArrays[3]);
 
         setTricksMark();
         setTricksCategories();
-        //setTricksUsers();
+        setTricksUsers();
         setTricksMark();
 
         setAdapter();
@@ -141,19 +136,29 @@ public class TricksListActivity extends BaseActivity {
 
         String markUrl = this.url + "notations/trick/";
         for (final Trick trick: tricks){
-            markUrl +=  "?trickId=" + trick.getId();
+            String completeUrl = markUrl + trick.getId();
 
             VolleyCallback markVolleyCallback = new VolleyCallback() {
                 @Override
                 public void onResponse(JSONArray result) {
-                    List<Mark> marks = JSONHelper.markListFromJSONObject(result);
+                    double totalMark = 0;
+                    if(result != null){
+                        List<Mark>  list = JSONHelper.markListFromJSONObject(result);
 
-                    trick.setMark(marks.get(0));
+                        for(Mark mark : list){
+                            totalMark += mark.getNote();
+                        }
+
+                        totalMark = totalMark / list.size();
+                    }
+
+                    trick.setMark(totalMark);
                 }
             };
 
-            HTTPRequestHelper.getRequest(getApplicationContext(), markUrl, markVolleyCallback, getToken());
+            HTTPRequestHelper.getRequest(getApplicationContext(), completeUrl, markVolleyCallback, getToken());
         }
+
     }
 
     private void setTricksCategories() {

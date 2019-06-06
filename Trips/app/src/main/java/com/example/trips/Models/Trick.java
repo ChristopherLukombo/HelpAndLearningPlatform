@@ -14,7 +14,7 @@ public class Trick implements Serializable {
     private long userId;
     private transient  User user;
     private long viewNumber;
-    public transient  Mark mark;
+    public transient  double mark;
 
     public Trick(long categoryId, long userId, String creationDate, String description, String name, String content) {
         this.creationDate = creationDate;
@@ -89,11 +89,11 @@ public class Trick implements Serializable {
         this.viewNumber = viewNumber;
     }
 
-    public Mark getMark() {
+    public double getMark() {
         return mark;
     }
 
-    public void setMark(Mark mark) {
+    public void setMark(double mark) {
         this.mark = mark;
     }
 

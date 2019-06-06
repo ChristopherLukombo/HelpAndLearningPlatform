@@ -32,7 +32,7 @@ public class HTTPRequestHelper {
                             callback.onResponse(jsonArray);
 
                         }catch (JSONException exception){
-
+                            Toast.makeText(context, exception.toString(), Toast.LENGTH_LONG).show();
                         }
                     }
                 },

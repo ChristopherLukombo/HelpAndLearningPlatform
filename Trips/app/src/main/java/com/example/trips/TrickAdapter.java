@@ -1,12 +1,14 @@
 package com.example.trips;
 
 import android.content.Context;
+import android.media.Rating;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.trips.Models.Trick;
@@ -37,6 +39,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         myViewHolder.rowTrickTitle.setText(trick.getName());
         myViewHolder.rowTrickCategoryName.setText(trick.getCategory().getName());
         myViewHolder.rowTrickDescription.setText(trick.getDescription());
+        myViewHolder.rowRatingBar.setRating((float) trick.getMark());
         myViewHolder.trickRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +58,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         TextView rowTrickTitle;
         TextView rowTrickCategoryName;
         TextView rowTrickDescription;
+        RatingBar rowRatingBar;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -62,6 +66,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
             rowTrickTitle = itemView.findViewById(R.id.rowTrickTitle);
             rowTrickCategoryName = itemView.findViewById(R.id.rowTrickCategoryName);
             rowTrickDescription = itemView.findViewById(R.id.rowTrickDescription);
+            rowRatingBar = itemView.findViewById(R.id.trickListRatingBar);
 
         }
     }

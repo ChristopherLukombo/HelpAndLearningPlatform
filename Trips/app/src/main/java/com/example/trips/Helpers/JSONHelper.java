@@ -17,104 +17,118 @@ public class JSONHelper {
     public static List<Trick> trickListFromJSONObject(JSONArray trickJSONArray) {
         List<Trick> tricksList = new ArrayList<>();
 
-        for(int i = 0; i < trickJSONArray.length(); i++){
-            try{
-                JSONObject jsonobject = trickJSONArray.getJSONObject(i);
-                long categoryId = jsonobject.getLong("categoryId");
-                long userId = jsonobject.getLong("ownUserId");
-                String content = jsonobject.getString("content");
-                String name = jsonobject.getString("wording");
-                String description = jsonobject.getString("description");
-                String creationDate = jsonobject.getString("creationDate");
-                long id = jsonobject.getLong("id");
+        if(trickJSONArray != null) {
+            for (int i = 0; i < trickJSONArray.length(); i++) {
+                try {
+                    JSONObject jsonobject = trickJSONArray.getJSONObject(i);
+                    long categoryId = jsonobject.getLong("categoryId");
+                    long userId = jsonobject.getLong("ownUserId");
+                    String content = jsonobject.getString("content");
+                    String name = jsonobject.getString("wording");
+                    String description = jsonobject.getString("description");
+                    String creationDate = jsonobject.getString("creationDate");
+                    long id = jsonobject.getLong("id");
 
-                Trick trick = new Trick(categoryId, userId, creationDate, description, name,content);
-                trick.setId(id);
-                tricksList.add(trick);
-            }
-            catch (JSONException exception){
+                    Trick trick = new Trick(categoryId, userId, creationDate, description, name, content);
+                    trick.setId(id);
+                    tricksList.add(trick);
+                } catch (JSONException exception) {
 
+                }
             }
+
+            return tricksList;
         }
 
-        return tricksList;
+        return null;
     }
 
     public static List<Category> categoryListFromJSONObject(JSONArray categoriesJSONArray) {
         List<Category> categories = new ArrayList<>();
 
-        for(int i = 0; i < categoriesJSONArray.length(); i++){
-            try{
-                JSONObject jsonobject = categoriesJSONArray.getJSONObject(i);
+        if(categoriesJSONArray != null) {
+            for (int i = 0; i < categoriesJSONArray.length(); i++) {
+                try {
+                    JSONObject jsonobject = categoriesJSONArray.getJSONObject(i);
 
-                long categoryId = jsonobject.getLong("id");
-                String name = jsonobject.getString("wording");
+                    long categoryId = jsonobject.getLong("id");
+                    String name = jsonobject.getString("wording");
 
-                Category category = new Category(name);
-                category.setId(categoryId);
+                    Category category = new Category(name);
+                    category.setId(categoryId);
 
-                categories.add(category);
+                    categories.add(category);
+                } catch (JSONException exception) {
+
+                }
             }
-            catch (JSONException exception){
 
-            }
+            return categories;
         }
 
-        return categories;
+        return null;
     }
 
     public static List<User> userListFromJSONObject(JSONArray userJSONArray) {
         List<User> usersList = new ArrayList<>();
 
-        for(int i = 0; i < userJSONArray.length(); i++){
-            try{
-                JSONObject jsonobject = userJSONArray.getJSONObject(i);
-                int authorityId = jsonobject.getInt("authorityId");
-                boolean activated = jsonobject.getBoolean("activated");
-                String countryOfResidence = jsonobject.getString("countryOfResidence");
-                String email = jsonobject.getString("email");
-                String lastName = jsonobject.getString("lastName");
-                String firstName = jsonobject.getString("firstName");
-                String login = jsonobject.getString("login");
-                String langKey = jsonobject.getString("langKey");
-                long id = jsonobject.getLong("id");
+        if(userJSONArray != null){
+            for(int i = 0; i < userJSONArray.length(); i++){
+                try{
+                    JSONObject jsonobject = userJSONArray.getJSONObject(i);
+                    int authorityId = jsonobject.getInt("authorityId");
+                    boolean activated = jsonobject.getBoolean("activated");
+                    String countryOfResidence = jsonobject.getString("countryOfResidence");
+                    String email = jsonobject.getString("email");
+                    String lastName = jsonobject.getString("lastName");
+                    String firstName = jsonobject.getString("firstName");
+                    String login = jsonobject.getString("login");
+                    String langKey = jsonobject.getString("langKey");
+                    long id = jsonobject.getLong("id");
 
-                User user = new User(email, login, firstName, lastName);
-                user.setId(id);
-                user.setAuthorityId(authorityId);
-                user.setCountryOfResidence(countryOfResidence);
-                user.setLangKey(langKey);
-                user.setActivated(activated);
-                usersList.add(user);
-            }
-            catch (JSONException exception){
+                    User user = new User(email, login, firstName, lastName);
+                    user.setId(id);
+                    user.setAuthorityId(authorityId);
+                    user.setCountryOfResidence(countryOfResidence);
+                    user.setLangKey(langKey);
+                    user.setActivated(activated);
+                    usersList.add(user);
+                }
+                catch (JSONException exception){
 
+                }
             }
+
+            return usersList;
         }
 
-        return usersList;
+        return null;
+
     }
 
     public static List<Mark> markListFromJSONObject(JSONArray markJSONArray) {
         List<Mark> marksList = new ArrayList<>();
 
-        for(int i = 0; i < markJSONArray.length(); i++){
-            try{
-                JSONObject jsonobject = markJSONArray.getJSONObject(i);
-                long id = jsonobject.getLong("authorityId");
-                long note = jsonobject.getLong("note");
-                long trickId = jsonobject.getLong("trickId");
-                long userId = jsonobject.getLong("userId");
+        if(markJSONArray != null) {
+            for (int i = 0; i < markJSONArray.length(); i++) {
+                try {
+                    JSONObject jsonobject = markJSONArray.getJSONObject(i);
+                    long id = jsonobject.getLong("id");
+                    double note = jsonobject.getLong("note");
+                    long trickId = jsonobject.getLong("trickId");
+                    long userId = jsonobject.getLong("userId");
 
-                Mark mark = new Mark(note, trickId, userId);
-                mark.setId(id);
-                marksList.add(mark);
-            }
-            catch (JSONException exception){
+                    Mark mark = new Mark(note, trickId, userId);
+                    mark.setId(id);
+                    marksList.add(mark);
+                } catch (JSONException exception) {
 
+                }
             }
+
+            return marksList;
         }
 
-        return marksList;
+        return null;
     }
 }
