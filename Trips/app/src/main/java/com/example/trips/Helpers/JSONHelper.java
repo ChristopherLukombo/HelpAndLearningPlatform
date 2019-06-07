@@ -2,6 +2,7 @@ package com.example.trips.Helpers;
 
 import com.example.trips.Models.Category;
 import com.example.trips.Models.Mark;
+import com.example.trips.Models.Subscription;
 import com.example.trips.Models.Trick;
 import com.example.trips.Models.User;
 
@@ -127,6 +128,35 @@ public class JSONHelper {
             }
 
             return marksList;
+        }
+
+        return null;
+    }
+
+    public static List<Subscription> subscribtionListFromJSONObject(JSONArray jsonArray) {
+        List<Subscription> subscriptions = new ArrayList<>();
+
+        if(jsonArray != null) {
+            for (int i = 0; i < jsonArray.length(); i++) {
+                try {
+                    JSONObject jsonobject = jsonArray.getJSONObject(i);
+
+                    long subscriptionId = jsonobject.getLong("id");
+                    String subscriptionDate = jsonobject.getString("subscriptionDate");
+                    long userId = jsonobject.getLong("userId");
+                    long trickId = jsonobject.getLong("trickId");
+
+                    Subscription subscription = new Subscription(subscriptionDate, userId, trickId);
+                    subscription.setId(subscriptionId);
+
+                    subscriptions.add(subscription);
+
+                } catch (JSONException exception) {
+
+                }
+            }
+
+            return subscriptions;
         }
 
         return null;

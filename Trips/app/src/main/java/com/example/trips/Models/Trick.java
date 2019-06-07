@@ -14,7 +14,8 @@ public class Trick implements Serializable {
     private long userId;
     private transient  User user;
     private long viewNumber;
-    public transient  double mark;
+    private transient  double mark;
+    private boolean subscribed;
 
     public Trick(long categoryId, long userId, String creationDate, String description, String name, String content) {
         this.creationDate = creationDate;
@@ -111,5 +112,13 @@ public class Trick implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isSubscribed() {
+        return subscribed;
+    }
+
+    public void setSubscribed(boolean subscribed) {
+        this.subscribed = subscribed;
     }
 }

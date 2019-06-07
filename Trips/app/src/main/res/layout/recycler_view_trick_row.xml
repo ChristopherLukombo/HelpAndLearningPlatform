@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:background="@null"
             android:layout_marginLeft="10dp">
 
@@ -63,6 +63,16 @@
                 android:layout_marginRight="20dp"/>
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/trickListAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textSize="8dp"
+            android:textStyle="italic"
+            android:layout_marginLeft="20dp"
+            />
 
         <TextView
             android:id="@+id/rowTrickDescription"

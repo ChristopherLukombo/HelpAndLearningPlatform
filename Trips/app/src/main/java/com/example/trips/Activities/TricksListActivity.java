@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RatingBar;
 
 import com.example.trips.Helpers.HTTPRequestHelper;
 import com.example.trips.Helpers.JSONHelper;
 import com.example.trips.Models.Category;
 import com.example.trips.Models.Mark;
+import com.example.trips.Models.Subscription;
 import com.example.trips.Models.Trick;
 import com.example.trips.Models.User;
 import com.example.trips.R;
@@ -31,6 +31,7 @@ public class TricksListActivity extends BaseActivity {
     private List<Trick> tricks;
     private List<Category> categories;
     private List<User> users;
+    private List<Subscription> subscriptions;
     private long userId;
     String url;
 
@@ -45,22 +46,9 @@ public class TricksListActivity extends BaseActivity {
         tricks = new ArrayList<>();
         categories = new ArrayList<>();
         users = new ArrayList<>();
+        subscriptions = new ArrayList<>();
 
         handleIntent(intent);
-    }
-
-    private void setAdapter(){
-        tricksRecyclerView = findViewById(R.id.trickListRecyclerView);
-        tricksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        tricksRecyclerView.setAdapter(new TrickAdapter(getApplicationContext(), tricks, new TrickCustomClickListener() {
-            @Override
-            public void onTrickItemClick(View v, Trick trick) {
-                Intent intent = new Intent(TricksListActivity.this, TrickActivity.class);
-                intent.putExtra("trick", trick);
-                startActivity(intent);
-            }
-        }));
     }
 
     private void handleIntent(Intent intent) {
@@ -78,14 +66,24 @@ public class TricksListActivity extends BaseActivity {
         String tricksUrl = makeTrickUrl(id, "tricks");
         final String categoryUrl = this.url + "categories/all";
         final String userUrl = this.url + "users";
-        final JSONArray[] jsonArrays = new JSONArray[3];
+        final String subscriptionUrl = this.url + "subscriptions";
+        final JSONArray[] jsonArrays = new JSONArray[4];
         final String token = getToken();
+
+        final VolleyCallback subscriptionVolleyCallback = new VolleyCallback() {
+            @Override
+            public void onResponse(JSONArray result) {
+                jsonArrays[3] = result;
+                setData(jsonArrays);
+            }
+        };
 
         final VolleyCallback userVolleyCallback = new VolleyCallback() {
             @Override
             public void onResponse(JSONArray result) {
                 jsonArrays[2] = result;
                 setData(jsonArrays);
+                //HTTPRequestHelper.getRequest(getApplicationContext(), subscriptionUrl, subscriptionVolleyCallback, token);
             }
         };
 
@@ -113,20 +111,19 @@ public class TricksListActivity extends BaseActivity {
         this.tricks = JSONHelper.trickListFromJSONObject(jsonArrays[0]);
         this.categories = JSONHelper.categoryListFromJSONObject(jsonArrays[1]);
         this.users = JSONHelper.userListFromJSONObject(jsonArrays[2]);
+        this.subscriptions = JSONHelper.subscribtionListFromJSONObject(jsonArrays[3]);
 
-        setTricksMark();
+        //setSubscriptions();
         setTricksCategories();
         setTricksUsers();
         setTricksMark();
-
-        setAdapter();
     }
 
-    private void setTricksUsers() {
+    private void setSubscriptions() {
         for (Trick trick: tricks){
-            for (User user: users) {
-                if(trick.getUserId() == user.getId()){
-                    trick.setUser(user);
+            for (Subscription subscription: subscriptions) {
+                if(trick.getId() == subscription.getTrickId() && subscription.getUserId() == this.userId){
+                    trick.setSubscribed(true);
                 }
             }
         }
@@ -142,6 +139,7 @@ public class TricksListActivity extends BaseActivity {
                 @Override
                 public void onResponse(JSONArray result) {
                     double totalMark = 0;
+
                     if(result != null){
                         List<Mark>  list = JSONHelper.markListFromJSONObject(result);
 
@@ -153,12 +151,17 @@ public class TricksListActivity extends BaseActivity {
                     }
 
                     trick.setMark(totalMark);
+
+                    if(tricks.indexOf(trick) == (tricks.size() -1)){
+                        setAdapter();
+                    }
                 }
+
             };
 
             HTTPRequestHelper.getRequest(getApplicationContext(), completeUrl, markVolleyCallback, getToken());
-        }
 
+        }
     }
 
     private void setTricksCategories() {
@@ -170,6 +173,32 @@ public class TricksListActivity extends BaseActivity {
             }
         }
     }
+
+    private void setTricksUsers() {
+        for (Trick trick: tricks){
+            for (User user: users) {
+                if(trick.getUserId() == user.getId()){
+                    trick.setUser(user);
+                }
+            }
+        }
+    }
+
+    private void setAdapter(){
+        tricksRecyclerView = findViewById(R.id.trickListRecyclerView);
+        tricksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        tricksRecyclerView.setAdapter(new TrickAdapter(getApplicationContext(), tricks, new TrickCustomClickListener() {
+            @Override
+            public void onTrickItemClick(View v, Trick trick) {
+                Intent intent = new Intent(TricksListActivity.this, TrickActivity.class);
+                intent.putExtra("trick", trick);
+                startActivity(intent);
+            }
+        }));
+    }
+
+
 
     private String makeTrickUrl(Long id, String urlExtension){
         String newUrl = this.url + urlExtension;

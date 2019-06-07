@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -36,10 +37,16 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(TrickAdapter.MyViewHolder myViewHolder, int position) {
         final Trick trick = tricks.get(position);
+        if(!trick.isSubscribed()){
+            myViewHolder.trickRow.setBackgroundColor(context.getResources().getColor(R.color.lightGrey));
+            myViewHolder.subscribeButton.setText("Voir");
+        }
+
         myViewHolder.rowTrickTitle.setText(trick.getName());
         myViewHolder.rowTrickCategoryName.setText(trick.getCategory().getName());
         myViewHolder.rowTrickDescription.setText(trick.getDescription());
         myViewHolder.rowRatingBar.setRating((float) trick.getMark());
+        myViewHolder.rowTrickAuthor.setText(trick.getUser().getPseudo());
         myViewHolder.trickRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,7 +65,10 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         TextView rowTrickTitle;
         TextView rowTrickCategoryName;
         TextView rowTrickDescription;
+        TextView rowTrickAuthor;
         RatingBar rowRatingBar;
+        Button subscribeButton;
+
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -67,7 +77,8 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
             rowTrickCategoryName = itemView.findViewById(R.id.rowTrickCategoryName);
             rowTrickDescription = itemView.findViewById(R.id.rowTrickDescription);
             rowRatingBar = itemView.findViewById(R.id.trickListRatingBar);
-
+            rowTrickAuthor = itemView.findViewById(R.id.trickListAuthor);
+            subscribeButton = itemView.findViewById(R.id.subscribeButton);
         }
     }
 }
