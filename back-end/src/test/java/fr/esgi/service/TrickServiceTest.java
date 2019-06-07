@@ -126,12 +126,17 @@ public class TrickServiceTest {
 		trickDTO.setOwnUserId(OWN_USER_ID);
 		trickDTO.setCreationDate(LocalDate.now());
 		trickDTO.setDescription(DESCRIPTION);
+		
+		Category category = new Category();
+		category.setId(ID);
+		category.setWording(WORDING);
 
 		Trick trick = new Trick();
 		trick.setId(ID);
 		trick.setOwnUser(new User());
 		trick.setWording(WORDING);
-		trick.setCategory(new Category());
+
+		trick.setCategory(category);
 		trick.setCreationDate(LocalDate.now());
 		trick.setDescription(DESCRIPTION);	
 
@@ -143,7 +148,7 @@ public class TrickServiceTest {
 
 		Subscription subscription = new Subscription();
 		subscription.setId(ID);
-		subscription.setCategory(new Category());
+		subscription.setTrick(trick);
 		subscription.setUser(new User());
 		subscription.setSubscriptionDate(LocalDate.now());
 

@@ -31,15 +31,15 @@ VALUES (5, b'1', 'France', NULL, 'melissa.goness@gmail.com', 'Melissa', NULL, 'f
 -- trick
 SELECT '[INFO] Insertion dans la table "trick"' as '';
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (1, 'ok', 'les structures', 1, 1, NULL, 1, 'une structure');
+VALUES (1, 'ok', 'les structures', 1, 1, '2019-06-07', 1, 'une structure');
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (2, 'ok', 'les equations', 2, 1, NULL, 1, 'bien');
+VALUES (2, 'ok', 'les equations', 2, 1, '2019-06-07', 1, 'bien');
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (3, 'ok', 'la grammaire', 3, 1, NULL, 1, 'bien');
+VALUES (3, 'ok', 'la grammaire', 3, 1, '2019-06-07', 1, 'bien');
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (4, 'ok', 'le gerondif', 4, 1, NULL, 1, 'bien');
+VALUES (4, 'ok', 'le gerondif', 4, 1, '2019-06-07', 1, 'bien');
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (5, 'ok', 'la prehistoire', 5, 1, NULL, 1, 'bien');
+VALUES (5, 'ok', 'la prehistoire', 5, 1, '2019-06-07', 1, 'bien');
 
 -- notation
 SELECT '[INFO] Insertion dans la table "notation"' as '';
@@ -51,15 +51,15 @@ INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(5, 1.0, 5, 5)
 
 -- subscription
 SELECT '[INFO] Insertion dans la table "subscription"' as '';
-INSERT INTO subscription (id, subscription_date, category_id, user_id)
+INSERT INTO subscription (id, subscription_date, trick_id, user_id)
 VALUES (1, NOW(), 1, 1);
-INSERT INTO subscription (id, subscription_date, category_id, user_id)
+INSERT INTO subscription (id, subscription_date, trick_id, user_id)
 VALUES (2, NOW(), 2, 2);
-INSERT INTO subscription (id, subscription_date, category_id, user_id)
+INSERT INTO subscription (id, subscription_date, trick_id, user_id)
 VALUES (3, NOW(), 3, 3);
-INSERT INTO subscription (id, subscription_date, category_id, user_id)
+INSERT INTO subscription (id, subscription_date, trick_id, user_id)
 VALUES (4, NOW(), 4, 4);
-INSERT INTO subscription (id, subscription_date, category_id, user_id)
+INSERT INTO subscription (id, subscription_date, trick_id, user_id)
 VALUES (5, NOW(), 5, 5);
 
 -- qcm

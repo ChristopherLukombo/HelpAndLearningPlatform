@@ -24,7 +24,7 @@ import fr.esgi.service.mapper.SubscriptionMapper;
 @RunWith(SpringRunner.class)
 public class SubscriptionServiceTest {
 
-	private static final long CATEGORY_ID = 1L;
+	private static final long TRICK_ID = 1L;
 
 	private static final long USER_ID = 1L;
 
@@ -51,7 +51,7 @@ public class SubscriptionServiceTest {
 		subscriptionDTO.setId(ID);
 		subscriptionDTO.setSubscriptionDate(LocalDate.now());
 		subscriptionDTO.setUserId(USER_ID);
-		subscriptionDTO.setCategoryId(CATEGORY_ID);
+		subscriptionDTO.setTrickId(TRICK_ID);
 		
 		// When
 		when(subscriptionServiceImpl.saveSubscription(mock(SubscriptionDTO.class))).thenReturn(subscriptionDTO);
