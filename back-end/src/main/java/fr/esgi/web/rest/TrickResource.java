@@ -18,6 +18,7 @@ import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.TrickService;
 import fr.esgi.service.dto.TrickDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Trick.
@@ -37,6 +38,12 @@ public class TrickResource {
         this.trickService = trickService;
     }
 
+    /**
+     * GET  /tricks : returns all tricks.
+     * @return the list of entities
+     * @throws HelpAndLearningPlatformException
+     */
+    @ApiOperation(value = "Returns all tricks.")
     @GetMapping("/tricks")
     public ResponseEntity<List<TrickDTO>> getAll() throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to find all new tricks");
@@ -54,6 +61,7 @@ public class TrickResource {
      * @param userId the userId of user
      * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
      */
+    @ApiOperation(value = "Get all new tricks available by user id.")
     @GetMapping("/tricks/{userId}")
     public ResponseEntity<List<TrickDTO>> getAllNewTricksAvailableByUserId(@PathVariable Long userId) {
         LOGGER.debug("REST request to find all new tricks available: {}", userId);
@@ -67,6 +75,7 @@ public class TrickResource {
      * @return the ResponseEntity with status 200 (OK) and the entity in the body.
      * @throws HelpAndLearningPlatformException
      */
+    @ApiOperation(value = "Update a trick by its entity.")
     @PutMapping("/tricks")
     public ResponseEntity<TrickDTO> updateTrick(@RequestBody TrickDTO trickDTO) throws HelpAndLearningPlatformException {
     	 LOGGER.debug("REST request to update a trick: {}", trickDTO);

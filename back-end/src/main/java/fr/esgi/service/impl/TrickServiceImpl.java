@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.esgi.dao.SubscriptionRepository;
 import fr.esgi.dao.TrickRepository;
+import fr.esgi.domain.Category;
 import fr.esgi.domain.Subscription;
 import fr.esgi.domain.Trick;
 import fr.esgi.service.TrickService;
@@ -71,9 +72,11 @@ public class TrickServiceImpl implements TrickService {
         }
         final List<Trick> allNewTricksAvailable = new ArrayList<>();
         final LocalDate dateBefore = getDateBefore();
+        
         for (Subscription subscription : subscriptions) {
+        	final Category category = subscription.getTrick().getCategory();
             allNewTricksAvailable.addAll(
-                    trickRepository.findAllNewTricksAvailableByDateAndCategoryId(dateBefore, subscription.getCategory().getId()));
+                    trickRepository.findAllNewTricksAvailableByDateAndCategoryId(dateBefore, category.getId()));
         }
         return allNewTricksAvailable.stream()
                 .map(trickMapper::trickToTrickDTO)

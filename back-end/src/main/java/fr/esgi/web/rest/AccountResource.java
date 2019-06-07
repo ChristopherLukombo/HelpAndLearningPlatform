@@ -24,6 +24,7 @@ import fr.esgi.service.UserService;
 import fr.esgi.service.dto.UserDTO;
 import fr.esgi.web.ManagedUser;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
@@ -53,6 +54,7 @@ public class AccountResource {
      * @throws HelpAndLearningPlatformException if there is an error during request
      * @throws URISyntaxException if the Location URI syntax is incorrect
      */
+    @ApiOperation(value = "Register the user.")
     @ApiResponses(value = {
         @ApiResponse(code = 201, message = "Successful register"),
         @ApiResponse(code = 400, message = "Bad request"),
@@ -89,6 +91,7 @@ public class AccountResource {
      * @param request the HTTP request
      * @return the login if the user is authenticated
      */
+    @ApiOperation(value = "Check if the user is authenticated, and return its login.")
     @GetMapping("/authenticate")
     public ResponseEntity<String> isAuthenticated(HttpServletRequest request) {
         LOGGER.debug("REST request to check if the current user is authenticated");
@@ -105,6 +108,7 @@ public class AccountResource {
      * GET  /users : returns all users
      * @return the list of entities
      */
+    @ApiOperation(value = "Returns all users.")
     @GetMapping("/users")
     public ResponseEntity<List<UserDTO>> getAllUsers() {
     	LOGGER.debug("REST request to get all users");

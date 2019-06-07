@@ -2,6 +2,10 @@
  * Ce fichier détaille les manipulations à faire pour que le projet soit fonctionnel pour la prochaine personne.
  */
  
+  
+------------------------------------------------------------------------------------------------------------------------  
+Passer les scripts "import.sql" and "delete_data.sql".
+
 ------------------------------------------------------------------------------------------------------------------------  
 Ajouter la variable de conf dans le fichier de configuration :
 
