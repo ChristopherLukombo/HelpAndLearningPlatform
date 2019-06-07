@@ -12,7 +12,7 @@ public class SubscriptionDTO {
 	
     private Long id;
 
-    private Long categoryId;
+    private Long trickId;
 
     private LocalDate subscriptionDate;
 
@@ -28,7 +28,7 @@ public class SubscriptionDTO {
 
     public SubscriptionDTO(Subscription subscription) {
         this.id = subscription.getId();
-        this.categoryId = subscription.getCategory().getId();
+        this.trickId = subscription.getTrick().getId();
         this.subscriptionDate = subscription.getSubscriptionDate();
         this.userId = subscription.getUser().getId();
     }
@@ -37,15 +37,15 @@ public class SubscriptionDTO {
         this.id = id;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
+    public Long getTrickId() {
+		return trickId;
+	}
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
+	public void setTrickId(Long trickId) {
+		this.trickId = trickId;
+	}
 
-    public Long getUserId() {
+	public Long getUserId() {
         return userId;
     }
 
@@ -61,29 +61,27 @@ public class SubscriptionDTO {
         this.subscriptionDate = subscriptionDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SubscriptionDTO that = (SubscriptionDTO) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(categoryId, that.categoryId) &&
-                Objects.equals(subscriptionDate, that.subscriptionDate) &&
-                Objects.equals(userId, that.userId);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(id, subscriptionDate, trickId, userId);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, categoryId, subscriptionDate, userId);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SubscriptionDTO other = (SubscriptionDTO) obj;
+		return Objects.equals(id, other.id) && Objects.equals(subscriptionDate, other.subscriptionDate)
+				&& Objects.equals(trickId, other.trickId) && Objects.equals(userId, other.userId);
+	}
 
-    @Override
-    public String toString() {
-        return "SubscriptionDTO{" +
-                "id=" + id +
-                ", categoryId=" + categoryId +
-                ", subscriptionDate=" + subscriptionDate +
-                ", userId=" + userId +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "SubscriptionDTO [id=" + id + ", trickId=" + trickId + ", subscriptionDate=" + subscriptionDate
+				+ ", userId=" + userId + "]";
+	}
 }

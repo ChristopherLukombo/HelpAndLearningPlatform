@@ -1,5 +1,8 @@
 package fr.esgi.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.SubscriptionDTO;
@@ -16,4 +19,23 @@ public interface SubscriptionService {
 	 * @return Subscription
 	 */
     SubscriptionDTO saveSubscription(SubscriptionDTO subscriptionDTO);
+    
+    /**
+     * Returns a subscription by its id.
+     * @param id : the id of the entity
+     * @return the entity 
+     */
+    Optional<SubscriptionDTO> findOne(Long id);
+    
+    /**
+     * Returns all subscriptions.
+     * @return the list of entities
+     */
+    List<SubscriptionDTO> findAll();
+    
+    /**
+     * Delete a subscription by its id.
+     * @param id : the id of the subscription to delete.
+     */
+    void delete(Long id);
 }

@@ -22,7 +22,7 @@ public class Subscription implements Serializable {
     private Long id;
 
     @ManyToOne
-    private Category category;
+    private Trick trick;
 
     private LocalDate subscriptionDate;
 
@@ -41,15 +41,15 @@ public class Subscription implements Serializable {
         this.id = id;
     }
 
-    public Category getCategory() {
-        return category;
-    }
+    public Trick getTrick() {
+		return trick;
+	}
 
-    public void setCategory(Category category) {
-        this.category = category;
-    }
+	public void setTrick(Trick trick) {
+		this.trick = trick;
+	}
 
-    public LocalDate getSubscriptionDate() {
+	public LocalDate getSubscriptionDate() {
         return subscriptionDate;
     }
 
@@ -65,13 +65,10 @@ public class Subscription implements Serializable {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Subscription{" +
-                "id=" + id +
-                ", category=" + category +
-                ", subscriptionDate=" + subscriptionDate +
-                ", user=" + user +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Subscription [id=" + id + ", trick=" + trick + ", subscriptionDate=" + subscriptionDate + ", user="
+				+ user + "]";
+	}
+	
 }
