@@ -16,8 +16,8 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.annotation.Profile;
 
 import fr.esgi.dao.SubscriptionRepository;
 import fr.esgi.dao.TrickRepository;
@@ -29,8 +29,8 @@ import fr.esgi.service.dto.TrickDTO;
 import fr.esgi.service.impl.TrickServiceImpl;
 import fr.esgi.service.mapper.TrickMapper;
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
+@Profile("test")
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class TrickServiceTest {
 
 	private static final String DESCRIPTION = "Blo blob";
