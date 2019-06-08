@@ -22,6 +22,12 @@ public interface UserService {
 	 */
 	UserDTO addFriend(UserDTO userDTO, UserDTO friendDTO);
 
+	/**
+	 * Save the user in database.
+	 * @param userDTO the entity to save
+	 * @param password the password of entity
+	 * @return UserDTO the persisted entity
+	 */
 	UserDTO registerUser(UserDTO userDTO, String password);
 
 	/**

@@ -10,19 +10,18 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.annotation.Profile;
 
 import fr.esgi.dao.CommentRepository;
+import fr.esgi.domain.Comment;
 import fr.esgi.service.dto.CommentDTO;
 import fr.esgi.service.impl.CommentServiceImpl;
 import fr.esgi.service.mapper.CommentMapper;
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
+@Profile("test")
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class CommentServiceTest {
-
-	private static final long TRICK_ID = 1L;
 
 	private static final String NAME = "Bien";
 
@@ -40,32 +39,47 @@ public class CommentServiceTest {
 	@Before
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
+		commentServiceImpl = new CommentServiceImpl(commentRepository, commentMapper);
+	}
+	
+	private Comment getComment() {
+		Comment comment = new Comment();
+		comment.setId(ID);
+		comment.setName(NAME);
+		return comment;
+	}
+	
+	private CommentDTO getCommentDTO() {
+		CommentDTO commentDTO = new CommentDTO();
+		commentDTO.setId(ID);
+		commentDTO.setName(NAME);
+		return commentDTO;
 	}
 	
 	@Test
 	public void shouldSaveCommentWhenIsOK() {
 		// Given
-		CommentDTO commentDTO = new CommentDTO();
-		commentDTO.setId(ID);
-		commentDTO.setName(NAME);
-		commentDTO.setTrickId(TRICK_ID);
+		Comment comment = getComment();
 		
 		// When
-		when(commentServiceImpl.save(mock(CommentDTO.class))).thenReturn(commentDTO);
+		when(commentRepository.save(mock(Comment.class))).thenReturn(comment);
+		when(commentServiceImpl.save(mock(CommentDTO.class))).thenReturn(getCommentDTO());
 		
 		// Then
-		assertThat(commentServiceImpl.save(mock(CommentDTO.class))).isEqualTo(commentDTO);
+		assertThat(commentServiceImpl.save(mock(CommentDTO.class))).isNotNull();
 	}
+
+
 	
 	@Test
 	public void shouldSaveCommentWhenIsKO() {
 		// Given
-		CommentDTO commentDTO = null;
+		Comment comment = null;
 		
 		// When
-		when(commentServiceImpl.save(mock(CommentDTO.class))).thenReturn(commentDTO);
+		when(commentRepository.save(mock(Comment.class))).thenReturn(comment);
 		
 		// Then
-		assertThat(commentServiceImpl.save(mock(CommentDTO.class))).isEqualTo(commentDTO);
+		assertThat(commentServiceImpl.save(mock(CommentDTO.class))).isNull();
 	}
 }
