@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Component
 public class TokenProvider {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(TokenProvider.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TokenProvider.class);
 
     private static final String AUTHORITIES_KEY = "auth";
 
