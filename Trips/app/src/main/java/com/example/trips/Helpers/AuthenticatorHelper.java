@@ -2,7 +2,6 @@ package com.example.trips.Helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.android.volley.Request;

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.example.trips.Fragment.MarkFragment;
@@ -57,5 +56,6 @@ public class TrickActivity extends BaseActivity {
     }
 
     private void finishTrick() {
+
     }
 }

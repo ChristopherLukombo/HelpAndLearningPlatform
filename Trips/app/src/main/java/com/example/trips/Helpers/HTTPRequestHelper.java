@@ -8,9 +8,12 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.trips.VolleyCallback;
+import com.example.trips.VolleyJSONArrayCallback;
+import com.example.trips.VolleyJSONObjectCallback;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,7 +24,7 @@ import java.util.Map;
 
 public class HTTPRequestHelper {
 
-    public static void getRequest(final Context context, String url, final VolleyCallback callback, final String token){
+    public static void getRequest(final Context context, String url, final VolleyJSONArrayCallback callback, final String token){
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -56,4 +59,34 @@ public class HTTPRequestHelper {
         requestQueue.add(stringRequest);
     }
 
+    public static void postRequest(final Context context, String url, final VolleyJSONObjectCallback callback, final String token, final JSONObject params) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, params,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.onResponse();
+                }
+            },
+                    new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if(error.networkResponse != null){
+                        Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer  " + token);
+
+                return params;
+            }
+        };
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
+    }
 }

@@ -5,16 +5,16 @@ import java.io.Serializable;
 public class Trick implements Serializable {
 
     private long categoryId;
-    private transient Category category;
+    private Category category;
     private String creationDate;
     private String content;
     private String description;
     private String name;
     private long id;
     private long userId;
-    private transient  User user;
+    private User user;
     private long viewNumber;
-    private transient  double mark;
+    private double mark;
     private boolean subscribed;
 
     public Trick(long categoryId, long userId, String creationDate, String description, String name, String content) {

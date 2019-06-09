@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Trips</string>
-    <string name="api_url">http://192.168.43.253:8080/api/</string>
+    <string name="api_url">http://192.168.0.12:8080/api/</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="nav_header_title">Trips</string>
@@ -34,13 +34,17 @@
     <string name="most_recent_tricks">Tips les plus récents</string>
     <string name="most_viewed_tricks">Tips les plus consultés</string>
     <string name="title_activity_tricks">TricksActivity</string>
-    <string name="title_activity_tricks_list">Toutes les astuces</string>
+    <string name="title_activity_tricks_list">Astuces</string>
     <string name="nav_user_finished_tricks">Astuces terminées</string>
     <string name="nav_user_followed_tricks">Astuces en cours</string>
     <string name="nav_home">Accueil</string>
     <string name="nav_parameters_title">Paramètres</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="mark_title">Notez l\'astuce !</string>
-    <string name="button_trick_finished">J\ai suivi l\'astuce !</string>
-
+    <string name="button_trick_finished">J\ai suivi l\'astuce !</string>action_search
+    <string name="action_search">Chercher une Astuce</string>
+    <string name="sort_title">Tris :</string>
+    <string name="date_sort">Ancienneté</string>
+    <string name="name_sort">Nom</string>
+    <string name="mark_sort">Note</string>
 </resources>
