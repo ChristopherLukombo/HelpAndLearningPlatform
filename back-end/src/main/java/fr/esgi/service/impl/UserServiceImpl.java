@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Returns true if the login is already used.
+     * Returns user by login.
      * @param login of the user
      * @return the entity
      */
@@ -107,16 +107,38 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Returns true if the email is already used.
+     * Returns user by email.
      * @param email of the user
      * @return the entity
      */
     @Transactional(readOnly = true)
     @Override
     public Optional<User> findUserByEmail(String email) {
-    	LOGGER.debug("Request find all users: {}", email);
+    	LOGGER.debug("Request find user by email: {}", email);
         return userRepository.findOneByEmailIgnoreCase(email);
     }
+    
+    /**
+     * Returns User by username.
+     * @param username : login or email
+     * @return the entity
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<UserDTO> findUserByUsername(String username) {
+    	LOGGER.debug("Request find user by username: {}", username);
+    	Optional<User> user;
+    	user = userRepository.findOneByEmailIgnoreCase(username);
+		if (user.isPresent()) {
+    		return user.map(userMapper::userToUserDTO);
+    	}
+		user = userRepository.findOneByLoginIgnoreCase(username);
+		if (user.isPresent()) {
+    		return user.map(userMapper::userToUserDTO);
+    	}
+		return Optional.empty();
+    }
+    
 
     /**
 	 * Returns all users.
