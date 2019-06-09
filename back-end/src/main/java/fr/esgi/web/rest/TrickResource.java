@@ -41,7 +41,7 @@ public class TrickResource {
     /**
      * GET  /tricks : returns all tricks.
      * @return the list of entities
-     * @throws HelpAndLearningPlatformException
+     * @throws HelpAndLearningPlatformException if there is no tricks.
      */
     @ApiOperation(value = "Returns all tricks.")
     @GetMapping("/tricks")
@@ -57,23 +57,85 @@ public class TrickResource {
     }
     
     /**
-     * GET  /tricks/{userId} : get all new tricks available by user id
+     * GET  /tricks/{userId} : get all tricks by user id.
      * @param userId the userId of user
      * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
+     * @throws HelpAndLearningPlatformException if there is no tricks.
+     */
+    @ApiOperation(value = "Get all tricks by user id.")
+    @GetMapping("/tricks/{userId}")
+    public ResponseEntity<List<TrickDTO>> getAllTrickByUserId(@PathVariable Long userId) throws HelpAndLearningPlatformException {
+        LOGGER.debug("REST request to find all new tricks available: {}", userId);
+        final List<TrickDTO> tricksDTO = trickService.findAllByUserId(userId);
+        if (tricksDTO.isEmpty()) {
+           	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+        			"Pas de tricks");
+        }
+		return ResponseEntity.ok()
+                .body(tricksDTO);
+    }
+    
+    /**
+     * GET  /tricks/news/{userId} : get all new tricks available by user id
+     * @param userId the userId of user
+     * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
+     * @throws HelpAndLearningPlatformException if there is no tricks.
      */
     @ApiOperation(value = "Get all new tricks available by user id.")
-    @GetMapping("/tricks/{userId}")
-    public ResponseEntity<List<TrickDTO>> getAllNewTricksAvailableByUserId(@PathVariable Long userId) {
+    @GetMapping("/tricks/news/{userId}")
+    public ResponseEntity<List<TrickDTO>> getAllNewTricksAvailableByUserId(@PathVariable Long userId) throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to find all new tricks available: {}", userId);
-        return ResponseEntity.ok()
-                .body(trickService.findAllNewTricksAvailableByUserId(userId));
+        List<TrickDTO> tricksDTO = trickService.findAllNewTricksAvailableByUserId(userId);
+        if (tricksDTO.isEmpty()) {
+           	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+        			"Pas de tricks");
+        }
+		return ResponseEntity.ok()
+                .body(tricksDTO);
+    }
+    
+    /**
+     * GET  /tricks/news/{userId} : get all the most recent tricks.
+     * @param userId the userId of user
+     * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
+     * @throws HelpAndLearningPlatformException if there is no tricks.
+     */
+    @ApiOperation(value = "Get all the most recent tricks.")
+    @GetMapping("/tricks/mostlatests")
+    public ResponseEntity<List<TrickDTO>> getTheMostLatests() throws HelpAndLearningPlatformException {
+        LOGGER.debug("REST request to get all the most recent tricks");
+        List<TrickDTO> tricksDTO = trickService.findTheMostLatests();
+        if (tricksDTO.isEmpty()) {
+           	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+        			"Pas de tricks");
+        }
+		return ResponseEntity.ok()
+                .body(tricksDTO);
+    }
+    
+    /**
+     * GET  /tricks/news/{userId} : get all the most viewed tricks.
+     * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
+     * @throws HelpAndLearningPlatformException if there is no tricks.
+     */
+    @ApiOperation(value = "Get all the most viewed tricks.")
+    @GetMapping("/tricks/mostviewed")
+    public ResponseEntity<List<TrickDTO>> findTheMostViewed() throws HelpAndLearningPlatformException {
+    	LOGGER.debug("REST request to find all the most viewed tricks");
+    	List<TrickDTO> tricksDTO = trickService.findTheMostViewed();
+    	if (tricksDTO.isEmpty()) {
+    		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+    				"Pas de tricks");
+    	}
+    	return ResponseEntity.ok()
+    			.body(tricksDTO);
     }
     
     /**
      * PUT /tricks : update a trick by its entity.
      * @param trickDTO the entity trick
      * @return the ResponseEntity with status 200 (OK) and the entity in the body.
-     * @throws HelpAndLearningPlatformException
+     * @throws HelpAndLearningPlatformException if id of trick is null.
      */
     @ApiOperation(value = "Update a trick by its entity.")
     @PutMapping("/tricks")
