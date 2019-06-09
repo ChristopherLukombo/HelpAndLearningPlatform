@@ -22,4 +22,11 @@ public interface TrickRepository extends JpaRepository<Trick, Long> {
 
     @Query("SELECT t FROM Trick t WHERE t.ownUser.id = :userId")
     List<Trick> findAllByOwnUserId(@Param("userId") Long userId);
+    
+    @Query(value = "SELECT * FROM trick t ORDER BY t.creation_date DESC LIMIT 3", nativeQuery = true)
+    List<Trick> findTheMostLatests();
+    
+    @Query(value = "SELECT * FROM trick t ORDER BY t.view_number DESC LIMIT 3", nativeQuery = true)
+    List<Trick> findTheMostViewed();
+    
 }

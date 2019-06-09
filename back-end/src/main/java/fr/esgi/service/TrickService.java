@@ -17,6 +17,13 @@ public interface TrickService {
 	 * @return list of entities
 	 */
 	List<TrickDTO> findAll();
+	
+	/**
+     * Find all tricks by userId.
+	 * @param userId 
+	 * @return list of entities
+     */
+    List<TrickDTO> findAllByUserId(Long userId);
 
 	/**
      * Find all new tricks which are available according to the id
@@ -31,5 +38,17 @@ public interface TrickService {
      * @return entity
      */
     TrickDTO update(TrickDTO trickDTO);
+    
+    /**
+     * Find all the most recent tricks.
+     * @return list of entities
+     */
+    List<TrickDTO> findTheMostLatests();
+    
+    /**
+     * Find all the most viewed tricks.
+     * @return list of entities
+     */
+    List<TrickDTO> findTheMostViewed();
 
 }
