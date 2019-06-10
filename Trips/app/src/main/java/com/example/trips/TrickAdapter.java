@@ -147,9 +147,9 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
                     e.printStackTrace();
                 }
                 if(firstDate != null && secondDate != null){
-                    if (firstDate.compareTo(secondDate) > 0){
+                    if (firstDate.compareTo(secondDate) < 0){
                         return 1;
-                    } else if (firstDate.compareTo(secondDate) < 0) {
+                    } else if (firstDate.compareTo(secondDate) > 0) {
                         return -1;
                     } else {
                         return 0;
@@ -170,9 +170,9 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
                     e.printStackTrace();
                 }
                 if(firstDate != null && secondDate != null){
-                    if (firstDate.compareTo(secondDate) < 0){
+                    if (firstDate.compareTo(secondDate) > 0){
                         return 1;
-                    } else if (firstDate.compareTo(secondDate) > 0) {
+                    } else if (firstDate.compareTo(secondDate) < 0) {
                         return -1;
                     } else {
                         return 0;
