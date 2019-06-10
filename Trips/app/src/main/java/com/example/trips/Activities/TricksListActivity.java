@@ -194,6 +194,16 @@ public class TricksListActivity extends BaseActivity {
         }
     }
 
+    private void setTricksUsers() {
+        for (Trick trick: tricks){
+            for (User user: users) {
+                if(trick.getUserId() == user.getId()){
+                    trick.setUser(user);
+                }
+            }
+        }
+    }
+
     private void setSpinner() {
         List<String> categoriesName = new ArrayList<String>();
         categoriesName.add("Catégories");
@@ -206,15 +216,6 @@ public class TricksListActivity extends BaseActivity {
         spinner.setAdapter(dataAdapter);
     }
 
-    private void setTricksUsers() {
-        for (Trick trick: tricks){
-            for (User user: users) {
-                if(trick.getUserId() == user.getId()){
-                    trick.setUser(user);
-                }
-            }
-        }
-    }
 
     private void setAdapter(){
         tricksRecyclerView = findViewById(R.id.trickListRecyclerView);

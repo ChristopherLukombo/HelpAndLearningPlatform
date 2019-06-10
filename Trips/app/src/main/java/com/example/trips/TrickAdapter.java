@@ -27,7 +27,6 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
     Context context;
     List<Trick> tricks;
     List<Trick> filteredTricks;
-
     TrickCustomClickListener listener;
 
     public TrickAdapter(Context context, List<Trick> tricks, TrickCustomClickListener listener) {
@@ -60,6 +59,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         myViewHolder.rowTrickDescription.setText(trick.getDescription());
         myViewHolder.rowRatingBar.setRating((float) trick.getMark());
         myViewHolder.rowTrickAuthor.setText(trick.getUser().getPseudo());
+        myViewHolder.rowTrickCreationDate.setText(trick.getCreationDate());
 
         myViewHolder.subscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,6 +220,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         TextView rowTrickAuthor;
         RatingBar rowRatingBar;
         Button subscribeButton;
+        TextView rowTrickCreationDate;
 
 
         public MyViewHolder(View itemView) {
@@ -231,6 +232,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
             rowRatingBar = itemView.findViewById(R.id.trickListRatingBar);
             rowTrickAuthor = itemView.findViewById(R.id.trickListAuthor);
             subscribeButton = itemView.findViewById(R.id.subscribeButton);
+            rowTrickCreationDate = itemView.findViewById(R.id.rowTrickCreationDate);
         }
     }
 }
