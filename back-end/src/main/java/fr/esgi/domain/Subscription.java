@@ -2,6 +2,7 @@ package fr.esgi.domain;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,8 @@ public class Subscription implements Serializable {
 
     @ManyToOne
     private User user;
+    
+    private Boolean finished;
 
     public Subscription() {
     	// Empty constructor needed for Hibernate.
@@ -65,10 +68,39 @@ public class Subscription implements Serializable {
         this.user = user;
     }
 
+	public Boolean getFinished() {
+		return finished;
+	}
+
+	public void setFinished(Boolean finished) {
+		this.finished = finished;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(finished, id, subscriptionDate, trick, user);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Subscription other = (Subscription) obj;
+		return Objects.equals(finished, other.finished) && Objects.equals(id, other.id)
+				&& Objects.equals(subscriptionDate, other.subscriptionDate) && Objects.equals(trick, other.trick)
+				&& Objects.equals(user, other.user);
+	}
+
 	@Override
 	public String toString() {
 		return "Subscription [id=" + id + ", trick=" + trick + ", subscriptionDate=" + subscriptionDate + ", user="
-				+ user + "]";
+				+ user + ", finished=" + finished + "]";
 	}
+
+    
 	
 }

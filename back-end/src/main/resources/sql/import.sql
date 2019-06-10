@@ -51,16 +51,16 @@ INSERT INTO notation (id, note, trick_id_notation, user_id) VALUES(5, 1.0, 5, 5)
 
 -- subscription
 SELECT '[INFO] Insertion dans la table "subscription"' as '';
-INSERT INTO subscription (id, subscription_date, trick_id, user_id)
-VALUES (1, NOW(), 1, 1);
-INSERT INTO subscription (id, subscription_date, trick_id, user_id)
-VALUES (2, NOW(), 2, 2);
-INSERT INTO subscription (id, subscription_date, trick_id, user_id)
-VALUES (3, NOW(), 3, 3);
-INSERT INTO subscription (id, subscription_date, trick_id, user_id)
-VALUES (4, NOW(), 4, 4);
-INSERT INTO subscription (id, subscription_date, trick_id, user_id)
-VALUES (5, NOW(), 5, 5);
+INSERT INTO subscription (id, subscription_date, trick_id, user_id, finished)
+VALUES (1, NOW(), 1, 1, 1);
+INSERT INTO subscription (id, subscription_date, trick_id, user_id, finished)
+VALUES (2, NOW(), 2, 2, 0);
+INSERT INTO subscription (id, subscription_date, trick_id, user_id, finished)
+VALUES (3, NOW(), 3, 3, 1);
+INSERT INTO subscription (id, subscription_date, trick_id, user_id, finished)
+VALUES (4, NOW(), 4, 4, 1);
+INSERT INTO subscription (id, subscription_date, trick_id, user_id, finished)
+VALUES (5, NOW(), 5, 5, 0);
 
 -- qcm
 SELECT '[INFO] Insertion dans la table "qcm"' as '';

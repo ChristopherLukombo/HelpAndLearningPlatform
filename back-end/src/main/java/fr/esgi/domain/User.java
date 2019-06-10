@@ -79,7 +79,7 @@ public class User implements Serializable {
     @Column(name = "image_url", length = 256)
     private String imageUrl;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Subscription> subscriptions = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -218,49 +218,38 @@ public class User implements Serializable {
         this.dateOfLastConnection = dateOfLastConnection;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return activated == user.activated &&
-                Objects.equals(id, user.id) &&
-                Objects.equals(login, user.login) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(countryOfResidence, user.countryOfResidence) &&
-                Objects.equals(langKey, user.langKey) &&
-                Objects.equals(imageUrl, user.imageUrl) &&
-                Objects.equals(subscriptions, user.subscriptions) &&
-                Objects.equals(friends, user.friends) &&
-                Objects.equals(authority, user.authority) &&
-                Objects.equals(dateOfLastConnection, user.dateOfLastConnection);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(activated, authority, countryOfResidence, dateOfLastConnection, email, firstName, friends,
+				id, imageUrl, langKey, lastName, login, password, subscriptions);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, login, password, firstName, lastName, email, countryOfResidence, activated, langKey, imageUrl, subscriptions, friends, authority, dateOfLastConnection);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		return activated == other.activated && Objects.equals(authority, other.authority)
+				&& Objects.equals(countryOfResidence, other.countryOfResidence)
+				&& Objects.equals(dateOfLastConnection, other.dateOfLastConnection)
+				&& Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(friends, other.friends) && Objects.equals(id, other.id)
+				&& Objects.equals(imageUrl, other.imageUrl) && Objects.equals(langKey, other.langKey)
+				&& Objects.equals(lastName, other.lastName) && Objects.equals(login, other.login)
+				&& Objects.equals(password, other.password) && Objects.equals(subscriptions, other.subscriptions);
+	}
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", countryOfResidence='" + countryOfResidence + '\'' +
-                ", activated=" + activated +
-                ", langKey='" + langKey + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", subscriptions=" + subscriptions +
-                ", friends=" + friends +
-                ", authority=" + authority +
-                ", dateOfLastConnection=" + dateOfLastConnection +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", login=" + login + ", password=" + password + ", firstName=" + firstName
+				+ ", lastName=" + lastName + ", email=" + email + ", countryOfResidence=" + countryOfResidence
+				+ ", activated=" + activated + ", langKey=" + langKey + ", imageUrl=" + imageUrl + ", subscriptions="
+				+ subscriptions + ", friends=" + friends + ", authority=" + authority + ", dateOfLastConnection="
+				+ dateOfLastConnection + "]";
+	}
+  
 }
