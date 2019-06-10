@@ -12,13 +12,22 @@ import fr.esgi.service.dto.SubscriptionDTO;
  */
 @Service
 public interface SubscriptionService {
+	
+	
 
 	/**
 	 * Save a subscription.
 	 * @param subscriptionDTO
 	 * @return Subscription
 	 */
-    SubscriptionDTO saveSubscription(SubscriptionDTO subscriptionDTO);
+    SubscriptionDTO save(SubscriptionDTO subscriptionDTO);
+    
+    /**
+     * Returns true if user has already subscribed to the same trick.
+     * @param SubscriptionDTO : the entity
+     * @return boolean
+     */
+    boolean isSubscribed(SubscriptionDTO subscriptionDTO);
     
     /**
      * Returns a subscription by its id.

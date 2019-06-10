@@ -41,7 +41,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	 * @param subscriptionDTO the entity to save
 	 * @return Subscription the persisted entity
 	 */
-    public SubscriptionDTO saveSubscription(SubscriptionDTO subscriptionDTO) {
+    public SubscriptionDTO save(SubscriptionDTO subscriptionDTO) {
     	LOGGER.debug("Request to save Subscription : {}", subscriptionDTO);
     	Subscription subscription = subscriptionMapper.subscriptionDTOToSubscription(subscriptionDTO);
     	if (null == subscription.getSubscriptionDate()) {
@@ -50,6 +50,17 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         subscription = subscriptionRepository.save(subscription);
         return subscriptionMapper.subscriptionToSubscriptionDTO(subscription);
     }
+    
+    /**
+     * Returns true if user has already subscribed to the same trick.
+     * @param SubscriptionDTO : the entity
+     * @return boolean
+     */
+    @Transactional(readOnly = true)
+    @Override
+	public boolean isSubscribed(SubscriptionDTO subscriptionDTO) {
+		return !subscriptionRepository.findAllByTrickId(subscriptionDTO.getTrickId(), subscriptionDTO.getUserId()).isEmpty();
+	}
 
     /**
      * Returns a subscription by its id.
@@ -86,4 +97,5 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 		LOGGER.debug("Request to delete Subscription : {}", id);
 		subscriptionRepository.deleteById(id);
 	}
+	
 }

@@ -69,7 +69,7 @@ public class NotationResource {
      */
     @ApiOperation(value = "Get the notation by its id.")
     @GetMapping("/notations/{id}")
-    public ResponseEntity<NotationDTO> findNotation(@PathVariable Long id) throws HelpAndLearningPlatformException {
+    public ResponseEntity<NotationDTO> getNotation(@PathVariable Long id) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find a notation: {}", id);
     	final Optional<NotationDTO> notationDTO = notationService.findOne(id);
         if (notationDTO.isPresent()) {
@@ -87,7 +87,7 @@ public class NotationResource {
      */
     @ApiOperation(value = "Get the notations according the trickId.")
     @GetMapping("/notations/trick/{trickId}")
-    public ResponseEntity<List<NotationDTO>> findAllNotationsByTrickID(@PathVariable Long trickId) throws HelpAndLearningPlatformException {
+    public ResponseEntity<List<NotationDTO>> getAllNotationsByTrickID(@PathVariable Long trickId) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find all Notation by Trick ID : {}", trickId);
     	final List<NotationDTO> notationsDTO = notationService.findAllByTrickId(trickId);
     	if (notationsDTO.isEmpty()) {

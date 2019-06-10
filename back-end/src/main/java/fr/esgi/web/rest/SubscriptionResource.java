@@ -58,7 +58,11 @@ public class SubscriptionResource {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
 					"A new subscription cannot already have an ID");
 		}
-		final SubscriptionDTO subscription = subscriptionService.saveSubscription(subscriptionDTO);
+		if (subscriptionService.isSubscribed(subscriptionDTO)) {
+			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
+					"Trick is already subscribed by the user");
+		}
+		final SubscriptionDTO subscription = subscriptionService.save(subscriptionDTO);
 		return ResponseEntity.created(new URI("/api/subscription/" + subscription.getId()))
 				.body(subscription);
 	}
@@ -89,7 +93,7 @@ public class SubscriptionResource {
 	 */
 	@ApiOperation(value = "Get all subscriptions.")
 	@GetMapping(value = "/subscriptions")
-	public ResponseEntity<List<SubscriptionDTO>> findAll() throws HelpAndLearningPlatformException {
+	public ResponseEntity<List<SubscriptionDTO>> getAllSubscriptions() throws HelpAndLearningPlatformException {
 		LOGGER.debug("REST request to get all Subscriptions");
 		final List<SubscriptionDTO> subscriptions = subscriptionService.findAll();
 		if (subscriptions.isEmpty()) {
@@ -105,7 +109,7 @@ public class SubscriptionResource {
 	 */
 	@ApiOperation(value = "Delete a subscription by its id.")
 	@DeleteMapping("/subscriptions/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Long id) {
+	public ResponseEntity<Void> deleteSubscription(@PathVariable Long id) {
 		LOGGER.debug("REST request to delete subscription {}", id);
 		subscriptionService.delete(id);
 		return ResponseEntity.noContent().build();
