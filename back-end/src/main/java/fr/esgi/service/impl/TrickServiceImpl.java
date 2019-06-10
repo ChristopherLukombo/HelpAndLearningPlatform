@@ -58,7 +58,7 @@ public class TrickServiceImpl implements TrickService {
 	}
     
     /**
-     * Find all new tricks which are available according to the id
+     * Find all tricks by user id.
 	 * @param userId 
 	 * @return list of entities
      */
@@ -88,7 +88,7 @@ public class TrickServiceImpl implements TrickService {
     @Transactional(readOnly = true)
     @Override
     public List<TrickDTO> findAllNewTricksAvailableByUserId(Long userId) {
-        LOGGER.debug("Request to get all Tricks: {}", userId);
+        LOGGER.debug("Request to get all Tricks available by userId: {}", userId);
         final List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
         if (null == subscriptions || subscriptions.isEmpty()) {
             return Collections.emptyList();
@@ -118,6 +118,7 @@ public class TrickServiceImpl implements TrickService {
      */
 	@Override
 	public TrickDTO update(TrickDTO trickDTO) {
+	    LOGGER.debug("Request to update a trick: {}", trickDTO);
 		Trick trick = trickMapper.trickDTOToTrick(trickDTO);
     	trick = trickRepository.saveAndFlush(trick);
     	return trickMapper.trickToTrickDTO(trick);
@@ -129,6 +130,7 @@ public class TrickServiceImpl implements TrickService {
      */
 	@Override
 	public List<TrickDTO> findTheMostLatests() {
+		LOGGER.debug("Request to find the lastests tricks");
 		return trickRepository.findTheMostLatests().stream()
 		.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
 	}
@@ -139,8 +141,28 @@ public class TrickServiceImpl implements TrickService {
      */
 	@Override
 	public List<TrickDTO> findTheMostViewed() {
+		LOGGER.debug("Request to find the most viewed tricks");
 		return trickRepository.findTheMostViewed().stream()
 				.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
 	}
+
+	/**
+     * Add view to trick according to trickId
+     * @param trickId : the id of trick.
+     * @return the entity
+     */
+	@Override
+	public TrickDTO addViewToTrick(Long trickId) {
+		LOGGER.debug("Request to add view to a trick: {}", trickId);
+		final Optional<Trick> trick = trickRepository.findById(trickId);
+		if (trick.isPresent()) {
+			Trick aTrick = trick.get();
+			aTrick.setViewNumber(aTrick.getViewNumber() + 1);
+			aTrick = trickRepository.saveAndFlush(aTrick);
+			return trickMapper.trickToTrickDTO(aTrick);
+		}
+		return null;
+	}
+	
 
 }

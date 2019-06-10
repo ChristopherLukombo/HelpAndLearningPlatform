@@ -138,7 +138,6 @@ public class UserServiceImpl implements UserService {
     	}
 		return Optional.empty();
     }
-    
 
     /**
 	 * Returns all users.
@@ -151,5 +150,35 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAll().stream()
 				.map(userMapper::userToUserDTO).collect(Collectors.toList());
 	}
+    
+    /**
+     * Update a user.
+     * @param userDTO : the entity to update. 
+     * @return the entity updated
+     */
+    @Override
+    public UserDTO update(UserDTO userDTO, String password) {
+    	User newUser = new User();
+    	newUser.setId(userDTO.getId());
+    	String encryptedPassword = passwordEncoder.encode(password);
+    	newUser.setLogin(userDTO.getLogin());
+    	// new user gets initially a generated password
+    	newUser.setPassword(encryptedPassword);
+    	newUser.setFirstName(userDTO.getFirstName());
+    	newUser.setLastName(userDTO.getLastName());
+    	newUser.setEmail(userDTO.getEmail());
+    	newUser.setImageUrl(userDTO.getImageUrl());
+    	newUser.setCountryOfResidence(userDTO.getCountryOfResidence());
+    	newUser.setLangKey(userDTO.getLangKey());
+    	final Optional<Authority> authority = authorityRepository.findById(userDTO.getAuthorityId());
+    	if (authority.isPresent()) {
+    		newUser.setAuthority(authority.get());
+    	}
+   
+    	newUser.setActivated(userDTO.getActivated());
+    	newUser = userRepository.save(newUser);
+    	LOGGER.debug("Updated Information for User: {}", newUser);
+    	return userMapper.userToUserDTO(newUser);
+    }
 
 }

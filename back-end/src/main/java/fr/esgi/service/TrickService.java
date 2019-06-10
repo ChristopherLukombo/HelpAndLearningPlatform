@@ -51,4 +51,10 @@ public interface TrickService {
      */
     List<TrickDTO> findTheMostViewed();
 
+    /**
+     * Add view to trick according to trickId
+     * @param trickId : the id of trick.
+     * @return the entity
+     */
+    TrickDTO addViewToTrick(Long trickId);
 }
