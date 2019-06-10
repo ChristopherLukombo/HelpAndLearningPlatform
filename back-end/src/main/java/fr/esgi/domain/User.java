@@ -3,11 +3,9 @@ package fr.esgi.domain;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -78,9 +76,6 @@ public class User implements Serializable {
     @Size(max = 256)
     @Column(name = "image_url", length = 256)
     private String imageUrl;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<Subscription> subscriptions = new HashSet<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<User> friends = new ArrayList<>();
@@ -182,14 +177,6 @@ public class User implements Serializable {
         this.langKey = langKey;
     }
 
-    public Set<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
-
-    public void setSubscriptions(Set<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
-
     public List<User> getFriends() {
         return friends;
     }
@@ -221,7 +208,7 @@ public class User implements Serializable {
 	@Override
 	public int hashCode() {
 		return Objects.hash(activated, authority, countryOfResidence, dateOfLastConnection, email, firstName, friends,
-				id, imageUrl, langKey, lastName, login, password, subscriptions);
+				id, imageUrl, langKey, lastName, login, password);
 	}
 
 	@Override
@@ -240,16 +227,15 @@ public class User implements Serializable {
 				&& Objects.equals(friends, other.friends) && Objects.equals(id, other.id)
 				&& Objects.equals(imageUrl, other.imageUrl) && Objects.equals(langKey, other.langKey)
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(login, other.login)
-				&& Objects.equals(password, other.password) && Objects.equals(subscriptions, other.subscriptions);
+				&& Objects.equals(password, other.password);
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", password=" + password + ", firstName=" + firstName
 				+ ", lastName=" + lastName + ", email=" + email + ", countryOfResidence=" + countryOfResidence
-				+ ", activated=" + activated + ", langKey=" + langKey + ", imageUrl=" + imageUrl + ", subscriptions="
-				+ subscriptions + ", friends=" + friends + ", authority=" + authority + ", dateOfLastConnection="
-				+ dateOfLastConnection + "]";
+				+ ", activated=" + activated + ", langKey=" + langKey + ", imageUrl=" + imageUrl + ", friends="
+				+ friends + ", authority=" + authority + ", dateOfLastConnection=" + dateOfLastConnection + "]";
 	}
   
 }
