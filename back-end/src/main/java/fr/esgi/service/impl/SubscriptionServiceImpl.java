@@ -1,5 +1,6 @@
 package fr.esgi.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -43,6 +44,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     public SubscriptionDTO saveSubscription(SubscriptionDTO subscriptionDTO) {
     	LOGGER.debug("Request to save Subscription : {}", subscriptionDTO);
     	Subscription subscription = subscriptionMapper.subscriptionDTOToSubscription(subscriptionDTO);
+    	if (null == subscription.getSubscriptionDate()) {
+    		subscription.setSubscriptionDate(LocalDate.now());
+    	}
         subscription = subscriptionRepository.save(subscription);
         return subscriptionMapper.subscriptionToSubscriptionDTO(subscription);
     }

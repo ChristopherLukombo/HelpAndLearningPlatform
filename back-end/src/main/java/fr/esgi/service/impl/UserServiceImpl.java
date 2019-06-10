@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserDTO addFriend(UserDTO userDTO, UserDTO friendDTO) {
+    	LOGGER.debug("Request to add friend to a user: {} {}",userDTO, friendDTO);
         final User user = userMapper.userDTOToUser(userDTO);
         final User friend = userMapper.userDTOToUser(friendDTO);
         user.addFriends(Arrays.asList(friend));
@@ -94,26 +95,50 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Returns true if the login is already used.
+     * Returns user by login.
      * @param login of the user
      * @return the entity
      */
     @Transactional(readOnly = true)
     @Override
     public Optional<User> findUserByLogin(String login) {
+    	LOGGER.debug("Request find user by login: {}", login);
         return userRepository.findOneByLoginIgnoreCase(login);
     }
 
     /**
-     * Returns true if the email is already used.
+     * Returns user by email.
      * @param email of the user
      * @return the entity
      */
     @Transactional(readOnly = true)
     @Override
     public Optional<User> findUserByEmail(String email) {
+    	LOGGER.debug("Request find user by email: {}", email);
         return userRepository.findOneByEmailIgnoreCase(email);
     }
+    
+    /**
+     * Returns User by username.
+     * @param username : login or email
+     * @return the entity
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<UserDTO> findUserByUsername(String username) {
+    	LOGGER.debug("Request find user by username: {}", username);
+    	Optional<User> user;
+    	user = userRepository.findOneByEmailIgnoreCase(username);
+		if (user.isPresent()) {
+    		return user.map(userMapper::userToUserDTO);
+    	}
+		user = userRepository.findOneByLoginIgnoreCase(username);
+		if (user.isPresent()) {
+    		return user.map(userMapper::userToUserDTO);
+    	}
+		return Optional.empty();
+    }
+    
 
     /**
 	 * Returns all users.
@@ -122,7 +147,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
 	@Override
 	public List<UserDTO> findAll() {
-    	LOGGER.debug("Get all users");
+    	LOGGER.debug("Request find all users");
 		return userRepository.findAll().stream()
 				.map(userMapper::userToUserDTO).collect(Collectors.toList());
 	}

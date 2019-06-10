@@ -1,12 +1,12 @@
 package fr.esgi.service;
 
-import fr.esgi.domain.User;
-import org.springframework.stereotype.Service;
-
-import fr.esgi.service.dto.UserDTO;
-
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+import fr.esgi.domain.User;
+import fr.esgi.service.dto.UserDTO;
 
 /**
  * Service Implementation for managing User.
@@ -22,20 +22,26 @@ public interface UserService {
 	 */
 	UserDTO addFriend(UserDTO userDTO, UserDTO friendDTO);
 
+	/**
+	 * Save the user in database.
+	 * @param userDTO the entity to save
+	 * @param password the password of entity
+	 * @return UserDTO the persisted entity
+	 */
 	UserDTO registerUser(UserDTO userDTO, String password);
 
 	/**
-	 * Returns true if the login is already used.
-	 * @param login of the user
-	 * @return the entity
-	 */
+     * Returns user by login.
+     * @param login of the user
+     * @return the entity
+     */
 	Optional<User> findUserByLogin(String login);
 
-	/**
-	 * Returns true if the email is already used.
-	 * @param email of the user
-	 * @return the entity
-	 */
+	 /**
+     * Returns user by email.
+     * @param email of the user
+     * @return the entity
+     */
 	Optional<User> findUserByEmail(String email);
 	
 	/**
@@ -43,5 +49,12 @@ public interface UserService {
 	 * @return the list of entities
 	 */
 	List<UserDTO> findAll();
+	
+	/**
+     * Returns User by username.
+     * @param username : login or email
+     * @return the entity
+     */
+    Optional<UserDTO> findUserByUsername(String username);
 
 }

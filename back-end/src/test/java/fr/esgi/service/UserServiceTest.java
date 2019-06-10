@@ -1,13 +1,16 @@
 package fr.esgi.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.anyLong;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -16,9 +19,9 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import fr.esgi.dao.AuthorityRepository;
 import fr.esgi.dao.UserRepository;
@@ -28,8 +31,8 @@ import fr.esgi.service.dto.UserDTO;
 import fr.esgi.service.impl.UserServiceImpl;
 import fr.esgi.service.mapper.UserMapper;
 
-@ActiveProfiles("test")
-@RunWith(SpringRunner.class)
+@Profile("test")
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class UserServiceTest {
 
 	private static final long AUTHORITY_ID = 1L;
@@ -192,6 +195,47 @@ public class UserServiceTest {
 		
 		// Then
 		assertThat(userServiceImpl.findUserByEmail(anyString())).isEqualTo(Optional.ofNullable(user));
+	}
+	
+	@Test
+	public void shouldFindAllWhenIsOK() {
+		// Given
+		List<UserDTO> usersDTO = new ArrayList<>();
+		usersDTO.add(new UserDTO());
+		
+		List<User> users = new ArrayList<>();
+		users.add(new User());
+		
+		// When
+		when(userRepository.findAll()).thenReturn(users);
+		
+		// Then
+		assertThat(userServiceImpl.findAll()).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldFindAllWhenIsEmpty() {
+		// Given
+		List<User> users = new ArrayList<>();
+		
+		// When
+		when(userRepository.findAll()).thenReturn(users);
+		
+		// Then
+		assertThat(userServiceImpl.findAll()).isEmpty();
+	}
+	
+	@Test
+	public void shouldFindAllWhenIsKO() {
+		// Given
+		List<User> users = null;
+		
+		// When
+		when(userRepository.findAll()).thenReturn(users);
+		
+		// Then
+		assertThatThrownBy(() -> userServiceImpl.findAll())
+		.isInstanceOf(NullPointerException.class);
 	}
 
 }

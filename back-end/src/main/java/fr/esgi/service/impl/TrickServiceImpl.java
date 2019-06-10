@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -52,10 +53,32 @@ public class TrickServiceImpl implements TrickService {
     @Override
 	public List<TrickDTO> findAll() {
 		LOGGER.debug("Request to retrieve all tricks");
-		final List<Trick> tricks = trickRepository.findAll();
-		return tricks.stream()
+		return trickRepository.findAll().stream()
 				.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
 	}
+    
+    /**
+     * Find all new tricks which are available according to the id
+	 * @param userId 
+	 * @return list of entities
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<TrickDTO> findAllByUserId(Long userId) {
+    	LOGGER.debug("Request to get all tricks by userId: {}", userId);
+    	final List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
+    	if (null == subscriptions || subscriptions.isEmpty()) {
+    		return Collections.emptyList();
+    	}
+    	return subscriptions.stream()
+    			.map(Subscription::getTrick)
+    			.map(trickMapper::trickToTrickDTO)
+    			.map(Optional::ofNullable)
+    			.filter(Optional::isPresent)
+    			.map(Optional::get)
+    			.distinct()
+    			.collect(Collectors.toList());
+    }
 
 	/**
      * Find all new tricks which are available according to the id
@@ -65,7 +88,7 @@ public class TrickServiceImpl implements TrickService {
     @Transactional(readOnly = true)
     @Override
     public List<TrickDTO> findAllNewTricksAvailableByUserId(Long userId) {
-        LOGGER.debug("Request to get all Subscriptions");
+        LOGGER.debug("Request to get all Tricks: {}", userId);
         final List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
         if (null == subscriptions || subscriptions.isEmpty()) {
             return Collections.emptyList();
@@ -99,4 +122,25 @@ public class TrickServiceImpl implements TrickService {
     	trick = trickRepository.saveAndFlush(trick);
     	return trickMapper.trickToTrickDTO(trick);
 	}
+
+	 /**
+     * Find all the most recent tricks.
+     * @return list of entities
+     */
+	@Override
+	public List<TrickDTO> findTheMostLatests() {
+		return trickRepository.findTheMostLatests().stream()
+		.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
+	}
+
+	 /**
+     * Find all the most viewed tricks.
+     * @return list of entities
+     */
+	@Override
+	public List<TrickDTO> findTheMostViewed() {
+		return trickRepository.findTheMostViewed().stream()
+				.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
+	}
+
 }
