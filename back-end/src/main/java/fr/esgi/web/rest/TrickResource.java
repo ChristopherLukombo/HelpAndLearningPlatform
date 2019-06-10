@@ -46,7 +46,7 @@ public class TrickResource {
      */
     @ApiOperation(value = "Returns all tricks.")
     @GetMapping("/tricks")
-    public ResponseEntity<List<TrickDTO>> getAll() throws HelpAndLearningPlatformException {
+    public ResponseEntity<List<TrickDTO>> getAllTricks() throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to find all new tricks");
         final List<TrickDTO> tricksDTO = trickService.findAll();
         if (tricksDTO.isEmpty()) {
@@ -121,7 +121,7 @@ public class TrickResource {
      */
     @ApiOperation(value = "Get all the most viewed tricks.")
     @GetMapping("/tricks/mostviewed")
-    public ResponseEntity<List<TrickDTO>> findTheMostViewed() throws HelpAndLearningPlatformException {
+    public ResponseEntity<List<TrickDTO>> getTheMostViewed() throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find all the most viewed tricks");
     	List<TrickDTO> tricksDTO = trickService.findTheMostViewed();
     	if (tricksDTO.isEmpty()) {
