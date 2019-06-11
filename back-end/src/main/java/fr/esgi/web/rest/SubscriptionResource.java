@@ -14,10 +14,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.esgi.exception.HelpAndLearningPlatformException;
@@ -86,6 +88,26 @@ public class SubscriptionResource {
 	}
 
 	/**
+	 * PATCH  /subscriptions : set a subscription finished to true.
+	 * @param subscriptionId : id of the subscription.
+	 * @param userId : the id of the user.
+	 * @return the ResponseEntity with status 200 (OK) and the subscription in body
+	 * @throws HelpAndLearningPlatformException if the fields subscriptionId or userId can be empty 
+	 */
+	@ApiOperation(value = "Set a subscription finished to true")
+	@PatchMapping("/subscriptions/finished")
+	public ResponseEntity<SubscriptionDTO> setSubscriptionToFinished(
+			@RequestParam("subscriptionId") Long subscriptionId, @RequestParam("userId") Long userId) throws HelpAndLearningPlatformException {
+		LOGGER.debug("REST request to set subscription of trick to true: {} {}", subscriptionId, userId);
+		if (null == subscriptionId || null == userId) {
+			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
+					"The fields subscriptionId or userId can be empty.");
+		}
+		SubscriptionDTO subscriptionDTO = subscriptionService.setToFinished(subscriptionId, userId);
+		return ResponseEntity.ok().body(subscriptionDTO);
+	}
+
+	/**
 	 * GET  /subscriptions : get all subscriptions.
 	 * @param subscriptionDTO : the subscriptionDTO to create
 	 * @return the ResponseEntity with status 200 (OK) and the subscriptions in body
@@ -101,9 +123,9 @@ public class SubscriptionResource {
 		}
 		return ResponseEntity.ok().body(subscriptions);
 	}
-	
+
 	/**
-	 * DELETE  /subscriptions : delete a subscription by its id.
+	 * DELETE  /subscriptions/{id} : delete a subscription by its id.
 	 * @param id : the id of subscription to delete.
 	 * @return the ResponseEntity with status 204 (OK) and nothing in body.
 	 */
