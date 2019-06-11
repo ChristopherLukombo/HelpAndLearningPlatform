@@ -25,7 +25,6 @@ import com.example.trips.TrickAdapter;
 import com.example.trips.TrickCustomClickListener;
 import com.example.trips.VolleyJSONArrayCallback;
 import com.example.trips.VolleyJSONObjectCallback;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,6 +142,7 @@ public class TricksListActivity extends BaseActivity {
         for (Trick trick: tricks){
             for (Subscription subscription: subscriptions) {
                 if(trick.getId() == subscription.getTrickId() && subscription.getUserId() == this.userId){
+                    trick.setSubscription(subscription);
                     trick.setSubscribed(true);
                 }
             }
@@ -165,12 +165,15 @@ public class TricksListActivity extends BaseActivity {
 
                         for(Mark mark : list){
                             totalMark += mark.getNote();
+                            if(mark.getUserId() == userId){
+                                trick.setMark(mark);
+                            }
                         }
 
                         totalMark = totalMark / list.size();
                     }
 
-                    trick.setMark(totalMark);
+                    trick.setMarkNotation(totalMark);
 
                     if(tricks.indexOf(trick) == (tricks.size() -1)){
                         setAdapter();

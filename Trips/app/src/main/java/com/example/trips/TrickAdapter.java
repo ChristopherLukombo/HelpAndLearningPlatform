@@ -57,7 +57,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         myViewHolder.rowTrickTitle.setText(trick.getName());
         myViewHolder.rowTrickCategoryName.setText(trick.getCategory().getName());
         myViewHolder.rowTrickDescription.setText(trick.getDescription());
-        myViewHolder.rowRatingBar.setRating((float) trick.getMark());
+        myViewHolder.rowRatingBar.setRating((float) trick.getMarkNotation());
         myViewHolder.rowTrickAuthor.setText(trick.getUser().getPseudo());
         myViewHolder.rowTrickCreationDate.setText(trick.getCreationDate());
 
@@ -188,9 +188,9 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
     public void sortByMark(boolean ascending) {
         if(ascending) {
             Collections.sort(filteredTricks, (l1, l2) -> {
-                if(Double.compare(l1.getMark(), l2.getMark()) < 0) {
+                if(Double.compare(l1.getMarkNotation(), l2.getMarkNotation()) < 0) {
                     return 1;
-                } else if (Double.compare(l1.getMark(), l2.getMark()) > 0) {
+                } else if (Double.compare(l1.getMarkNotation(), l2.getMarkNotation()) > 0) {
                     return -1;
                 } else {
                     return 0;
@@ -199,9 +199,9 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         }
         else {
             Collections.sort(filteredTricks, (l1, l2) -> {
-                if(Double.compare(l1.getMark(), l2.getMark()) > 0) {
+                if(Double.compare(l1.getMarkNotation(), l2.getMarkNotation()) > 0) {
                     return 1;
-                } else if (Double.compare(l1.getMark(), l2.getMark()) < 0) {
+                } else if (Double.compare(l1.getMarkNotation(), l2.getMarkNotation()) < 0) {
                     return -1;
                 } else {
                     return 0;

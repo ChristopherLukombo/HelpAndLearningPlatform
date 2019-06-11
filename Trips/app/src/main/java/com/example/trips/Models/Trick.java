@@ -14,8 +14,10 @@ public class Trick implements Serializable {
     private long userId;
     private User user;
     private long viewNumber;
-    private double mark;
+    private double markNotation;
     private boolean subscribed;
+    private Subscription subscription;
+    private Mark mark;
 
     public Trick(long categoryId, long userId, String creationDate, String description, String name, String content) {
         this.creationDate = creationDate;
@@ -90,12 +92,12 @@ public class Trick implements Serializable {
         this.viewNumber = viewNumber;
     }
 
-    public double getMark() {
-        return mark;
+    public double getMarkNotation() {
+        return markNotation;
     }
 
-    public void setMark(double mark) {
-        this.mark = mark;
+    public void setMarkNotation(double markNotation) {
+        this.markNotation = markNotation;
     }
 
     public long getCategoryId() {
@@ -120,5 +122,21 @@ public class Trick implements Serializable {
 
     public void setSubscribed(boolean subscribed) {
         this.subscribed = subscribed;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
+    }
+
+    public Mark getMark() {
+        return mark;
+    }
+
+    public void setMark(Mark mark) {
+        this.mark = mark;
     }
 }

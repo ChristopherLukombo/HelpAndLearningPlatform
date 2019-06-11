@@ -175,6 +175,7 @@ public class MainActivity extends BaseActivity  {
             for (Subscription subscription: subscriptions) {
                 if(trick.getId() == subscription.getTrickId() && subscription.getUserId() == this.userId){
                     trick.setSubscribed(true);
+                    trick.setSubscription(subscription);
                 }
             }
         }
@@ -182,6 +183,7 @@ public class MainActivity extends BaseActivity  {
             for (Subscription subscription: subscriptions) {
                 if(trick.getId() == subscription.getTrickId() && subscription.getUserId() == this.userId){
                     trick.setSubscribed(true);
+                    trick.setSubscription(subscription);
                 }
             }
         }
@@ -203,12 +205,16 @@ public class MainActivity extends BaseActivity  {
 
                         for(Mark mark : list){
                             totalMark += mark.getNote();
+
+                            if(mark.getUserId() == userId){
+                                trick.setMark(mark);
+                            }
                         }
 
                         totalMark = totalMark / list.size();
                     }
 
-                    trick.setMark(totalMark);
+                    trick.setMarkNotation(totalMark);
                 }
 
             };
@@ -227,12 +233,15 @@ public class MainActivity extends BaseActivity  {
 
                         for(Mark mark : list){
                             totalMark += mark.getNote();
+                            if(mark.getUserId() == userId){
+                                trick.setMark(mark);
+                            }
                         }
 
                         totalMark = totalMark / list.size();
                     }
 
-                    trick.setMark(totalMark);
+                    trick.setMarkNotation(totalMark);
 
                     if(mostRecentTricks.indexOf(trick) == (mostRecentTricks.size() -1)){
                         initRecyclerViews();
@@ -311,4 +320,6 @@ public class MainActivity extends BaseActivity  {
 
         return jsonBody;
     }
+
+
 }

@@ -89,4 +89,66 @@ public class HTTPRequestHelper {
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(jsonObjectRequest);
     }
+
+    public static void deleteRequest(final Context context, String url, final VolleyJSONObjectCallback callback, final String token, final JSONObject params) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.DELETE, url, params,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onResponse();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error.networkResponse != null){
+                            Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer  " + token);
+
+                return params;
+            }
+        };
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    public static void putRequest(final Context context, String url, final VolleyJSONObjectCallback callback, final String token, final JSONObject params) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PUT, url, params,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onResponse();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error.networkResponse != null){
+                            Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer  " + token);
+
+                return params;
+            }
+        };
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
+    }
 }
