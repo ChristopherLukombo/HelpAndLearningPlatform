@@ -74,9 +74,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
 
         } else if (id == R.id.nav_info) {
-
+            intent = new Intent(getApplicationContext(), ContactActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_profile) {
-            // Handle the camera action
+            intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
         }
         else if (id == R.id.nav_deconnexion) {
             clearSharedPreferences();

@@ -11,8 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_foreground"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.Launcher">
-        <activity android:name=".Activities.TrickActivity"
-            android:theme="@style/AppTheme.Launcher.NoActionBar"/>
+        <activity android:name=".Activities.ProfileActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".Activities.ContactActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".Activities.TrickActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activities.BaseActivity"
             android:label="@string/title_activity_base"
