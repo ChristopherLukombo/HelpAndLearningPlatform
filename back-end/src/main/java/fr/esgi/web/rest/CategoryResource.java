@@ -45,11 +45,11 @@ public class CategoryResource {
      */
     @ApiOperation(value = "Get all the categories by wording.")
     @GetMapping("/categories")
-    public ResponseEntity<List<CategoryDTO>> findCategoriesByWording(
+    public ResponseEntity<List<CategoryDTO>> getCategoriesByWording(
             @RequestParam(name="wording", defaultValue = "") String wording
     ) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find Categories by wording: {}", wording);
-    	final List<CategoryDTO> categoriesDTO = categoryService.findCategoriesByWording(wording);
+    	final List<CategoryDTO> categoriesDTO = categoryService.findAllByWording(wording);
         if (categoriesDTO.isEmpty()) {
            	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
         			"Pas de catégories");
@@ -68,7 +68,7 @@ public class CategoryResource {
      */
     @ApiOperation(value = "Get all the categories.")
     @GetMapping("/categories/all")
-    public ResponseEntity<List<CategoryDTO>> findCategories() throws HelpAndLearningPlatformException {
+    public ResponseEntity<List<CategoryDTO>> getCategories() throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to find Categories");
     	final List<CategoryDTO> categoriesDTO = categoryService.findAll();
         if (categoriesDTO.isEmpty()) {

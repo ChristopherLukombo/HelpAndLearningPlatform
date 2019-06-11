@@ -44,7 +44,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Transactional(readOnly = true)
     @Override
-    public List<CategoryDTO> findCategoriesByWording(String wording) {
+    public List<CategoryDTO> findAllByWording(String wording) {
         LOGGER.debug("Request to find Categories by wording : {}", wording);
         final List<Category> categories = categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE);
         return categories.stream()

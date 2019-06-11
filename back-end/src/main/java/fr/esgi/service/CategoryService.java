@@ -16,7 +16,7 @@ public interface CategoryService {
      * Returns all Category by wording.
      * @return the list of categories
      */
-    List<CategoryDTO> findCategoriesByWording(String wording);
+    List<CategoryDTO> findAllByWording(String wording);
 
     /**
      * Get all Categories.

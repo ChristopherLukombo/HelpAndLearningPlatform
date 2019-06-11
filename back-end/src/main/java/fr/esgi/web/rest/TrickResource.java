@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,7 +46,7 @@ public class TrickResource {
      */
     @ApiOperation(value = "Returns all tricks.")
     @GetMapping("/tricks")
-    public ResponseEntity<List<TrickDTO>> getAll() throws HelpAndLearningPlatformException {
+    public ResponseEntity<List<TrickDTO>> getAllTricks() throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to find all new tricks");
         final List<TrickDTO> tricksDTO = trickService.findAll();
         if (tricksDTO.isEmpty()) {
@@ -120,7 +121,7 @@ public class TrickResource {
      */
     @ApiOperation(value = "Get all the most viewed tricks.")
     @GetMapping("/tricks/mostviewed")
-    public ResponseEntity<List<TrickDTO>> findTheMostViewed() throws HelpAndLearningPlatformException {
+    public ResponseEntity<List<TrickDTO>> getTheMostViewed() throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find all the most viewed tricks");
     	List<TrickDTO> tricksDTO = trickService.findTheMostViewed();
     	if (tricksDTO.isEmpty()) {
@@ -140,15 +141,29 @@ public class TrickResource {
     @ApiOperation(value = "Update a trick by its entity.")
     @PutMapping("/tricks")
     public ResponseEntity<TrickDTO> updateTrick(@RequestBody TrickDTO trickDTO) throws HelpAndLearningPlatformException {
-    	 LOGGER.debug("REST request to update a trick: {}", trickDTO);
-        if (null == trickDTO.getId()) {
-        	throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(), 
-        			"Erreur l'id du trick ne peut être nul !");
-        }
+    	LOGGER.debug("REST request to update a trick: {}", trickDTO);
+    	if (null == trickDTO.getId()) {
+    		throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(), 
+    				"Erreur l'id du trick ne peut être nul !");
+    	}
     	final TrickDTO trick = trickService.update(trickDTO);
-		return ResponseEntity.ok()
+    	return ResponseEntity.ok()
     			.body(trick);
-    	
-    }
 
+    }
+    
+    /**
+     * PATCH /tricks : Add view to trick according to trickId
+     * @param trickId : the id of trick.
+     * @return the ResponseEntity with status 200 (OK) and the entity in the body.
+     */
+    @ApiOperation(value = "Add view to trick according to trickId")
+    @PatchMapping("tricks/addView/{trickId}")
+    public ResponseEntity<TrickDTO> addViewToTrick(@PathVariable Long trickId) {
+    	LOGGER.debug("REST request to add view to a trick by trickId: {}", trickId);
+    	TrickDTO trickDTO = trickService.addViewToTrick(trickId);
+    	return ResponseEntity.ok()
+    			.body(trickDTO);
+    }
+    
 }

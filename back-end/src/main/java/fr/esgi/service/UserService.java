@@ -31,30 +31,37 @@ public interface UserService {
 	UserDTO registerUser(UserDTO userDTO, String password);
 
 	/**
-     * Returns user by login.
-     * @param login of the user
-     * @return the entity
-     */
+	 * Returns user by login.
+	 * @param login of the user
+	 * @return the entity
+	 */
 	Optional<User> findUserByLogin(String login);
 
-	 /**
-     * Returns user by email.
-     * @param email of the user
-     * @return the entity
-     */
+	/**
+	 * Returns user by email.
+	 * @param email of the user
+	 * @return the entity
+	 */
 	Optional<User> findUserByEmail(String email);
-	
+
 	/**
 	 * Returns all users.
 	 * @return the list of entities
 	 */
 	List<UserDTO> findAll();
-	
-	/**
-     * Returns User by username.
-     * @param username : login or email
-     * @return the entity
-     */
-    Optional<UserDTO> findUserByUsername(String username);
 
+	/**
+	 * Returns User by username.
+	 * @param username : login or email
+	 * @return the entity
+	 */
+	Optional<UserDTO> findUserByUsername(String username);
+
+	/**
+	 * Update a user.
+	 * @param userDTO : the entity to update. 
+	 * @param password : the new password
+	 * @return the entity updated
+	 */
+	UserDTO update(UserDTO userDTO, String password);
 }

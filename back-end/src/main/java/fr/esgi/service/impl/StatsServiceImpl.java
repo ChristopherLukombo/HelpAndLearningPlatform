@@ -34,7 +34,6 @@ public class StatsServiceImpl implements StatsService {
 
     private final SubscriptionRepository subscriptionRepository;
 
-
     @Autowired
     public StatsServiceImpl(TrickRepository trickRepository, NotationRepository notationRepository,
                             SubscriptionRepository subscriptionRepository) {

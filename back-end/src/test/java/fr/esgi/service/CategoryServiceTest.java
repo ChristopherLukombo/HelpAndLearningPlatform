@@ -62,7 +62,7 @@ public class CategoryServiceTest {
 		when(categoryRepository.findCategoriesByWording(anyString())).thenReturn(categorys);
 
 		// Then
-		assertThat(categoryServiceImpl.findCategoriesByWording(anyString())).isNotNull();
+		assertThat(categoryServiceImpl.findAllByWording(anyString())).isNotNull();
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class CategoryServiceTest {
 		when(categoryRepository.findCategoriesByWording(anyString())).thenReturn(categorys);
 
 		// Then
-		assertThat(categoryServiceImpl.findCategoriesByWording(anyString())).isEmpty();
+		assertThat(categoryServiceImpl.findAllByWording(anyString())).isEmpty();
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class CategoryServiceTest {
 		when(categoryRepository.findCategoriesByWording(anyString())).thenReturn(categorys);
 
 		// Then
-		assertThatThrownBy(() -> categoryServiceImpl.findCategoriesByWording(anyString()))
+		assertThatThrownBy(() -> categoryServiceImpl.findAllByWording(anyString()))
 		.isInstanceOf(NullPointerException.class);
 	}
 

@@ -17,6 +17,8 @@ public class SubscriptionDTO {
     private LocalDate subscriptionDate;
 
     private Long userId;
+    
+    private Boolean finished;
 
     public Long getId() {
         return id;
@@ -31,6 +33,7 @@ public class SubscriptionDTO {
         this.trickId = subscription.getTrick().getId();
         this.subscriptionDate = subscription.getSubscriptionDate();
         this.userId = subscription.getUser().getId();
+        this.finished = subscription.getFinished();
     }
 
     public void setId(Long id) {
@@ -60,10 +63,20 @@ public class SubscriptionDTO {
     public void setSubscriptionDate(LocalDate subscriptionDate) {
         this.subscriptionDate = subscriptionDate;
     }
+    
+    
+
+	public Boolean getFinished() {
+		return finished;
+	}
+
+	public void setFinished(Boolean finished) {
+		this.finished = finished;
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, subscriptionDate, trickId, userId);
+		return Objects.hash(finished, id, subscriptionDate, trickId, userId);
 	}
 
 	@Override
@@ -75,13 +88,14 @@ public class SubscriptionDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		SubscriptionDTO other = (SubscriptionDTO) obj;
-		return Objects.equals(id, other.id) && Objects.equals(subscriptionDate, other.subscriptionDate)
-				&& Objects.equals(trickId, other.trickId) && Objects.equals(userId, other.userId);
+		return Objects.equals(finished, other.finished) && Objects.equals(id, other.id)
+				&& Objects.equals(subscriptionDate, other.subscriptionDate) && Objects.equals(trickId, other.trickId)
+				&& Objects.equals(userId, other.userId);
 	}
 
 	@Override
 	public String toString() {
 		return "SubscriptionDTO [id=" + id + ", trickId=" + trickId + ", subscriptionDate=" + subscriptionDate
-				+ ", userId=" + userId + "]";
+				+ ", userId=" + userId + ", finished=" + finished + "]";
 	}
 }
