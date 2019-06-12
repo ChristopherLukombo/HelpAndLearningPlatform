@@ -15,22 +15,30 @@ public interface NotationService {
 
 	/**
 	 * Save a note for a trick
-	 * @param notationDTO
-	 * @return NotationDTO
+	 * @param notationDTO : the entity
+	 * @return NotationDTO : the entity
 	 */
-    NotationDTO save(NotationDTO notationDTO);
-    
-    /**
-     * Returns all notations by trickId
-     * @param trickId : id of trick
-     * @return list of entities
-     */
-    List<NotationDTO> findAllByTrickId(Long trickId);
-    
-    /**
-     * Find a notation by id
-     * @param trickId : id of trick
-     * @return the entity
-     */
-    Optional<NotationDTO> findOne(Long id);
+	NotationDTO save(NotationDTO notationDTO);
+
+	/**
+	 * Update a note for a trick
+	 * @param notationDTO : the entity
+	 * @return notationDTO : the entity
+	 */
+	NotationDTO update(NotationDTO notationDTO);
+
+	/**
+	 * Returns all notations by trickId
+	 * @param trickId : id of trick
+	 * @return list of entities
+	 */
+	List<NotationDTO> findAllByTrickId(Long trickId);
+
+	/**
+	 * Find a notation by id
+	 * @param trickId : id of trick
+	 * @return the entity
+	 */
+	Optional<NotationDTO> findOne(Long id);
+
 }

@@ -23,4 +23,7 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
 
     @Query("SELECT COUNT(s) FROM Subscription s WHERE s.trick.category.id = :categoryId")
     Long findNumberSubscriptionsByCategoryId(@Param("categoryId") Long categoryId);
+    
+    @Query("SELECT s FROM Subscription s WHERE s.id = :subscriptionId AND s.user.id = :userId")
+    Subscription findBySubscriptionIdAndUserId(@Param("subscriptionId") Long subscriptionId, @Param("userId") Long userId);
 }
