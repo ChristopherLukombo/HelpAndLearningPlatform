@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.trips.VolleyJSONObjectCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,13 +19,13 @@ import java.util.Map;
 
 public class AuthenticatorHelper {
 
-    public static void register(final Context context, String url, Map<String, String> params, final Runnable runnable ){
+    public static void register(final Context context, String url, Map<String, String> params, final VolleyJSONObjectCallback callback ){
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        runnable.run();
+                        callback.onResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -41,7 +42,7 @@ public class AuthenticatorHelper {
 
     }
 
-    public static void authenticate(final Context context, String url, Map<String, String> params, final Runnable runnable){
+    public static void authenticate(final Context context, String url, Map<String, String> params, final VolleyJSONObjectCallback callback){
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
@@ -54,7 +55,7 @@ public class AuthenticatorHelper {
                             Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
                         }
 
-                        runnable.run();
+                        callback.onResponse(response);
                     }
                 },
                 new Response.ErrorListener() {

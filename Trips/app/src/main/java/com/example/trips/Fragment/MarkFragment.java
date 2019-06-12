@@ -1,19 +1,15 @@
 package com.example.trips.Fragment;
 
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.example.trips.Helpers.HTTPRequestHelper;
-import com.example.trips.Models.Mark;
 import com.example.trips.Models.Trick;
 import com.example.trips.R;
 import com.example.trips.VolleyJSONObjectCallback;
@@ -68,9 +64,10 @@ public class MarkFragment extends Fragment {
     }
 
 
-    public void setData(Trick trick, String token){
+    public void setData(Trick trick, String token, long userId){
         this.trick = trick;
         this.token = token;
+        this.userId = userId;
     }
 
     private void rateTrick(){
@@ -78,9 +75,10 @@ public class MarkFragment extends Fragment {
 
         VolleyJSONObjectCallback markCallback = new VolleyJSONObjectCallback() {
             @Override
-            public void onResponse() {
+            public void onResponse(JSONObject response) {
                 Toast.makeText(getContext(), "Merci d'avoir noté l'astuce !", Toast.LENGTH_LONG).show();
             }
+
         };
 
         if(trick.getMark() != null){

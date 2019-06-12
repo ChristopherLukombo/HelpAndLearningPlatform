@@ -14,6 +14,10 @@ import android.widget.Toast;
 import com.example.trips.Helpers.AuthenticatorHelper;
 import com.example.trips.Models.User;
 import com.example.trips.R;
+import com.example.trips.VolleyJSONObjectCallback;
+
+import org.json.JSONObject;
+
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -107,8 +111,9 @@ public class RegisterActivity extends AppCompatActivity {
         User user = new User(email, pseudo, firstname, lastname);
         Map<String, String> params =user.getHashMap(password);
 
-        Runnable runnable = new Runnable() {
-            public void run() {
+        VolleyJSONObjectCallback callback = new VolleyJSONObjectCallback() {
+            @Override
+            public void onResponse(JSONObject response) {
                 saveUserSharedPreferences(pseudo, password);
                 finish();
                 startActivity(new Intent( RegisterActivity.this, LoginActivity.class));
@@ -123,6 +128,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         };
 
-        AuthenticatorHelper.register(getApplicationContext(), url, params, runnable);
+        AuthenticatorHelper.register(getApplicationContext(), url, params, callback);
     }
 }

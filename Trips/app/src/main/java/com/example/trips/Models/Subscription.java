@@ -8,6 +8,7 @@ public class Subscription implements Serializable {
     private String subscriptionDate;
     private long userId;
     private long trickId;
+    private boolean isFinished;
 
     public Subscription(String subscriptionDate, long userId, long trickId) {
         this.subscriptionDate = subscriptionDate;
@@ -45,5 +46,13 @@ public class Subscription implements Serializable {
 
     public void setTrickId(long trickId) {
         this.trickId = trickId;
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 }

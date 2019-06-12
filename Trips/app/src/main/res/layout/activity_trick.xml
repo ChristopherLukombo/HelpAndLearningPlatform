@@ -70,19 +70,19 @@
             <Button
                 android:id="@+id/buttonFinish"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:textSize="15dp"
-                android:background="@color/TripsAquaBlue"
                 android:text="@string/button_trick_finished"
+
+                android:textStyle="bold"
                 android:layout_weight="1"/>
             <Button
                 android:id="@+id/trickUnsubscribeButton"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textSize="15dp"
                 android:text="Ne plus suivre"
-                android:textStyle="bold"
                 android:layout_weight="1"/>
         </LinearLayout>
 

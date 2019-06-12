@@ -46,7 +46,7 @@ public class TricksListActivity extends BaseActivity {
     private List<Category> categories;
     private List<User> users;
     private List<Subscription> subscriptions;
-    private long userId = 7;
+    private long userId;
     String url;
 
     @Override
@@ -60,6 +60,8 @@ public class TricksListActivity extends BaseActivity {
         sortNameButton = findViewById(R.id.sortByNameButton);
         sortMarkButton = findViewById(R.id.sortMarkButton);
         Intent intent = getIntent();
+        userId = (long) intent.getLongExtra("userId", 0);
+
         url = getString(R.string.api_url);
 
         tricks = new ArrayList<>();
@@ -68,6 +70,7 @@ public class TricksListActivity extends BaseActivity {
         subscriptions = new ArrayList<>();
 
         handleIntent(intent);
+
     }
 
 
@@ -230,11 +233,12 @@ public class TricksListActivity extends BaseActivity {
                 if(trick.isSubscribed()){
                     Intent intent = new Intent(TricksListActivity.this, TrickActivity.class);
                     intent.putExtra("trick", trick);
+                    intent.putExtra("userId", userId);
                     startActivity(intent);
                 }
                 else{
                     trick.setSubscribed(true);
-                    subscribeTrick(trick, userId);
+                    subscribeTrick(trick);
                 }
             }
         });
@@ -297,16 +301,24 @@ public class TricksListActivity extends BaseActivity {
         tricksRecyclerView.setAdapter(adapter);
     }
 
-    private void subscribeTrick(final Trick trick, long userId) {
+    private void subscribeTrick(final Trick trick) {
         final String subscriptionUrl = this.url + "subscriptions";
 
         final VolleyJSONObjectCallback subscriptionVolleyCallback = new VolleyJSONObjectCallback() {
             @Override
-            public void onResponse() {
+            public void onResponse(JSONObject response) {
+                Subscription subscription = new Subscription("" , userId, trick.getId());
+                try {
+                    subscription.setId(response.getLong("id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                trick.setSubscription(subscription);
                 int trickIndex = tricks.indexOf(trick);
                 tricks.set(trickIndex, trick);
                 setAdapter();
             }
+
         };
 
         HTTPRequestHelper.postRequest(getApplicationContext(), subscriptionUrl, subscriptionVolleyCallback, getToken(), makeSubscriptionBody(trick.getId()));

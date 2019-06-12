@@ -61,16 +61,19 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (id == R.id.nav_tricks) {
             intent = new Intent(getApplicationContext(), TricksListActivity.class);
             intent.putExtra("TRICKS", "ALL");
+            intent.putExtra("userId", getUserId());
             startActivity(intent);
 
         } else if (id == R.id.nav_followed_tricks) {
             intent = new Intent(getApplicationContext(), TricksListActivity.class);
             intent.putExtra("TRICKS", "FOLLOWED");
+            intent.putExtra("userId", getUserId());
             startActivity(intent);
 
         } else if (id == R.id.nav_finished_tricks) {
             intent = new Intent(getApplicationContext(), TricksListActivity.class);
             intent.putExtra("TRICKS", "FINISHED");
+            intent.putExtra("userId", getUserId());
             startActivity(intent);
 
         } else if (id == R.id.nav_info) {
@@ -78,6 +81,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(intent);
         } else if (id == R.id.nav_profile) {
             intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            intent.putExtra("userId", getUserId());
             startActivity(intent);
         }
         else if (id == R.id.nav_deconnexion) {
@@ -96,6 +100,11 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         editor.putString("LOGIN_PSEUDO", "");
         editor.putString("LOGIN_PWD", "");
         editor.commit();
+    }
+
+    public long getUserId(){
+        SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
+        return sharedPreferences.getLong("USERID", 0);
     }
 }
 

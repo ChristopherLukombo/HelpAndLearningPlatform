@@ -14,6 +14,10 @@ import android.widget.Toast;
 
 import com.example.trips.Helpers.AuthenticatorHelper;
 import com.example.trips.R;
+import com.example.trips.VolleyJSONObjectCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -105,27 +109,37 @@ public class LoginActivity extends AppCompatActivity {
         String url = getString(R.string.api_url) + "authenticate";
         Map<String, String> params = makeHashMap(login, password);
 
-        Runnable runnable = new Runnable() {
+        VolleyJSONObjectCallback callback = new VolleyJSONObjectCallback() {
             @Override
-            public void run() {
+            public void onResponse(JSONObject response) {
                 if(!authenticated){
-                    this.saveUserSharedPreferences(login,password);
+
+                    try {
+                        this.saveUserSharedPreferences(login,password, Long.valueOf(response.getString("id_user")));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 finish();
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
 
-            private void saveUserSharedPreferences(String login, String password) {
+
+            private void saveUserSharedPreferences(String login, String password, long userId) {
                 SharedPreferences prefs = getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putString("LOGIN_PSEUDO", login);
                 editor.putString("LOGIN_PWD", password);
                 editor.commit();
+                prefs = getSharedPreferences("USER", Context.MODE_PRIVATE);
+                editor = prefs.edit();
+                editor.putLong("USERID", userId);
+                editor.commit();
             }
         };
 
-        AuthenticatorHelper.authenticate(getApplicationContext(), url, params, runnable);
+        AuthenticatorHelper.authenticate(getApplicationContext(), url, params, callback);
     }
 
     private Map<String, String> makeHashMap(String login, String password){

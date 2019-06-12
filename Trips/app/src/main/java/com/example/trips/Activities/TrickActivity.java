@@ -12,12 +12,18 @@ import android.widget.TextView;
 
 import com.example.trips.Fragment.MarkFragment;
 import com.example.trips.Helpers.HTTPRequestHelper;
+import com.example.trips.Models.Mark;
 import com.example.trips.Models.Trick;
 import com.example.trips.R;
+import com.example.trips.VolleyJSONArrayCallback;
 import com.example.trips.VolleyJSONObjectCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TrickActivity extends BaseActivity {
 
@@ -26,6 +32,7 @@ public class TrickActivity extends BaseActivity {
     private Button buttonFinish, buttonUnsubscribe;
     private Fragment markFragment;
     private String url;
+    private long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +49,7 @@ public class TrickActivity extends BaseActivity {
 
         Intent intent = getIntent();
         trick = (Trick) intent.getSerializableExtra("trick");
-
+        userId = (long) intent.getLongExtra("userId", 0);
         setValues();
     }
 
@@ -55,8 +62,7 @@ public class TrickActivity extends BaseActivity {
         buttonFinish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //finishTrick();
-                setFragment();
+                finishTrick();
             }
         });
 
@@ -72,9 +78,10 @@ public class TrickActivity extends BaseActivity {
         String fullUrl = this.url + "subscriptions";
         final VolleyJSONObjectCallback subscriptionVolleyCallback = new VolleyJSONObjectCallback() {
             @Override
-            public void onResponse() {
+            public void onResponse(JSONObject response) {
                 onBackPressed();
             }
+
         };
 
         HTTPRequestHelper.deleteRequest(getApplicationContext(), fullUrl, subscriptionVolleyCallback, getToken(), makeSubscriptionBody(trick.getSubscription().getId()));
@@ -83,18 +90,29 @@ public class TrickActivity extends BaseActivity {
     private void setFragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.markLayout, markFragment).commit();
-        ((MarkFragment) markFragment).setData(this.trick, getToken());
+        ((MarkFragment) markFragment).setData(this.trick, getToken(), userId);
 
     }
 
     private void finishTrick() {
+        String fullUrl = this.url + "subscriptions/finished/?subscriptionId=" + trick.getSubscription().getId() +"&userId=" + userId;
+        final VolleyJSONObjectCallback subscriptionVolleyCallback = new VolleyJSONObjectCallback() {
+            @Override
+            public void onResponse(JSONObject response) {
+                trick.getSubscription().setFinished(true);
+                buttonUnsubscribe.setVisibility(View.GONE);
+                setFragment();
+            }
 
+        };
+
+        HTTPRequestHelper.patchRequest(getApplicationContext(), fullUrl, subscriptionVolleyCallback, getToken(), new JSONObject(new HashMap<String, String>()));
     }
 
     private JSONObject makeSubscriptionBody(long subscriptionId) {
         JSONObject jsonBody = new JSONObject();
         try {
-            jsonBody.put("id", String.valueOf(subscriptionId));
+            jsonBody.put("subscriptionId", String.valueOf(subscriptionId));
         } catch (JSONException e) {
             e.printStackTrace();
         }

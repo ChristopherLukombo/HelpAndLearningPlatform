@@ -13,7 +13,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.trips.VolleyJSONArrayCallback;
 import com.example.trips.VolleyJSONObjectCallback;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +63,7 @@ public class HTTPRequestHelper {
             new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    callback.onResponse();
+                    callback.onResponse(response);
                 }
             },
                     new Response.ErrorListener() {
@@ -95,7 +94,7 @@ public class HTTPRequestHelper {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        callback.onResponse();
+                        callback.onResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
@@ -126,7 +125,38 @@ public class HTTPRequestHelper {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        callback.onResponse();
+                        callback.onResponse(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if(error.networkResponse != null){
+                            Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                params.put("Authorization", "Bearer  " + token);
+
+                return params;
+            }
+        };
+
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    public static void patchRequest(final Context context, String url, final VolleyJSONObjectCallback callback, final String token, final JSONObject params) {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.PATCH, url, params,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.onResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
