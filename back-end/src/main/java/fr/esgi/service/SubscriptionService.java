@@ -30,10 +30,9 @@ public interface SubscriptionService {
     /**
      * Set a subscription finished to true.
      * @param subscriptionId
-     * @param userId
      * @return Subscription the entity updated
      */
-    SubscriptionDTO setToFinished(Long subscriptionId, Long userId);
+    SubscriptionDTO setToFinished(Long subscriptionId);
     
     /**
      * Returns a subscription by its id.

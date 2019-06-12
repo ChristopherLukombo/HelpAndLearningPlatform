@@ -90,20 +90,19 @@ public class SubscriptionResource {
 	/**
 	 * PATCH  /subscriptions : set a subscription finished to true.
 	 * @param subscriptionId : id of the subscription.
-	 * @param userId : the id of the user.
 	 * @return the ResponseEntity with status 200 (OK) and the subscription in body
-	 * @throws HelpAndLearningPlatformException if the fields subscriptionId or userId can be empty 
+	 * @throws HelpAndLearningPlatformException if the fields subscriptionId can be empty 
 	 */
 	@ApiOperation(value = "Set a subscription finished to true")
 	@PatchMapping("/subscriptions/finished")
 	public ResponseEntity<SubscriptionDTO> setSubscriptionToFinished(
-			@RequestParam("subscriptionId") Long subscriptionId, @RequestParam("userId") Long userId) throws HelpAndLearningPlatformException {
-		LOGGER.debug("REST request to set subscription of trick to true: {} {}", subscriptionId, userId);
-		if (null == subscriptionId || null == userId) {
+			@RequestParam("subscriptionId") Long subscriptionId) throws HelpAndLearningPlatformException {
+		LOGGER.debug("REST request to set subscription of trick to true: {}", subscriptionId);
+		if (null == subscriptionId) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-					"The fields subscriptionId or userId can be empty.");
+					"The field subscriptionId can be empty.");
 		}
-		SubscriptionDTO subscriptionDTO = subscriptionService.setToFinished(subscriptionId, userId);
+		SubscriptionDTO subscriptionDTO = subscriptionService.setToFinished(subscriptionId);
 		return ResponseEntity.ok().body(subscriptionDTO);
 	}
 
@@ -130,7 +129,7 @@ public class SubscriptionResource {
 	 * @return the ResponseEntity with status 204 (OK) and nothing in body.
 	 */
 	@ApiOperation(value = "Delete a subscription by its id.")
-	@DeleteMapping("/subscriptions/{id}")
+	@DeleteMapping("/subscriptions/{id:\\d+}")
 	public ResponseEntity<Void> deleteSubscription(@PathVariable Long id) {
 		LOGGER.debug("REST request to delete subscription {}", id);
 		subscriptionService.delete(id);

@@ -58,15 +58,15 @@ public class TrickServiceImpl implements TrickService {
 	}
     
     /**
-     * Find all tricks by user id.
+     * Find all tricks with status and by user id.
 	 * @param userId 
 	 * @return list of entities
      */
     @Transactional(readOnly = true)
     @Override
-    public List<TrickDTO> findAllByUserId(Long userId) {
+    public List<TrickDTO> findAllByUserIdAndStatus(Long userId, Boolean finished) {
     	LOGGER.debug("Request to get all tricks by userId: {}", userId);
-    	final List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
+    	final List<Subscription> subscriptions = subscriptionRepository.findAllByUserIdAndStatus(userId, finished);
     	if (null == subscriptions || subscriptions.isEmpty()) {
     		return Collections.emptyList();
     	}
@@ -89,7 +89,7 @@ public class TrickServiceImpl implements TrickService {
     @Override
     public List<TrickDTO> findAllNewTricksAvailableByUserId(Long userId) {
         LOGGER.debug("Request to get all Tricks available by userId: {}", userId);
-        final List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
+        final List<Subscription> subscriptions = subscriptionRepository.findAllByUserIdAndStatus(userId, false);
         if (null == subscriptions || subscriptions.isEmpty()) {
             return Collections.emptyList();
         }
