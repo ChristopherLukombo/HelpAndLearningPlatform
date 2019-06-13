@@ -30,7 +30,7 @@ import java.net.URISyntaxException;
 @RequestMapping("/api")
 public class CommentResource {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommentResource.class);
 
 	private final CommentService commentService;
 
