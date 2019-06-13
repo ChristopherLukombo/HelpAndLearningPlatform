@@ -19,11 +19,11 @@ public interface TrickService {
 	List<TrickDTO> findAll();
 	
 	/**
-     * Find all tricks by userId.
+     * Find all tricks with status and by user id.
 	 * @param userId 
 	 * @return list of entities
      */
-    List<TrickDTO> findAllByUserId(Long userId);
+    List<TrickDTO> findAllByUserIdAndStatus(Long userId, Boolean status);
 
 	/**
      * Find all new tricks which are available according to the id

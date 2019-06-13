@@ -66,12 +66,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	/**
 	 * Set a subscription finished to true.
 	 * @param subscriptionId
-	 * @param userId
 	 * @return Subscription the entity updated
 	 */
 	@Override
-	public SubscriptionDTO setToFinished(Long subscriptionId, Long userId) {
-		Subscription subscription = subscriptionRepository.findBySubscriptionIdAndUserId(subscriptionId, userId);
+	public SubscriptionDTO setToFinished(Long subscriptionId) {
+		Subscription subscription = subscriptionRepository.findBySubscriptionIdAndUserId(subscriptionId);
 		subscription.setFinished(true);
 		subscription = subscriptionRepository.saveAndFlush(subscription);
 		return subscriptionMapper.subscriptionToSubscriptionDTO(subscription);
