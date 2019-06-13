@@ -58,6 +58,12 @@ public class MainActivity extends BaseActivity  {
         getData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
+
     private void setUserId() {
         SharedPreferences sharedPreferences = getSharedPreferences("USER", Context.MODE_PRIVATE);
         userId = sharedPreferences.getLong("USERID", 0);
@@ -331,6 +337,7 @@ public class MainActivity extends BaseActivity  {
         try {
             jsonBody.put("trickId", String.valueOf(trickId));
             jsonBody.put("userId", String.valueOf(this.userId));
+            jsonBody.put("finished", String.valueOf(false));
         } catch (JSONException e) {
             e.printStackTrace();
         }

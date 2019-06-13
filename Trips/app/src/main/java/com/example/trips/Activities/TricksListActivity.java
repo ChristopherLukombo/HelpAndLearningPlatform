@@ -48,6 +48,7 @@ public class TricksListActivity extends BaseActivity {
     private List<Subscription> subscriptions;
     private long userId;
     String url;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +60,7 @@ public class TricksListActivity extends BaseActivity {
         sortDateButton = findViewById(R.id.sortDateButton);
         sortNameButton = findViewById(R.id.sortByNameButton);
         sortMarkButton = findViewById(R.id.sortMarkButton);
-        Intent intent = getIntent();
+        intent = getIntent();
         userId = (long) intent.getLongExtra("userId", 0);
 
         url = getString(R.string.api_url);
@@ -69,12 +70,17 @@ public class TricksListActivity extends BaseActivity {
         users = new ArrayList<>();
         subscriptions = new ArrayList<>();
 
-        handleIntent(intent);
+        handleIntent();
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        handleIntent();
+    }
 
-    private void handleIntent(Intent intent) {
+    private void handleIntent() {
         String value = intent.getExtras().getString("TRICKS");
 
         if("FOLLOWED".equals(value)){

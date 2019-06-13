@@ -81,16 +81,16 @@ public class TrickActivity extends BaseActivity {
     }
 
     private void unsubscribeTrick() {
-        String fullUrl = this.url + "subscriptions/?id=" + trick.getSubscription().getId();
-        final VolleyJSONObjectCallback subscriptionVolleyCallback = new VolleyJSONObjectCallback() {
+        String fullUrl = this.url + "subscriptions/" + trick.getSubscription().getId();
+        final VolleyJSONArrayCallback subscriptionVolleyCallback = new VolleyJSONArrayCallback() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(JSONArray response) {
                 onBackPressed();
             }
 
         };
 
-        HTTPRequestHelper.deleteRequest(getApplicationContext(), fullUrl, subscriptionVolleyCallback, getToken(), new JSONObject(new HashMap<String, String>()));
+        HTTPRequestHelper.deleteRequest(getApplicationContext(), fullUrl, subscriptionVolleyCallback, getToken());
     }
 
     private void setFragment() {
