@@ -128,6 +128,7 @@ public class TrickServiceImpl implements TrickService {
      * Find all the most recent tricks.
      * @return list of entities
      */
+	@Transactional(readOnly = true)
 	@Override
 	public List<TrickDTO> findTheMostLatests() {
 		LOGGER.debug("Request to find the lastests tricks");
@@ -139,6 +140,7 @@ public class TrickServiceImpl implements TrickService {
      * Find all the most viewed tricks.
      * @return list of entities
      */
+	@Transactional(readOnly = true)
 	@Override
 	public List<TrickDTO> findTheMostViewed() {
 		LOGGER.debug("Request to find the most viewed tricks");

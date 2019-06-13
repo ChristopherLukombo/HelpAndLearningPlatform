@@ -29,6 +29,13 @@ public interface UserService {
 	 * @return UserDTO the persisted entity
 	 */
 	UserDTO registerUser(UserDTO userDTO, String password);
+	
+	/**
+	 * Returns user by id.
+	 * @param id of the user
+	 * @return the entity
+	 */
+	Optional<UserDTO> findUserById(Long id);
 
 	/**
 	 * Returns user by login.
