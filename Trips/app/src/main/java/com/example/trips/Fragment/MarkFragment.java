@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.example.trips.Helpers.HTTPRequestHelper;
+import com.example.trips.Models.Mark;
 import com.example.trips.Models.Trick;
 import com.example.trips.R;
 import com.example.trips.VolleyJSONObjectCallback;
@@ -43,7 +44,6 @@ public class MarkFragment extends Fragment {
         ratingBar = layoutInflater.findViewById(R.id.trickRating);
 
         url = getString(R.string.api_url);
-        this.userId = 7;
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -57,6 +57,9 @@ public class MarkFragment extends Fragment {
         if(trick.getMark() != null){
 
             this.ratingBar.setRating((float) trick.getMark().getNote());
+            listenChanges = true;
+        }
+        else{
             listenChanges = true;
         }
 
@@ -76,26 +79,36 @@ public class MarkFragment extends Fragment {
         VolleyJSONObjectCallback markCallback = new VolleyJSONObjectCallback() {
             @Override
             public void onResponse(JSONObject response) {
+                Mark mark = null;
+                try {
+                    mark = new Mark(response.getDouble("note"), trick.getId(), userId);
+                    mark.setId(response.getLong("id"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                trick.setMark(mark);
                 Toast.makeText(getContext(), "Merci d'avoir noté l'astuce !", Toast.LENGTH_LONG).show();
             }
 
         };
 
         if(trick.getMark() != null){
-            HTTPRequestHelper.postRequest(getContext(), finalUrl, markCallback, token, getNotationParams(ratingBar.getRating()));
+            HTTPRequestHelper.putRequest(getContext(), finalUrl, markCallback, token, getNotationParams(ratingBar.getRating(), trick.getMark() ));
         }
         else{
-            HTTPRequestHelper.putRequest(getContext(), finalUrl, markCallback, token, getNotationParams(ratingBar.getRating()));
+            HTTPRequestHelper.postRequest(getContext(), finalUrl, markCallback, token, getNotationParams(ratingBar.getRating(), null));
         }
 
     }
 
-    private JSONObject getNotationParams(double mark){
+    private JSONObject getNotationParams(double markNotation, Mark mark){
         JSONObject jsonBody = new JSONObject();
 
         try {
-            jsonBody.put("id", String.valueOf(trick.getMark().getId()));
-            jsonBody.put("note", String.valueOf(mark));
+            if(mark != null){
+                jsonBody.put("id", String.valueOf(trick.getMark().getId()));
+            }
+            jsonBody.put("note", String.valueOf(markNotation));
             jsonBody.put("trickId", String.valueOf(trick.getId()));
             jsonBody.put("userId", String.valueOf(userId));
         } catch (JSONException e) {

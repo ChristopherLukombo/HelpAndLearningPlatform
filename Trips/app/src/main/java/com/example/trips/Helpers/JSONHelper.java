@@ -145,9 +145,11 @@ public class JSONHelper {
                     String subscriptionDate = jsonobject.getString("subscriptionDate");
                     long userId = jsonobject.getLong("userId");
                     long trickId = jsonobject.getLong("trickId");
+                    boolean finished = jsonobject.getBoolean("finished");
 
                     Subscription subscription = new Subscription(subscriptionDate, userId, trickId);
                     subscription.setId(subscriptionId);
+                    subscription.setFinished(finished);
 
                     subscriptions.add(subscription);
 

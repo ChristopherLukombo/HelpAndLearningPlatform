@@ -77,16 +77,19 @@ public class TricksListActivity extends BaseActivity {
     private void handleIntent(Intent intent) {
         String value = intent.getExtras().getString("TRICKS");
 
-        if(!"ALL".equals(value)){
-            getData(this.userId);
+        if("FOLLOWED".equals(value)){
+            getData(this.userId, false);
+        }
+        else if("FINISHED".equals(value)){
+            getData(this.userId, true);
         }
         else{
-            getData(new Long(0));
+            getData(new Long(0), false);
         }
     }
 
-    private void getData(Long id){
-        String tricksUrl = makeTrickUrl(id, "tricks");
+    private void getData(Long id, boolean followed){
+        String tricksUrl = makeTrickUrl(id, "tricks", followed);
         final String categoryUrl = this.url + "categories/all";
         final String userUrl = this.url + "users";
         final String subscriptionUrl = this.url + "subscriptions";
@@ -329,6 +332,7 @@ public class TricksListActivity extends BaseActivity {
         try {
             jsonBody.put("trickId", String.valueOf(trickId));
             jsonBody.put("userId", String.valueOf(this.userId));
+            jsonBody.put("finished", String.valueOf(false));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -337,10 +341,10 @@ public class TricksListActivity extends BaseActivity {
     }
 
 
-    private String makeTrickUrl(Long id, String urlExtension){
+    private String makeTrickUrl(Long id, String urlExtension, boolean followed){
         String newUrl = this.url + urlExtension;
         if(!id.equals(0)){
-            newUrl += "?userId=" + id.toString();
+            newUrl += "?userId=" + id.toString() + "&finished=" + followed;
         }
 
         return newUrl;

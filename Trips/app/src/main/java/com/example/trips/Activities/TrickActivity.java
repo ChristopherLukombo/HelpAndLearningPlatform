@@ -72,10 +72,16 @@ public class TrickActivity extends BaseActivity {
                 unsubscribeTrick();
             }
         });
+        if(trick.getSubscription().isFinished()){
+            buttonUnsubscribe.setVisibility(View.GONE);
+            buttonFinish.setVisibility(View.GONE);
+
+            setFragment();
+        }
     }
 
     private void unsubscribeTrick() {
-        String fullUrl = this.url + "subscriptions";
+        String fullUrl = this.url + "subscriptions/?id=" + trick.getSubscription().getId();
         final VolleyJSONObjectCallback subscriptionVolleyCallback = new VolleyJSONObjectCallback() {
             @Override
             public void onResponse(JSONObject response) {
@@ -84,7 +90,7 @@ public class TrickActivity extends BaseActivity {
 
         };
 
-        HTTPRequestHelper.deleteRequest(getApplicationContext(), fullUrl, subscriptionVolleyCallback, getToken(), makeSubscriptionBody(trick.getSubscription().getId()));
+        HTTPRequestHelper.deleteRequest(getApplicationContext(), fullUrl, subscriptionVolleyCallback, getToken(), new JSONObject(new HashMap<String, String>()));
     }
 
     private void setFragment() {
