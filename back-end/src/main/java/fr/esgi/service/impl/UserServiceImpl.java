@@ -102,8 +102,21 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public Optional<User> findUserByLogin(String login) {
-    	LOGGER.debug("Request find user by login: {}", login);
+    	LOGGER.debug("Request to find user by login: {}", login);
         return userRepository.findOneByLoginIgnoreCase(login);
+    }
+    
+    /**
+	 * Returns user by id.
+	 * @param id of the user
+	 * @return the entity
+	 */
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<UserDTO> findUserById(Long id) {
+    	LOGGER.debug("Request to find user by id: {}", id);
+    	return userRepository.findById(id)
+    			.map(userMapper::userToUserDTO);
     }
 
     /**
@@ -114,7 +127,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public Optional<User> findUserByEmail(String email) {
-    	LOGGER.debug("Request find user by email: {}", email);
+    	LOGGER.debug("Request to find user by email: {}", email);
         return userRepository.findOneByEmailIgnoreCase(email);
     }
     
@@ -126,7 +139,7 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     @Override
     public Optional<UserDTO> findUserByUsername(String username) {
-    	LOGGER.debug("Request find user by username: {}", username);
+    	LOGGER.debug("Request to find user by username: {}", username);
     	Optional<User> user;
     	user = userRepository.findOneByEmailIgnoreCase(username);
 		if (user.isPresent()) {

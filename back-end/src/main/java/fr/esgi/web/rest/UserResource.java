@@ -1,6 +1,7 @@
 package fr.esgi.web.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +59,24 @@ public class UserResource {
 		}
 		final UserDTO user = userService.addFriend(userDTO, friendDTO);
 		return ResponseEntity.ok().body(user);
+	}
+	
+	/**
+	 * GET  /users : returns user by id
+	 * @return the list of entities
+	 * @throws HelpAndLearningPlatformException 
+	 */
+	@ApiOperation(value = "Returns user by id.")
+	@GetMapping("/users/{id}")
+	public ResponseEntity<UserDTO> getUser(@PathVariable Long id) throws HelpAndLearningPlatformException {
+		LOGGER.debug("REST request to get user by id");
+		final Optional<UserDTO> userDTO = userService.findUserById(id);
+		if (userDTO.isPresent()) {
+			return ResponseEntity.ok().body(userDTO.get());
+		} else {
+			throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(),
+					"User does not exist with its id");
+		}
 	}
 
 	/**

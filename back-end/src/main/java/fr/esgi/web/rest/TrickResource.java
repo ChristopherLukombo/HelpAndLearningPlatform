@@ -60,13 +60,13 @@ public class TrickResource {
     }
     
     /**
-     * GET  /tricks/{userId} : Get all tricks with status and by user id.
+     * GET  /tricks/finished : Get all tricks with status and by user id.
      * @param userId the userId of user
      * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
      * @throws HelpAndLearningPlatformException if there is no tricks.
      */
     @ApiOperation(value = "Get all tricks with status and by user id.")
-    @GetMapping("/tricks/{userId}")
+    @GetMapping("/tricks/finished")
     public ResponseEntity<List<TrickDTO>> getAllTrickFinishedByUserId(
     		@RequestParam Long userId,
     		@ApiParam(value = "true or false for value", required = true) @RequestParam Boolean finished
