@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.trips.Helpers.AuthenticatorHelper;
 import com.example.trips.Helpers.HTTPRequestHelper;
 import com.example.trips.Helpers.JSONHelper;
 import com.example.trips.Models.User;
@@ -61,7 +60,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String firstname = inputFirstname.getText().toString();
                 String password = inputPassword.getText().toString();
 
-                if(validateInputs(email, password, lastname, firstname)){
+                if(validateInputs(email, lastname, firstname)){
                     saveModifications(email, password, lastname, firstname);
                 }
             }
@@ -108,15 +107,10 @@ public class ProfileActivity extends AppCompatActivity {
         HTTPRequestHelper.putRequest(getApplicationContext(), finalUrl, callback, getToken(), new JSONObject(params));
     }
 
-    private boolean validateInputs(String email, String password, String lastname, String firstname){
+    private boolean validateInputs(String email, String lastname, String firstname){
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Veuillez indiquer votre adresse mail!", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-
-        if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre mot de passe!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
