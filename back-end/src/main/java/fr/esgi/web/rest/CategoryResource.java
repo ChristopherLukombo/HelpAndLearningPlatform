@@ -76,6 +76,6 @@ public class CategoryResource {
         			"Pas de catégories");
         }
         return ResponseEntity.ok()
-                .body(categoryService.findAll());
+                .body(categoriesDTO);
     }
 }
