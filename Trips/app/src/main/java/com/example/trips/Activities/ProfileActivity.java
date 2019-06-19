@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,12 +14,16 @@ import android.widget.Toast;
 
 import com.example.trips.Helpers.AuthenticatorHelper;
 import com.example.trips.Helpers.HTTPRequestHelper;
+import com.example.trips.Helpers.JSONHelper;
 import com.example.trips.Models.User;
 import com.example.trips.R;
+import com.example.trips.VolleyJSONArrayCallback;
 import com.example.trips.VolleyJSONObjectCallback;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -51,21 +56,47 @@ public class ProfileActivity extends AppCompatActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveModifications(inputEmail.getText().toString(), inputPassword.getText().toString(), inputLastname.getText().toString(), inputFirstname.getText().toString());
+                String email = inputEmail.getText().toString();
+                String lastname = inputLastname.getText().toString();
+                String firstname = inputFirstname.getText().toString();
+                String password = inputPassword.getText().toString();
+
+                if(validateInputs(email, password, lastname, firstname)){
+                    saveModifications(email, password, lastname, firstname);
+                }
             }
         });
     }
 
     private void getUserInfos() {
+        String finalUrl = url + "users/" + userId;
 
+        VolleyJSONArrayCallback callback = new VolleyJSONArrayCallback() {
+            @Override
+            public void onResponse(JSONArray response) {
+                List<User> users = JSONHelper.userListFromJSONObject(response);
+                user = users.get(0);
+                setInputs();
+            }
+        };
+
+        HTTPRequestHelper.getRequest(getApplicationContext(), finalUrl, callback, getToken());
+    }
+
+    private void setInputs() {
+        inputEmail.setText(this.user.getEmail());
+        inputFirstname.setText(this.user.getFirstName());
+        inputLastname.setText(this.user.getLastName());
     }
 
 
     private void saveModifications(String email,final String password, String lastname, String firstname){
 
         String finalUrl = url + "users";
-        //User finalUser =
-        Map<String, String> params = user.getHashMap(password);
+        user.setFirstName(firstname);
+        user.setEmail(email);
+        user.setLastName(lastname);
+        Map<String, String> params = user.getHashMap("");
 
         VolleyJSONObjectCallback callback = new VolleyJSONObjectCallback() {
             @Override
@@ -74,7 +105,32 @@ public class ProfileActivity extends AppCompatActivity {
             }
         };
 
-        HTTPRequestHelper.putRequest(getApplicationContext(), url, callback, getToken(), new JSONObject(params));
+        HTTPRequestHelper.putRequest(getApplicationContext(), finalUrl, callback, getToken(), new JSONObject(params));
+    }
+
+    private boolean validateInputs(String email, String password, String lastname, String firstname){
+
+        if (TextUtils.isEmpty(email)) {
+            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre adresse mail!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(password)) {
+            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre mot de passe!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(firstname)) {
+            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre prénom!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (TextUtils.isEmpty(lastname)) {
+            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre nom!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     private String getToken(){

@@ -107,6 +107,7 @@ public class TrickActivity extends BaseActivity {
             public void onResponse(JSONObject response) {
                 trick.getSubscription().setFinished(true);
                 buttonUnsubscribe.setVisibility(View.GONE);
+                buttonFinish.setVisibility(View.GONE);
                 setFragment();
             }
 

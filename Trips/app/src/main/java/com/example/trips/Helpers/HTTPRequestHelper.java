@@ -29,12 +29,21 @@ public class HTTPRequestHelper {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try{
-                            JSONArray jsonArray = new JSONArray(response);
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = new JSONArray();
+                            jsonArray.put(jsonObject);
                             callback.onResponse(jsonArray);
+                        }
+                        catch(JSONException ex)
+                        {
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+                                callback.onResponse(jsonArray);
 
-                        }catch (JSONException exception){
-                            Toast.makeText(context, exception.toString(), Toast.LENGTH_LONG).show();
+                            } catch (JSONException exception) {
+                                Toast.makeText(context, exception.toString(), Toast.LENGTH_LONG).show();
+                            }
                         }
                     }
                 },
