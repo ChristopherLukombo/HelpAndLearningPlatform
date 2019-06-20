@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -173,7 +174,8 @@ public class UserServiceImpl implements UserService {
     public UserDTO update(UserDTO userDTO, String password) {
     	User newUser = new User();
     	newUser.setId(userDTO.getId());
-    	String encryptedPassword = passwordEncoder.encode(password);
+    	String encryptedPassword = null;
+    	encryptedPassword = getPassword(userDTO, password);
     	newUser.setLogin(userDTO.getLogin());
     	// new user gets initially a generated password
     	newUser.setPassword(encryptedPassword);
@@ -187,11 +189,24 @@ public class UserServiceImpl implements UserService {
     	if (authority.isPresent()) {
     		newUser.setAuthority(authority.get());
     	}
-   
+
     	newUser.setActivated(userDTO.getActivated());
-    	newUser = userRepository.save(newUser);
+    	newUser = userRepository.saveAndFlush(newUser);
     	LOGGER.debug("Updated Information for User: {}", newUser);
     	return userMapper.userToUserDTO(newUser);
     }
+
+	private String getPassword(UserDTO userDTO, String password) {
+		String encryptedPassword = null;
+		if ((!StringUtils.isEmpty(password))) {
+    		encryptedPassword =  passwordEncoder.encode(password);
+    	} else {
+    		Optional<User> user = userRepository.findById(userDTO.getId());
+    		if (user.isPresent()){
+				encryptedPassword = user.map(User::getPassword).get();
+			}
+    	}
+		return encryptedPassword;
+	}
 
 }
