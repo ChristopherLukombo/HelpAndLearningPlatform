@@ -349,7 +349,7 @@ public class TricksListActivity extends BaseActivity {
 
     private String makeTrickUrl(Long id, String urlExtension, boolean followed){
         String newUrl = this.url + urlExtension;
-        if(!id.equals(0)){
+        if(!id.equals(new Long(0))){
             newUrl += "/finished?userId=" + id.toString() + "&finished=" + followed;
         }
 

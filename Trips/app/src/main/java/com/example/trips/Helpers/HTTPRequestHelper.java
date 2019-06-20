@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public class HTTPRequestHelper {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                        parseErrorMEssage(error, context);
                     }
                 }) {
 
@@ -78,9 +79,7 @@ public class HTTPRequestHelper {
                     new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if(error.networkResponse != null){
-                        Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
-                    }
+                    parseErrorMEssage(error, context);
                 }
             }){
             @Override
@@ -111,7 +110,7 @@ public class HTTPRequestHelper {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                        parseErrorMEssage(error, context);
                     }
                 }){
             @Override
@@ -140,9 +139,7 @@ public class HTTPRequestHelper {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if(error.networkResponse != null){
-                            Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
-                        }
+                        parseErrorMEssage(error, context);
                     }
                 }){
             @Override
@@ -171,9 +168,7 @@ public class HTTPRequestHelper {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if(error.networkResponse != null){
-                            Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
-                        }
+                        parseErrorMEssage(error, context);
                     }
                 }){
             @Override
@@ -189,5 +184,22 @@ public class HTTPRequestHelper {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(jsonObjectRequest);
+    }
+
+    private static void parseErrorMEssage(VolleyError error, Context context){
+        if(error.networkResponse != null){
+            String body = "";
+            //get status code here
+            String statusCode = String.valueOf(error.networkResponse.statusCode);
+            //get response body and parse with appropriate encoding
+            if(error.networkResponse.data!=null) {
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(context, body, Toast.LENGTH_LONG).show();
+        }
     }
 }

@@ -50,7 +50,21 @@ public class TrickActivity extends BaseActivity {
         Intent intent = getIntent();
         trick = (Trick) intent.getSerializableExtra("trick");
         userId = (long) intent.getLongExtra("userId", 0);
+        postView();
         setValues();
+    }
+
+    private void postView() {
+        String fullUrl = this.url + "tricks/addView/"+ trick.getId();
+
+        final VolleyJSONObjectCallback volleyCallback = new VolleyJSONObjectCallback() {
+            @Override
+            public void onResponse(JSONObject response) {
+            }
+
+        };
+
+        HTTPRequestHelper.patchRequest(getApplicationContext(), fullUrl, volleyCallback, getToken(), new JSONObject(new HashMap<String, String>()));
     }
 
     private void setValues() {

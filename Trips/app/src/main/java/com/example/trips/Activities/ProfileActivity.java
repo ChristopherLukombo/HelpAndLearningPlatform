@@ -33,6 +33,7 @@ public class ProfileActivity extends AppCompatActivity {
     private String url;
     private User user;
     private long userId;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,8 @@ public class ProfileActivity extends AppCompatActivity {
         url = getString(R.string.api_url);
         Intent intent = getIntent();
         userId = (long) intent.getLongExtra("userId", 0);
+        SharedPreferences sharedPreferences = getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
+        password = sharedPreferences.getString("LOGIN_PWD", "");
 
         getUserInfos();
 
@@ -86,6 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
         inputEmail.setText(this.user.getEmail());
         inputFirstname.setText(this.user.getFirstName());
         inputLastname.setText(this.user.getLastName());
+        inputPassword.setText(password);
     }
 
 
@@ -95,12 +99,16 @@ public class ProfileActivity extends AppCompatActivity {
         user.setFirstName(firstname);
         user.setEmail(email);
         user.setLastName(lastname);
-        Map<String, String> params = user.getHashMap("");
+        Map<String, String> params = user.getHashMap(password);
 
         VolleyJSONObjectCallback callback = new VolleyJSONObjectCallback() {
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(getApplicationContext(), "Modifications Sauvegardées", Toast.LENGTH_LONG).show();
+                SharedPreferences prefs = getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("LOGIN_PWD", password);
+                editor.commit();
             }
         };
 

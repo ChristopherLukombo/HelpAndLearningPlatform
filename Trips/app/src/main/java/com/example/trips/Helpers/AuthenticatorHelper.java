@@ -15,6 +15,7 @@ import com.example.trips.VolleyJSONObjectCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 public class AuthenticatorHelper {
@@ -31,9 +32,7 @@ public class AuthenticatorHelper {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        if(error.networkResponse != null){
-                            Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
-                        }
+                        parseErrorMEssage(error, context);
                     }
                 });
 
@@ -61,7 +60,7 @@ public class AuthenticatorHelper {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, error.toString(), Toast.LENGTH_LONG).show();
+                        parseErrorMEssage(error, context);
                     }
                 }) {
         };
@@ -75,5 +74,22 @@ public class AuthenticatorHelper {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("token", token);
         editor.commit();
+    }
+
+    private static void parseErrorMEssage(VolleyError error, Context context){
+        if(error.networkResponse != null){
+            String body = "";
+            //get status code here
+            String statusCode = String.valueOf(error.networkResponse.statusCode);
+            //get response body and parse with appropriate encoding
+            if(error.networkResponse.data!=null) {
+                try {
+                    body = new String(error.networkResponse.data,"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            Toast.makeText(context, body, Toast.LENGTH_LONG).show();
+        }
     }
 }
