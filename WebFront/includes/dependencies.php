@@ -10,4 +10,10 @@
     // Service BDD :
     require_once("fonctions/ServiceBDD.php");
 
+    // Service API :
+    require_once("fonctions/ServiceAPI.php");
+
+    // Objets :
+    require_once("fonctions/User.php");
+
 ?>

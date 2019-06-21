@@ -2,10 +2,12 @@
   require_once("includes/common_process.php");
 
   if (isset($_POST['Connection'])) {
-    $user = $BDD->selectFromTable("user", array("*"), array("login" => $_POST['Login'], "password" => $_POST['Password']), array());
-    if (count($user) == 1) {
-      $_SESSION['USER'] = $user[0];
-      header("Location: home.php");
+    try {
+      $user = new User($_POST['Login'], $_POST['Password']);
+
+      $_SESSION['PROG_VAR__USER'] = $user;
+    } catch (\Exception $e) {
+      echo 'erreur de connexion';
     }
   }
 
@@ -15,13 +17,11 @@
 
 <form action="" method="POST">
   <p>Login :</p>
-  <input type="text" name="Login">
+  <input type="text" name="Login" required>
   <p>Mot de passe :</p>
-  <input type="password" name="Password">
-  <button type="submit" name="Connection"></button>
+  <input type="password" name="Password" required>
+  <button type="submit" name="Connection">Connexion</button>
 </form>
-
-
 
 <?php
   require_once("includes/end_html.php");

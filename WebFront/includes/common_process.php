@@ -9,11 +9,12 @@
     session_start();
 
 	// Redirection des erreurs pour Try Catch:
-	set_error_handler('exception_error_handler');
+	// set_error_handler('exception_error_handler');
 
-  $BDD = new ServiceBDD("localhost", "projet_annuel", "root", "root");
+  // Création du service API :
+  $API = new ServiceAPI();
 
   if (isset($_POST['Logout'])) {
-    unset($_SESSION['USER']);
+    unset($_SESSION['PROG_VAR__USER']);
   }
 ?>
