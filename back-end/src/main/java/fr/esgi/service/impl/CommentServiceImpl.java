@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CommentServiceImpl implements CommentService {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryServiceImpl.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommentServiceImpl.class);
 
 	private final CommentRepository commentRepository;
 

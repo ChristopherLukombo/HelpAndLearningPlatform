@@ -26,7 +26,7 @@ import fr.esgi.service.dto.StatsTrickDTO;
 @Transactional
 public class StatsServiceImpl implements StatsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotationServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatsServiceImpl.class);
 
     private final TrickRepository trickRepository;
 

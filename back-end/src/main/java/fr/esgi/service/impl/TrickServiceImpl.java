@@ -29,7 +29,7 @@ import fr.esgi.service.mapper.TrickMapper;
 @Transactional
 public class TrickServiceImpl implements TrickService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotationServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrickServiceImpl.class);
 
     private final TrickRepository trickRepository;
 
@@ -110,6 +110,19 @@ public class TrickServiceImpl implements TrickService {
         final LocalDate today = LocalDate.now();
         return today.minusDays(2);
     }
+    
+    /**
+     * Save a Trick
+     * @param trick
+     * @return entity
+     */
+    @Override
+    public TrickDTO save(TrickDTO trickDTO) {
+    	LOGGER.debug("Request to save a trick: {}", trickDTO);
+    	Trick trick = trickMapper.trickDTOToTrick(trickDTO);
+    	trick = trickRepository.save(trick);
+    	return trickMapper.trickToTrickDTO(trick);
+    }
 
     /**
      * Update a Trick
@@ -165,6 +178,4 @@ public class TrickServiceImpl implements TrickService {
 		}
 		return null;
 	}
-	
-
 }
