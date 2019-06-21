@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -135,6 +136,26 @@ public class TrickResource {
     	}
     	return ResponseEntity.ok()
     			.body(tricksDTO);
+    }
+    
+    /**
+     * POST /tricks : save a trick by its entity.
+     * @param trickDTO the entity trick
+     * @return the ResponseEntity with status 201 (OK) and the entity in the body.
+     * @throws HelpAndLearningPlatformException if id of trick is not null.
+     */
+    @ApiOperation(value = "Save a trick by its entity.")
+    @PostMapping("/tricks")
+    public ResponseEntity<TrickDTO> saveTrick(@RequestBody TrickDTO trickDTO) throws HelpAndLearningPlatformException {
+    	LOGGER.debug("REST request to save a trick: {}", trickDTO);
+    	if (null != trickDTO.getId()) {
+    		throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(), 
+    				"Erreur l'id du trick doit être nul !");
+    	}
+    	final TrickDTO trick = trickService.save(trickDTO);
+    	return ResponseEntity.ok()
+    			.body(trick);
+
     }
     
     /**

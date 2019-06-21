@@ -33,6 +33,13 @@ public interface TrickService {
     List<TrickDTO> findAllNewTricksAvailableByUserId(Long userId);
     
     /**
+     * Save a Trick
+     * @param trick
+     * @return entity
+     */
+    TrickDTO save(TrickDTO trickDTO);
+    
+    /**
      * Update a Trick
      * @param trick
      * @return entity

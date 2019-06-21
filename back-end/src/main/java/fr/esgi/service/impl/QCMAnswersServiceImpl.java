@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class QCMAnswersServiceImpl implements QCMAnswersService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotationServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(QCMAnswersServiceImpl.class);
 
     private final QCMAnswersRepository qcmAnswersRepository;
 
