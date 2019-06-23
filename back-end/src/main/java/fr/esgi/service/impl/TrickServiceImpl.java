@@ -96,7 +96,7 @@ public class TrickServiceImpl implements TrickService {
     }
     
     /**
-     * Find .
+     * Find all tricks by user id.
 	 * @param userId : the id of the owner of Trick
 	 * @return list of entities
      */
@@ -104,8 +104,21 @@ public class TrickServiceImpl implements TrickService {
     @Override
     public Page<TrickDTO> findAllByOwnUserId(Pageable pageable, Long userId) {
     	LOGGER.debug("Request to get all tricks by userId: {}", userId);
-        Page<Trick> page = trickRepository.findAllByOwnUserId(pageable, userId);
-        return page.map(trickMapper::trickToTrickDTO);
+        return trickRepository.findAllByOwnUserId(pageable, userId)
+        		.map(trickMapper::trickToTrickDTO);
+    }
+    
+    /**
+     * Find all tricks by wording.
+	 * @param userId : the id of the owner of Trick
+	 * @return list of entities
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Page<TrickDTO> findAllByWording(Pageable pageable, String wording) {
+    	LOGGER.debug("Request to get all tricks by wording: {}", wording);
+    	return trickRepository.findAllByWording(pageable, wording)
+    			.map(trickMapper::trickToTrickDTO);
     }
 
 	/**

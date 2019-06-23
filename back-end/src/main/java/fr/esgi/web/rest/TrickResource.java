@@ -110,6 +110,29 @@ public class TrickResource {
     }
     
     /**
+     * GET  /tricks : get all tricks by wording.
+     * @param  wording : the wording of trick to search
+     * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
+     * @throws HelpAndLearningPlatformException if there is no tricks.
+     */
+    @ApiOperation(value = "Get all tricks by wording")
+    @GetMapping("/tricks/wording")
+    public ResponseEntity<Page<TrickDTO>> getAllTricksByWording(
+    		@ApiParam(value = "First index of page is 0") @RequestParam int page,
+      		@RequestParam int size,
+    		@RequestParam String wording
+    		) throws HelpAndLearningPlatformException {
+    	LOGGER.debug("REST request to find all tricks by wording: {}", wording);
+    	final Page<TrickDTO> tricksDTO = trickService.findAllByWording(PageRequest.of(page, size), wording);
+    	if (tricksDTO.isEmpty()) {
+    		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+    				"Pas de tricks");
+    	}
+    	return ResponseEntity.ok()
+    			.body(tricksDTO);
+    }
+    
+    /**
      * GET  /tricks/:id : get the trick by id.
      * @param userId the userId of user
      * @return the ResponseEntity with status 200 (OK) and the entity in body.
