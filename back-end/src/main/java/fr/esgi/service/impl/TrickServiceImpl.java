@@ -79,6 +79,29 @@ public class TrickServiceImpl implements TrickService {
     			.distinct()
     			.collect(Collectors.toList());
     }
+    
+    /**
+     * Find all tricks and by user id.
+	 * @param userId 
+	 * @return list of entities
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public List<TrickDTO> findAllByUserId(Long userId) {
+    	LOGGER.debug("Request to get all tricks by userId: {}", userId);
+    	final List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
+    	if (null == subscriptions || subscriptions.isEmpty()) {
+    		return Collections.emptyList();
+    	}
+    	return subscriptions.stream()
+    			.map(Subscription::getTrick)
+    			.map(trickMapper::trickToTrickDTO)
+    			.map(Optional::ofNullable)
+    			.filter(Optional::isPresent)
+    			.map(Optional::get)
+    			.distinct()
+    			.collect(Collectors.toList());
+    }
 
 	/**
      * Find all new tricks which are available according to the id

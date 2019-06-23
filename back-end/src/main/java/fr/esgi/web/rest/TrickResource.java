@@ -68,12 +68,33 @@ public class TrickResource {
      */
     @ApiOperation(value = "Get all tricks with status and by user id.")
     @GetMapping("/tricks/finished")
-    public ResponseEntity<List<TrickDTO>> getAllTrickFinishedByUserId(
+    public ResponseEntity<List<TrickDTO>> getAllTricksFinishedByUserId(
     		@RequestParam Long userId,
     		@ApiParam(value = "true or false for value", required = true) @RequestParam Boolean finished
     		) throws HelpAndLearningPlatformException {
-    	LOGGER.debug("REST request to find all new tricks available: {} {}", userId, finished);
+    	LOGGER.debug("REST request to find all tricks with status : {} {}", userId, finished);
     	final List<TrickDTO> tricksDTO = trickService.findAllByUserIdAndStatus(userId, finished);
+    	if (tricksDTO.isEmpty()) {
+    		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+    				"Pas de tricks");
+    	}
+    	return ResponseEntity.ok()
+    			.body(tricksDTO);
+    }
+    
+    /**
+     * GET  /tricks/finished : Get all tricks by user id.
+     * @param userId the userId of user
+     * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
+     * @throws HelpAndLearningPlatformException if there is no tricks.
+     */
+    @ApiOperation(value = "Get all tricks by user id.")
+    @GetMapping("/tricks")
+    public ResponseEntity<List<TrickDTO>> getAllTricksByUserId(
+    		@RequestParam Long userId
+    		) throws HelpAndLearningPlatformException {
+    	LOGGER.debug("REST request to find all tricks by user: {}", userId);
+    	final List<TrickDTO> tricksDTO = trickService.findAllByUserId(userId);
     	if (tricksDTO.isEmpty()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
     				"Pas de tricks");
