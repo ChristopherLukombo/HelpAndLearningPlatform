@@ -89,7 +89,7 @@ public class TrickResource {
      * @throws HelpAndLearningPlatformException if there is no tricks.
      */
     @ApiOperation(value = "Get all tricks by user id.")
-    @GetMapping("/tricks")
+    @GetMapping("/tricks/user")
     public ResponseEntity<List<TrickDTO>> getAllTricksByUserId(
     		@RequestParam Long userId
     		) throws HelpAndLearningPlatformException {
