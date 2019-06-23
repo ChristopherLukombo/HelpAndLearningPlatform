@@ -3,6 +3,8 @@ package fr.esgi.dao;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,6 +24,9 @@ public interface TrickRepository extends JpaRepository<Trick, Long> {
 
     @Query("SELECT t FROM Trick t WHERE t.ownUser.id = :userId")
     List<Trick> findAllByOwnUserId(@Param("userId") Long userId);
+    
+    @Query("SELECT t FROM Trick t WHERE t.ownUser.id = :userId")
+    Page<Trick> findAllByOwnUserId(Pageable pageable, @Param("userId") Long userId);
     
     @Query(value = "SELECT * FROM trick t ORDER BY t.creation_date DESC LIMIT 3", nativeQuery = true)
     List<Trick> findTheMostLatests();
