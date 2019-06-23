@@ -8,13 +8,11 @@
   if (session_status() == PHP_SESSION_NONE)
     session_start();
 
-	// Redirection des erreurs pour Try Catch:
-	// set_error_handler('exception_error_handler');
-
   // Création du service API :
   $API = new ServiceAPI();
 
   if (isset($_POST['Logout'])) {
     unset($_SESSION['PROG_VAR__USER']);
+    header("Location: home.php");
   }
 ?>

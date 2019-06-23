@@ -109,4 +109,194 @@ class ServiceAPI {
   function tricks($token) {
     return $this->callGetAPI("tricks", "", $token);
   }
+
+  function tricksByUser($token, $user_id, $page = 0) {
+    // Initialisation de l'entité cURL :
+    $curl = curl_init();
+
+    $params = array('userId' => $user_id,
+                    'page' => $page,
+                    'size' => 20);
+
+    $url = self::$url."tricks/owner?".http_build_query($params);
+
+    // Paramètres de l'appel cURL :
+    $opts = [
+      CURLOPT_URL             => $url,
+      CURLOPT_RETURNTRANSFER  => true,
+      CURLOPT_SSL_VERIFYPEER  => false,
+      CURLOPT_HTTPHEADER      => array("Content-Type: application/json",
+                                        "Authorization: Bearer ".$token)
+    ];
+
+    // Ajout des paramètres à cURL :
+    curl_setopt_array($curl, $opts);
+
+    // Exécution de l'appel à l'API :
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+
+    return $response;
+  }
+
+  function trickById($token, $id) {
+
+  }
+
+  function categories($token) {
+    // Initialisation de l'entité cURL :
+    $curl = curl_init();
+
+    $url = self::$url."categories/all";
+
+    // Paramètres de l'appel cURL :
+    $opts = [
+      CURLOPT_URL             => $url,
+      CURLOPT_RETURNTRANSFER  => true,
+      CURLOPT_SSL_VERIFYPEER  => false,
+      CURLOPT_HTTPHEADER      => array("Content-Type: application/json",
+                                        "Authorization: Bearer ".$token)
+    ];
+
+    // Ajout des paramètres à cURL :
+    curl_setopt_array($curl, $opts);
+
+    // Exécution de l'appel à l'API :
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+
+    return $response;
+  }
+
+  function newTrick($wording, $description, $content, $categoryId, $ownUserId, $token) {
+    $params = [
+      "categoryId"    => $categoryId,
+      "content"       => $content,
+      "description"   => $description,
+      "ownUserId"     => $ownUserId,
+      "wording"       => $wording,
+      "creationDate"  => getDateForBDD(),
+      "viewNumber"    => "0"
+    ];
+
+    $params_json = json_encode($params);
+
+    // Initialisation de l'entité cURL :
+    $curl = curl_init();
+
+    $url = self::$url."tricks";
+
+    // Paramètres de l'appel cURL :
+    $opts = [
+      CURLOPT_URL             => $url,
+      CURLOPT_RETURNTRANSFER  => true,
+      CURLOPT_SSL_VERIFYPEER  => false,
+      CURLOPT_POST            => true,
+      CURLOPT_POSTFIELDS      => $params_json,
+      CURLOPT_HTTPHEADER      => array("Content-Type: application/json",
+                                        "Authorization: Bearer ".$token)
+    ];
+
+    // Ajout des paramètres à cURL :
+    curl_setopt_array($curl, $opts);
+
+    // Exécution de l'appel à l'API :
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+
+    return $response;
+  }
+
+  function updateTrick($id, $wording, $description, $content, $categoryId, $token) {
+    $trick = $this->getTrickById($token, $id);
+    
+    $params = [
+      "id"            => $id,
+      "wording"       => $wording,
+      "description"   => $description,
+      "content"       => $content,
+      "categoryId"    => $categoryId,
+      "ownUserId"     => $trick['ownUserId'],
+      "creationDate"  => $trick['creationDate'],
+      "viewNumber"    => $trick['viewNumber']
+    ];
+
+    $params_json = json_encode($params);
+
+    // Initialisation de l'entité cURL :
+    $curl = curl_init();
+
+    $url = self::$url."tricks";
+
+    // Paramètres de l'appel cURL :
+    $opts = [
+      CURLOPT_URL             => $url,
+      CURLOPT_RETURNTRANSFER  => true,
+      CURLOPT_SSL_VERIFYPEER  => false,
+      CURLOPT_CUSTOMREQUEST   => "PUT",
+      CURLOPT_POSTFIELDS      => $params_json,
+      CURLOPT_HTTPHEADER      => array("Content-Type: application/json",
+                                        "Authorization: Bearer ".$token)
+    ];
+
+    // Ajout des paramètres à cURL :
+    curl_setopt_array($curl, $opts);
+
+    // Exécution de l'appel à l'API :
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+
+    return $response;
+  }
+
+  function deleteTrick($token, $id) {
+    // Initialisation de l'entité cURL :
+    $curl = curl_init();
+
+    $url = self::$url."tricks/".$id;
+
+    // Paramètres de l'appel cURL :
+    $opts = [
+      CURLOPT_URL             => $url,
+      CURLOPT_RETURNTRANSFER  => true,
+      CURLOPT_SSL_VERIFYPEER  => false,
+      CURLOPT_CUSTOMREQUEST   => "DELETE",
+      CURLOPT_HTTPHEADER      => array("Content-Type: application/json",
+                                        "Authorization: Bearer ".$token)
+    ];
+
+    // Ajout des paramètres à cURL :
+    curl_setopt_array($curl, $opts);
+
+    // Exécution de l'appel à l'API :
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+
+    return $response;
+  }
+
+  function getTrickById($token, $id) {
+    // Initialisation de l'entité cURL :
+    $curl = curl_init();
+
+    $url = self::$url."tricks/".$id;
+
+    // Paramètres de l'appel cURL :
+    $opts = [
+      CURLOPT_URL             => $url,
+      CURLOPT_RETURNTRANSFER  => true,
+      CURLOPT_SSL_VERIFYPEER  => false,
+      CURLOPT_HTTPHEADER      => array("Content-Type: application/json",
+                                        "Authorization: Bearer ".$token)
+    ];
+
+    // Ajout des paramètres à cURL :
+    curl_setopt_array($curl, $opts);
+
+    // Exécution de l'appel à l'API :
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+
+    return $response;
+  }
 }
