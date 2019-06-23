@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -81,26 +83,16 @@ public class TrickServiceImpl implements TrickService {
     }
     
     /**
-     * Find all tricks and by user id.
-	 * @param userId 
+     * Find all tricks by user id.
+	 * @param userId : the id of the owner of Trick
 	 * @return list of entities
      */
     @Transactional(readOnly = true)
     @Override
-    public List<TrickDTO> findAllByUserId(Long userId) {
+    public Page<TrickDTO> findAllByOwnUserId(Pageable pageable, Long userId) {
     	LOGGER.debug("Request to get all tricks by userId: {}", userId);
-    	final List<Subscription> subscriptions = subscriptionRepository.findAllByUserId(userId);
-    	if (null == subscriptions || subscriptions.isEmpty()) {
-    		return Collections.emptyList();
-    	}
-    	return subscriptions.stream()
-    			.map(Subscription::getTrick)
-    			.map(trickMapper::trickToTrickDTO)
-    			.map(Optional::ofNullable)
-    			.filter(Optional::isPresent)
-    			.map(Optional::get)
-    			.distinct()
-    			.collect(Collectors.toList());
+        Page<Trick> page = trickRepository.findAllByOwnUserId(pageable, userId);
+        return page.map(trickMapper::trickToTrickDTO);
     }
 
 	/**
@@ -200,5 +192,15 @@ public class TrickServiceImpl implements TrickService {
 			return trickMapper.trickToTrickDTO(aTrick);
 		}
 		return null;
+	}
+
+	/**
+     * Delete a trick by id
+     * @param trickId : the id of trick.
+     * @return the entity
+     */
+	@Override
+	public void delete(Long id) {
+		trickRepository.deleteById(id);
 	}
 }
