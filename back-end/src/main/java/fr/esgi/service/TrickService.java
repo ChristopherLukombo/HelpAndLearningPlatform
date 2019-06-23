@@ -1,6 +1,7 @@
 package fr.esgi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,13 @@ public interface TrickService {
 	 * @return list of entities
      */
     List<TrickDTO> findAllByUserIdAndStatus(Long userId, Boolean status);
+    
+    /**
+     * Returns the trick by id.
+     * @param id : the id of trick
+     * @return trick
+     */
+    Optional<TrickDTO> findOne(Long id);
     
     /**
      * Find all tricks by user id.

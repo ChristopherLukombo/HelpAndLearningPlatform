@@ -83,7 +83,20 @@ public class TrickServiceImpl implements TrickService {
     }
     
     /**
-     * Find all tricks by user id.
+     * Find by user id.
+	 * @param userId : the id of the owner of Trick
+	 * @return list of entities
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<TrickDTO> findOne(Long id) {
+    	LOGGER.debug("Request to get trick by id: {}", id);
+    	return trickRepository.findById(id)
+    			.map(trickMapper::trickToTrickDTO);
+    }
+    
+    /**
+     * Find .
 	 * @param userId : the id of the owner of Trick
 	 * @return list of entities
      */

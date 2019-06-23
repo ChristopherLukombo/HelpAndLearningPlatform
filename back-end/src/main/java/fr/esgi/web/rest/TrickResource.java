@@ -1,6 +1,7 @@
 package fr.esgi.web.rest;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,6 +108,26 @@ public class TrickResource {
     	return ResponseEntity.ok()
     			.body(tricksDTO);
     }
+    
+    /**
+     * GET  /tricks/:id : get the trick by id.
+     * @param userId the userId of user
+     * @return the ResponseEntity with status 200 (OK) and the entity in body.
+     * @throws HelpAndLearningPlatformException if there is no trick.
+     */
+    @ApiOperation(value = "Get the trick by id.")
+    @GetMapping("/tricks/{id}")
+    public ResponseEntity<TrickDTO> getTrick(@PathVariable Long id) throws HelpAndLearningPlatformException {
+    	LOGGER.debug("REST request to find  trick by id: {}", id);
+    	Optional<TrickDTO> trick = trickService.findOne(id);
+    	if (trick.isPresent()) {
+    		return ResponseEntity.ok().body(trick.get());
+    	} else {
+    		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+    				"Trick non trouvé");
+    	}
+    }
+    
     
     /**
      * GET  /tricks/news/{userId} : get all new tricks available by user id
