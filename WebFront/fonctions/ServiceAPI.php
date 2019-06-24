@@ -89,7 +89,34 @@ class ServiceAPI {
       "imageUrl"            => ""
     ];
 
-    return $this->callPostAPI("register", $params);
+    // Initialisation de l'entité cURL :
+    $curl = curl_init();
+
+    // Encodage des paramètres au format json :
+    $params_json = json_encode($params);
+	
+	$url = self::$url."register";
+	var_dump($url);
+
+    // Paramètres de l'appel cURL :
+    $opts = [
+      CURLOPT_URL             => $url,
+      CURLOPT_POST            => true,
+      CURLOPT_POSTFIELDS      => $params_json,
+      CURLOPT_RETURNTRANSFER  => true,
+      CURLOPT_HTTPHEADER      => array("Content-Type: application/json",
+                                       "Content-Length: ".strlen($params_json)),
+      CURLOPT_SSL_VERIFYPEER  => false
+    ];
+
+    // Ajout des paramètres à cURL :
+    curl_setopt_array($curl, $opts);
+
+    // Exécution de l'appel à l'API :
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+
+    return $response;
   }
 
   function authenticate($login, $password) {
