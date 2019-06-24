@@ -1,10 +1,6 @@
 package fr.esgi.web.rest;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import fr.esgi.security.jwt.JWTConfigurer;
-import fr.esgi.security.jwt.TokenProvider;
-import fr.esgi.web.Login;
-import io.swagger.annotations.Api;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -19,7 +15,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import fr.esgi.security.jwt.JWTConfigurer;
+import fr.esgi.security.jwt.TokenProvider;
+import fr.esgi.service.UserService;
+import fr.esgi.service.dto.UserDTO;
+import fr.esgi.web.Login;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * UserJWTController to authenticate users.
@@ -33,18 +37,23 @@ public class UserJWTResource {
     private final TokenProvider tokenProvider;
 
     private final AuthenticationManager authenticationManager;
+    
+    private final UserService userService;
 
     @Autowired
-    public UserJWTResource(TokenProvider tokenProvider, AuthenticationManager authenticationManager) {
-        this.tokenProvider = tokenProvider;
-        this.authenticationManager = authenticationManager;
-    }
+    public UserJWTResource(TokenProvider tokenProvider, AuthenticationManager authenticationManager,
+			UserService userService) {
+		this.tokenProvider = tokenProvider;
+		this.authenticationManager = authenticationManager;
+		this.userService = userService;
+	}
 
-    /**
+	/**
      * Authenticate the user and return the token which identify him.
      * @param login of the user
      * @return JWTToken
      */
+    @ApiOperation(value = "Authenticate the user and return the token which identify him.")
     @PostMapping("/authenticate")
     public ResponseEntity<JWTToken> authorize(@Valid @RequestBody Login login) {
 
@@ -57,7 +66,13 @@ public class UserJWTResource {
         String jwt = tokenProvider.createToken(authentication, rememberMe);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTConfigurer.AUTHORIZATION_HEADER, "Bearer " + jwt);
-        return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(new JWTToken(jwt, getIdUser(login)), httpHeaders, HttpStatus.OK);
+    }
+
+    private Long getIdUser(Login login) {
+    	return userService.findUserByUsername(login.getUsername())
+    			.map(UserDTO::getId)
+    			.orElse(null);
     }
 
     /**
@@ -66,12 +81,14 @@ public class UserJWTResource {
     static class JWTToken {
 
         private String idToken;
+        private Long idUser;
 
-        JWTToken(String idToken) {
-            this.idToken = idToken;
-        }
+        JWTToken(String idToken, Long idUser) {
+			this.idToken = idToken;
+			this.idUser = idUser;
+		}
 
-        @JsonProperty("id_token")
+		@JsonProperty("id_token")
         String getIdToken() {
             return idToken;
         }
@@ -79,5 +96,14 @@ public class UserJWTResource {
         void setIdToken(String idToken) {
             this.idToken = idToken;
         }
+
+        @JsonProperty("id_user")
+		public Long getIdUser() {
+			return idUser;
+		}
+
+		void setIdUser(Long idUser) {
+			this.idUser = idUser;
+		}
     }
 }

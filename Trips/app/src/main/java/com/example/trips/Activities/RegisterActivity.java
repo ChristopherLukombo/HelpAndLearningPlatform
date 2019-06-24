@@ -1,6 +1,8 @@
-package com.example.trips;
+package com.example.trips.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -9,12 +11,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import com.example.trips.Helpers.AuthenticatorHelper;
+import com.example.trips.Models.User;
+import com.example.trips.R;
+import com.example.trips.VolleyJSONObjectCallback;
+
+import org.json.JSONObject;
+
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText inputEmail, inputPassword, inputFirstname, inputLastname;
+    private EditText inputEmail, inputPassword, inputFirstname, inputLastname, inputPseudo;
     private Button btnSignup, btnLogin;
     private ProgressBar progressBar ;
+    private String url;
 
     private String userId;
 
@@ -24,10 +35,10 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         inputEmail = findViewById(R.id.email);
+        inputPseudo = findViewById(R.id.pseudo);
         inputPassword = findViewById(R.id.password);
         inputFirstname = findViewById(R.id.firstname);
         inputLastname = findViewById(R.id.lastname);
-        //inputCountry = findViewById(R.id.country);
         progressBar = findViewById(R.id.progressBar);
         btnSignup = findViewById(R.id.btn_signup);
         btnLogin = findViewById(R.id.btn_login);
@@ -58,19 +69,18 @@ public class RegisterActivity extends AppCompatActivity {
         final String password = inputPassword.getText().toString();
         final String lastName = inputLastname.getText().toString();
         final String firstName = inputFirstname.getText().toString();
-        //final String phoneNumber = inputPhoneNumber.getText().toString();
+        final String pseudo = inputPseudo.getText().toString();
 
-        boolean inputsAreValid = validateInputs(email, password, lastName, firstName);
+        boolean inputsAreValid = validateInputs(email, password, lastName, firstName, pseudo);
 
         progressBar.setVisibility(View.VISIBLE);
         if(inputsAreValid) {
-
+            sendRequest(email, password, lastName, firstName, pseudo);
         }
-
     }
 
 
-    private boolean validateInputs(String email, String password, String lastname, String firstname){
+    private boolean validateInputs(String email, String password, String lastname, String firstname, String pseudo){
 
         if (TextUtils.isEmpty(email)) {
             Toast.makeText(getApplicationContext(), "Veuillez indiquer votre adresse mail!", Toast.LENGTH_SHORT).show();
@@ -78,7 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         if (TextUtils.isEmpty(password)) {
-            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre mçot de passe!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre mot de passe!", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -92,15 +102,32 @@ public class RegisterActivity extends AppCompatActivity {
             return false;
         }
 
-        /*if (TextUtils.isEmpty(phoneNumber)) {
-            Toast.makeText(getApplicationContext(), "Veuillez indiquer votre numéro de téléphone!", Toast.LENGTH_SHORT).show();
-            return false;
-        }*/
-
         return true;
     }
 
-    public void createUser(String email, String password, String lastname, String firstname, String phoneNumber){
+    private void sendRequest(String email,final String password, String lastname, String firstname, final String pseudo ){
 
+        String url = getString(R.string.api_url) + "register";
+        User user = new User(email, pseudo, firstname, lastname);
+        Map<String, String> params =user.getHashMap(password);
+
+        VolleyJSONObjectCallback callback = new VolleyJSONObjectCallback() {
+            @Override
+            public void onResponse(JSONObject response) {
+                saveUserSharedPreferences(pseudo, password);
+                finish();
+                startActivity(new Intent( RegisterActivity.this, LoginActivity.class));
+            }
+
+            private void saveUserSharedPreferences(String login, String password) {
+                SharedPreferences prefs = getSharedPreferences("LOGIN", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("LOGIN_PSEUDO", login);
+                editor.putString("LOGIN_PWD", password);
+                editor.commit();
+            }
+        };
+
+        AuthenticatorHelper.register(getApplicationContext(), url, params, callback);
     }
 }

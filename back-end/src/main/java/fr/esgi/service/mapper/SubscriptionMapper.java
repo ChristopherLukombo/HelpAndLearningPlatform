@@ -13,9 +13,10 @@ public interface SubscriptionMapper {
 
     @Mappings({
             @Mapping(source = "id", target = "id"),
-            @Mapping(source = "category.id", target = "categoryId"),
+            @Mapping(source = "trick.id", target = "trickId"),
             @Mapping(source = "subscriptionDate", target = "subscriptionDate"),
             @Mapping(source = "user.id", target = "userId"),
+            @Mapping(source = "finished", target = "finished"),
     })
     SubscriptionDTO subscriptionToSubscriptionDTO(Subscription subscription);
 

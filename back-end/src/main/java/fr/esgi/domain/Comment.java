@@ -1,7 +1,6 @@
 package fr.esgi.domain;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,8 +26,14 @@ public class Comment implements Serializable {
     @ManyToOne
     @JoinColumn(name = "trick_id_comment")
     private Trick trick;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    public Comment() { }
+    public Comment() {
+    	// Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;
@@ -53,28 +58,60 @@ public class Comment implements Serializable {
     public void setTrick(Trick trick) {
         this.trick = trick;
     }
+    
+	public User getUser() {
+		return user;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comment comment = (Comment) o;
-        return Objects.equals(id, comment.id) &&
-                Objects.equals(name, comment.name) &&
-                Objects.equals(trick, comment.trick);
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, trick);
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((trick == null) ? 0 : trick.hashCode());
+		result = prime * result + ((user == null) ? 0 : user.hashCode());
+		return result;
+	}
 
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", trick=" + trick +
-                '}';
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Comment other = (Comment) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (trick == null) {
+			if (other.trick != null)
+				return false;
+		} else if (!trick.equals(other.trick))
+			return false;
+		if (user == null) {
+			if (other.user != null)
+				return false;
+		} else if (!user.equals(other.user))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Comment [id=" + id + ", name=" + name + ", trick=" + trick + ", user=" + user + "]";
+	}
 }

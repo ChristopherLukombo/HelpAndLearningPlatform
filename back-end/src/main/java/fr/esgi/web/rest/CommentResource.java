@@ -4,6 +4,7 @@ import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.CommentService;
 import fr.esgi.service.dto.CommentDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ import java.net.URISyntaxException;
 @RequestMapping("/api")
 public class CommentResource {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(SubscriptionResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CommentResource.class);
 
 	private final CommentService commentService;
 
@@ -44,6 +45,7 @@ public class CommentResource {
 	 * @return the ResponseEntity with status 201 (Created) and with body the new comment.
 	 * @throws URISyntaxException if the Location URI syntax is incorrect
 	 */
+	@ApiOperation(value = "Save a comment.")
 	@ApiResponses(value = {
 	        @ApiResponse(code = 201, message = "Successful register"),
 	        @ApiResponse(code = 400, message = "Bad request"),
@@ -51,7 +53,7 @@ public class CommentResource {
 	        @ApiResponse(code = 403, message = "Access denied"),
 	        })
 	@PostMapping("/comments")
-	public ResponseEntity<Object> createComment(@RequestBody @Valid CommentDTO commentDTO) throws URISyntaxException, HelpAndLearningPlatformException {
+	public ResponseEntity<CommentDTO> createComment(@RequestBody @Valid CommentDTO commentDTO) throws URISyntaxException, HelpAndLearningPlatformException {
 		LOGGER.debug("REST request to save a comment: {}", commentDTO);
 		if (null != commentDTO.getId()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
@@ -59,6 +61,6 @@ public class CommentResource {
 		}
 		final CommentDTO comment = commentService.save(commentDTO);
 		return ResponseEntity.created(new URI("/api/comments" + comment.getId()))
-				.build();
+				.body(comment);
 	}
 }

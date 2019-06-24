@@ -13,7 +13,9 @@ public class QCMDTO {
     @NotNull
     private String question;
 
-    public QCMDTO() { }
+    public QCMDTO() {
+    	// Empty constructor needed for Jackson.
+    }
 
     public Long getId() {
         return id;

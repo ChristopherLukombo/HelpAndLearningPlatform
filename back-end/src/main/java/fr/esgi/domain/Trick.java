@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
 
 /**
  * A trick.
@@ -26,9 +28,15 @@ public class Trick implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     private String wording;
 
+    @NotNull
     private String description;
+    
+    @NotNull
+    @Column(columnDefinition = "TEXT")
+    private String content;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -48,9 +56,12 @@ public class Trick implements Serializable {
     private User ownUser;
 
     private LocalDate creationDate;
+    
+    private Integer viewNumber;
 
-
-    public Trick() { }
+    public Trick() {
+    	// Empty constructor needed for Hibernate.
+    }
 
     public Long getId() {
         return id;
@@ -124,39 +135,105 @@ public class Trick implements Serializable {
         this.creationDate = creationDate;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Trick trick = (Trick) o;
-        return Objects.equals(id, trick.id) &&
-                Objects.equals(wording, trick.wording) &&
-                Objects.equals(description, trick.description) &&
-                Objects.equals(category, trick.category) &&
-                Objects.equals(notations, trick.notations) &&
-                Objects.equals(comments, trick.comments) &&
-                Objects.equals(qcmAnswers, trick.qcmAnswers) &&
-                Objects.equals(ownUser, trick.ownUser) &&
-                Objects.equals(creationDate, trick.creationDate);
-    }
+	public String getContent() {
+		return content;
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, wording, description, category, notations, comments, qcmAnswers, ownUser, creationDate);
-    }
+	public void setContent(String content) {
+		this.content = content;
+	}
 
-    @Override
-    public String toString() {
-        return "Trick{" +
-                "id=" + id +
-                ", wording='" + wording + '\'' +
-                ", description='" + description + '\'' +
-                ", category=" + category +
-                ", notations=" + notations +
-                ", comments=" + comments +
-                ", qcmAnswers=" + qcmAnswers +
-                ", ownUser=" + ownUser +
-                ", creationDate=" + creationDate +
-                '}';
-    }
+	public Integer getViewNumber() {
+		return viewNumber;
+	}
+
+	public void setViewNumber(Integer viewNumber) {
+		this.viewNumber = viewNumber;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(category, comments, content, creationDate, description, id, notations, ownUser, qcmAnswers,
+				viewNumber, wording);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Trick other = (Trick) obj;
+		return Objects.equals(category, other.category) && Objects.equals(comments, other.comments)
+				&& Objects.equals(content, other.content) && Objects.equals(creationDate, other.creationDate)
+				&& Objects.equals(description, other.description) && Objects.equals(id, other.id)
+				&& Objects.equals(notations, other.notations) && Objects.equals(ownUser, other.ownUser)
+				&& Objects.equals(qcmAnswers, other.qcmAnswers) && Objects.equals(viewNumber, other.viewNumber)
+				&& Objects.equals(wording, other.wording);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Trick [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (wording != null) {
+			builder.append("wording=");
+			builder.append(wording);
+			builder.append(", ");
+		}
+		if (description != null) {
+			builder.append("description=");
+			builder.append(description);
+			builder.append(", ");
+		}
+		if (content != null) {
+			builder.append("content=");
+			builder.append(content);
+			builder.append(", ");
+		}
+		if (category != null) {
+			builder.append("category=");
+			builder.append(category);
+			builder.append(", ");
+		}
+		if (notations != null) {
+			builder.append("notations=");
+			builder.append(notations);
+			builder.append(", ");
+		}
+		if (comments != null) {
+			builder.append("comments=");
+			builder.append(comments);
+			builder.append(", ");
+		}
+		if (qcmAnswers != null) {
+			builder.append("qcmAnswers=");
+			builder.append(qcmAnswers);
+			builder.append(", ");
+		}
+		if (ownUser != null) {
+			builder.append("ownUser=");
+			builder.append(ownUser);
+			builder.append(", ");
+		}
+		if (creationDate != null) {
+			builder.append("creationDate=");
+			builder.append(creationDate);
+			builder.append(", ");
+		}
+		if (viewNumber != null) {
+			builder.append("viewNumber=");
+			builder.append(viewNumber);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

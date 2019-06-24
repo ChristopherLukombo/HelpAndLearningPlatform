@@ -1,10 +1,11 @@
 package fr.esgi.service.impl;
 
-import fr.esgi.dao.UserRepository;
-import fr.esgi.domain.User;
-import fr.esgi.service.UserService;
-import fr.esgi.service.dto.UserDTO;
-import fr.esgi.service.mapper.UserMapper;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +13,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.Optional;
+import fr.esgi.dao.AuthorityRepository;
+import fr.esgi.dao.UserRepository;
+import fr.esgi.domain.Authority;
+import fr.esgi.domain.User;
+import fr.esgi.service.UserService;
+import fr.esgi.service.dto.UserDTO;
+import fr.esgi.service.mapper.UserMapper;
 
 /**
  * Service Implementation for managing User.
@@ -27,27 +33,34 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final UserMapper userMapper;
+    
+    private final AuthorityRepository authorityRepository;
 
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.passwordEncoder = passwordEncoder;
-    }
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper,
+			AuthorityRepository authorityRepository, PasswordEncoder passwordEncoder) {
+		this.userRepository = userRepository;
+		this.userMapper = userMapper;
+		this.authorityRepository = authorityRepository;
+		this.passwordEncoder = passwordEncoder;
+	}
 
-    /**
+	/**
      * Add a friend to a user.
      * @param userDTO the entity user
 	 * @param friendDTO the friend to add to a user
+	 * @return entity
      */
     @Override
-    public void addFriend(UserDTO userDTO, UserDTO friendDTO) {
+    public UserDTO addFriend(UserDTO userDTO, UserDTO friendDTO) {
+    	LOGGER.debug("Request to add friend to a user: {} {}",userDTO, friendDTO);
         final User user = userMapper.userDTOToUser(userDTO);
         final User friend = userMapper.userDTOToUser(friendDTO);
         user.addFriends(Arrays.asList(friend));
-        userRepository.saveAndFlush(user);
+       
+        return userMapper.userToUserDTO(userRepository.saveAndFlush(user));
     }
 
     /**
@@ -56,6 +69,7 @@ public class UserServiceImpl implements UserService {
      * @param password the password of entity
      * @return UserDTO the persisted entity
      */
+    @Override
     public UserDTO registerUser(UserDTO userDTO, String password) {
         User newUser = new User();
         String encryptedPassword = passwordEncoder.encode(password);
@@ -67,6 +81,12 @@ public class UserServiceImpl implements UserService {
         newUser.setEmail(userDTO.getEmail());
         newUser.setImageUrl(userDTO.getImageUrl());
         newUser.setCountryOfResidence(userDTO.getCountryOfResidence());
+        newUser.setLangKey(userDTO.getLangKey());
+        final Optional<Authority> authority = authorityRepository.findById(userDTO.getAuthorityId());
+        if (authority.isPresent()) {
+            newUser.setAuthority(authority.get());
+        }
+    
         // new user is active
         newUser.setActivated(true);
         newUser = userRepository.save(newUser);
@@ -76,23 +96,117 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Returns true if the login is already used.
+     * Returns user by login.
      * @param login of the user
      * @return the entity
      */
     @Transactional(readOnly = true)
+    @Override
     public Optional<User> findUserByLogin(String login) {
+    	LOGGER.debug("Request to find user by login: {}", login);
         return userRepository.findOneByLoginIgnoreCase(login);
+    }
+    
+    /**
+	 * Returns user by id.
+	 * @param id of the user
+	 * @return the entity
+	 */
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<UserDTO> findUserById(Long id) {
+    	LOGGER.debug("Request to find user by id: {}", id);
+    	return userRepository.findById(id)
+    			.map(userMapper::userToUserDTO);
     }
 
     /**
-     * Returns true if the email is already used.
+     * Returns user by email.
      * @param email of the user
      * @return the entity
      */
     @Transactional(readOnly = true)
+    @Override
     public Optional<User> findUserByEmail(String email) {
+    	LOGGER.debug("Request to find user by email: {}", email);
         return userRepository.findOneByEmailIgnoreCase(email);
     }
+    
+    /**
+     * Returns User by username.
+     * @param username : login or email
+     * @return the entity
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<UserDTO> findUserByUsername(String username) {
+    	LOGGER.debug("Request to find user by username: {}", username);
+    	Optional<User> user;
+    	user = userRepository.findOneByEmailIgnoreCase(username);
+		if (user.isPresent()) {
+    		return user.map(userMapper::userToUserDTO);
+    	}
+		user = userRepository.findOneByLoginIgnoreCase(username);
+		if (user.isPresent()) {
+    		return user.map(userMapper::userToUserDTO);
+    	}
+		return Optional.empty();
+    }
+
+    /**
+	 * Returns all users.
+	 * @return the list of entities
+	 */
+    @Transactional(readOnly = true)
+	@Override
+	public List<UserDTO> findAll() {
+    	LOGGER.debug("Request find all users");
+		return userRepository.findAll().stream()
+				.map(userMapper::userToUserDTO).collect(Collectors.toList());
+	}
+    
+    /**
+     * Update a user.
+     * @param userDTO : the entity to update. 
+     * @return the entity updated
+     */
+    @Override
+    public UserDTO update(UserDTO userDTO, String password) {
+    	User newUser = new User();
+    	newUser.setId(userDTO.getId());
+    	String encryptedPassword = null;
+    	encryptedPassword = getPassword(userDTO, password);
+    	newUser.setLogin(userDTO.getLogin());
+    	// new user gets initially a generated password
+    	newUser.setPassword(encryptedPassword);
+    	newUser.setFirstName(userDTO.getFirstName());
+    	newUser.setLastName(userDTO.getLastName());
+    	newUser.setEmail(userDTO.getEmail());
+    	newUser.setImageUrl(userDTO.getImageUrl());
+    	newUser.setCountryOfResidence(userDTO.getCountryOfResidence());
+    	newUser.setLangKey(userDTO.getLangKey());
+    	final Optional<Authority> authority = authorityRepository.findById(userDTO.getAuthorityId());
+    	if (authority.isPresent()) {
+    		newUser.setAuthority(authority.get());
+    	}
+
+    	newUser.setActivated(userDTO.getActivated());
+    	newUser = userRepository.saveAndFlush(newUser);
+    	LOGGER.debug("Updated Information for User: {}", newUser);
+    	return userMapper.userToUserDTO(newUser);
+    }
+
+	private String getPassword(UserDTO userDTO, String password) {
+		String encryptedPassword = null;
+		if ((!StringUtils.isEmpty(password))) {
+    		encryptedPassword =  passwordEncoder.encode(password);
+    	} else {
+    		Optional<User> user = userRepository.findById(userDTO.getId());
+    		if (user.isPresent()){
+				encryptedPassword = user.map(User::getPassword).get();
+			}
+    	}
+		return encryptedPassword;
+	}
 
 }

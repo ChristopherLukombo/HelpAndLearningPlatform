@@ -34,7 +34,7 @@ public class QCMAnswers implements Serializable {
     private Trick trick;
 
     public QCMAnswers() {
-        // Empty constructor for Hibernate.
+        // Empty constructor needed for Hibernate.
     }
 
     public Long getId() {

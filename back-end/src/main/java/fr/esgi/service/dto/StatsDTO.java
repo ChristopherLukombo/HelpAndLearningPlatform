@@ -3,7 +3,7 @@ package fr.esgi.service.dto;
 import java.util.Objects;
 
 /**
- * A DTO for the Stats entity.
+ * A DTO StatsDTO.
  */
 public class StatsDTO {
 

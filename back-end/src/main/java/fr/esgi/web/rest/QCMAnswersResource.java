@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import fr.esgi.service.QCMAnswersService;
 import fr.esgi.service.dto.QCMAnswersDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing QCMAnswers.
@@ -39,13 +40,14 @@ public class QCMAnswersResource {
     }
 
     /**
-     * POST  /qcmanswers : reply to QCM
+     * POST  /qcmanswers : reply to a QCM.
      * @param qcmAnswersDTO the ResponseEntity with status 201 (Created)
      * @return the ResponseEntity with status 201 (OK) and the qcmanswers in body
      * @throws URISyntaxException URISyntaxException if the Location URI syntax is incorrect
      */
+    @ApiOperation(value = "Reply to a QCM.")
     @PostMapping(value = "/qcmanswers")
-    public ResponseEntity<Object> createQCMAnswers(@RequestBody @Valid QCMAnswersDTO qcmAnswersDTO) throws URISyntaxException, HelpAndLearningPlatformException {
+    public ResponseEntity<QCMAnswersDTO> createQCMAnswers(@RequestBody @Valid QCMAnswersDTO qcmAnswersDTO) throws URISyntaxException, HelpAndLearningPlatformException {
 		LOGGER.debug("REST request to save a QCM: {}", qcmAnswersDTO);
         if (null != qcmAnswersDTO.getId()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
@@ -53,6 +55,6 @@ public class QCMAnswersResource {
         }
 		QCMAnswersDTO qcmAnswers = qcmAnswersService.save(qcmAnswersDTO);
 		return ResponseEntity.created(new URI("/qcmanswers/" + qcmAnswers.getId()))
-                .build();
+				.body(qcmAnswers);
     }
 }

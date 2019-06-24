@@ -1,18 +1,22 @@
 package fr.esgi.web.rest;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.CategoryService;
 import fr.esgi.service.dto.CategoryDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * REST controller for managing Category.
@@ -34,21 +38,24 @@ public class CategoryResource {
 
     /**
      * GET  /categories : get all the categories by wording.
-     * @param page the page number
-     * @param size the number of elements
      * @param wording the wording to search
      *
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
+     * @throws HelpAndLearningPlatformException 
      */
+    @ApiOperation(value = "Get all the categories by wording.")
     @GetMapping("/categories")
-    public ResponseEntity<Page<CategoryDTO>> findCategoriesByWording(
-            @RequestParam(name="page", defaultValue = "0") int page,
-            @RequestParam(name="size", defaultValue = "5") int size,
+    public ResponseEntity<List<CategoryDTO>> getCategoriesByWording(
             @RequestParam(name="wording", defaultValue = "") String wording
-    ) {
-        LOGGER.debug("REST request to find Categories by wording: {}", wording);
+    ) throws HelpAndLearningPlatformException {
+    	LOGGER.debug("REST request to find Categories by wording: {}", wording);
+    	final List<CategoryDTO> categoriesDTO = categoryService.findAllByWording(wording);
+        if (categoriesDTO.isEmpty()) {
+           	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+        			"Pas de catégories");
+        }
         return ResponseEntity.ok()
-                .body(categoryService.findCategoriesByWording(page, size, wording));
+                .body(categoriesDTO);
     }
 
     /**
@@ -57,14 +64,18 @@ public class CategoryResource {
      * @param size the number of elements
      *
      * @return the ResponseEntity with status 200 (OK) and the list of categories in body
+     * @throws HelpAndLearningPlatformException 
      */
+    @ApiOperation(value = "Get all the categories.")
     @GetMapping("/categories/all")
-    public ResponseEntity<Page<CategoryDTO>> findCategories(
-            @RequestParam(name="page", defaultValue = "0") int page,
-            @RequestParam(name="size", defaultValue = "5") int size
-    ) {
+    public ResponseEntity<List<CategoryDTO>> getCategories() throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to find Categories");
+    	final List<CategoryDTO> categoriesDTO = categoryService.findAll();
+        if (categoriesDTO.isEmpty()) {
+           	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+        			"Pas de catégories");
+        }
         return ResponseEntity.ok()
-                .body(categoryService.findAll(page, size));
+                .body(categoriesDTO);
     }
 }

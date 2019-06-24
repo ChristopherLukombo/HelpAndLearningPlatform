@@ -4,6 +4,8 @@ import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.ContactService;
 import fr.esgi.service.dto.ContactDTO;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +36,12 @@ public class ContactResource {
     }
 
     /**
-     * POST  /contacts : contact Company
+     * POST  /contacts : contact Company in sending a mail.
      * @param contactDTO the contactDTO to contact
      * @return the ResponseEntity with status 200 (OK)
      * @throws HelpAndLearningPlatformException if there an error during contact Company
      */
+    @ApiOperation(value = "Contact Company in sending a mail.")
     @PostMapping(value = "/contacts")
     public ResponseEntity<Void> contactCompany(@RequestBody @Valid ContactDTO contactDTO) throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to contact Company: {}", contactDTO);

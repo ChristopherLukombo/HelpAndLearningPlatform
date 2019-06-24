@@ -1,5 +1,15 @@
 package fr.esgi.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import fr.esgi.dao.NotationRepository;
 import fr.esgi.dao.SubscriptionRepository;
 import fr.esgi.dao.TrickRepository;
@@ -7,15 +17,7 @@ import fr.esgi.domain.Notation;
 import fr.esgi.domain.Trick;
 import fr.esgi.service.StatsService;
 import fr.esgi.service.dto.StatsDTO;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import fr.esgi.service.dto.StatsTrickDTO;
 
 /**
  * Service Implementation for managing Stats.
@@ -24,14 +26,13 @@ import java.util.Optional;
 @Transactional
 public class StatsServiceImpl implements StatsService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotationServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StatsServiceImpl.class);
 
     private final TrickRepository trickRepository;
 
     private final NotationRepository notationRepository;
 
     private final SubscriptionRepository subscriptionRepository;
-
 
     @Autowired
     public StatsServiceImpl(TrickRepository trickRepository, NotationRepository notationRepository,
@@ -49,7 +50,7 @@ public class StatsServiceImpl implements StatsService {
 	 */
     @Transactional(readOnly = true)
     @Override
-    public StatsDTO getStatsForTrick(Long userId, Long categoryId) {
+    public StatsDTO getStatsTricksForOwner(Long userId, Long categoryId) {
         LOGGER.debug("request to get stats");
         List<Trick> tricks = trickRepository.findAllByOwnUserId(userId);
 
@@ -77,4 +78,22 @@ public class StatsServiceImpl implements StatsService {
                 .map(Notation::getNote)
                 .reduce(Double::sum);
     }
+
+    /**
+     * Get stat for a trick according trickId.
+     * @param trickId
+     * @return the entity stats 
+     */
+	@Override
+	public StatsTrickDTO getStatsForTrick(Long trickId) {
+		LOGGER.debug("request to get stats for a trick: {}", trickId);
+        final List<Notation> notations = notationRepository.findAllByTrickId(trickId);
+        
+        final Optional<Double> sum = calculateMark(notations);
+
+        final StatsTrickDTO statsTrickDTO = new StatsTrickDTO();
+        statsTrickDTO.setMark((sum.isPresent() && sum.get() > 0) ? sum.get() / notations.size() : 0);
+
+        return statsTrickDTO;
+	}
 }
