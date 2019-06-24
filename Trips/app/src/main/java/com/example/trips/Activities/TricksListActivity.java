@@ -183,9 +183,11 @@ public class TricksListActivity extends BaseActivity {
                         }
 
                         totalMark = totalMark / list.size();
+                        trick.setMarkNotation(totalMark);
                     }
-
-                    trick.setMarkNotation(totalMark);
+                    else{
+                        trick.setMarkNotation(0);
+                    }
 
                     if(tricks.indexOf(trick) == (tricks.size() -1)){
                         setAdapter();
