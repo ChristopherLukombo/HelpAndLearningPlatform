@@ -1,0 +1,96 @@
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/side_nav_drawer"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/header"
+            android:background="@color/TripsAquaBlue"
+            android:orientation="vertical"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/trickTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Title"
+                android:textSize="25dp"
+                android:layout_weight="1"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/trickAuthor"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_weight="2"
+                    android:text="Author"
+                    android:layout_marginLeft="10dp"
+                    android:textStyle="italic" />
+                <TextView
+                    android:id="@+id/trickCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:textSize="13dp"
+                    android:text="Category"
+                    android:layout_weight="2"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="15"
+            android:background="@drawable/side_nav_drawer"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/trickContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+        </ScrollView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/buttonFinish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:text="@string/button_trick_finished"
+
+                android:textStyle="bold"
+                android:layout_weight="1"/>
+            <Button
+                android:id="@+id/trickUnsubscribeButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:text="Ne plus suivre"
+                android:layout_weight="1"/>
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/markLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"></FrameLayout>
+    </LinearLayout>
+</RelativeLayout >

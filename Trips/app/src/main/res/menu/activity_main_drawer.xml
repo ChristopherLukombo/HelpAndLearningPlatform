@@ -2,26 +2,44 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
+    <item android:title="@string/nav_header_title">
+        <menu>
+            <item
+                android:id="@+id/nav_home"
+                android:icon="@drawable/home"
+                android:title="@string/nav_home" />
+            <item
+                android:id="@+id/nav_tricks"
+                android:icon="@drawable/learn"
+                android:title="@string/nav_learning" />
+        </menu>
+    </item>
+    <item android:title="@string/nav_user_learning">
+        <menu>
+            <item android:id="@+id/nav_followed_tricks"
+                android:title="@string/nav_user_followed_tricks"
+                android:icon="@drawable/learning"/>
 
+            <item android:id="@+id/nav_finished_tricks"
+                android:title="@string/nav_user_finished_tricks"
+                android:icon="@drawable/finished_trick"/>
+        </menu>
+    </item>
     <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_profile"
-            android:icon="@drawable/profile"
-            android:title="@string/nav_profile" />
-        <item
-            android:id="@+id/nav_learn"
-            android:icon="@drawable/learn"
-            android:title="@string/nav_learning" />
-        <item
-            android:id="@+id/nav_learning"
-            android:icon="@drawable/learning"
-            android:title="@string/nav_user_learning" />
-        <item
-            android:id="@+id/nav_parameter"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="@string/nav_parameters" />
-    </group>
 
+    </group>
+    <item android:title="@string/nav_parameters_title">
+        <menu>
+            <item
+                android:id="@+id/nav_profile"
+                android:icon="@drawable/profile"
+                android:title="@string/nav_profile" />
+            <item
+                android:id="@+id/nav_deconnexion"
+                android:icon="@drawable/nav_deconnexion"
+                android:title="@string/nav_deconnexion" />
+        </menu>
+    </item>
     <item android:title="@string/nav_firm_title">
         <menu>
             <item
