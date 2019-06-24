@@ -3,6 +3,7 @@ package fr.esgi.domain;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -152,20 +153,8 @@ public class Trick implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((category == null) ? 0 : category.hashCode());
-		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
-		result = prime * result + ((content == null) ? 0 : content.hashCode());
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((notations == null) ? 0 : notations.hashCode());
-		result = prime * result + ((ownUser == null) ? 0 : ownUser.hashCode());
-		result = prime * result + ((qcmAnswers == null) ? 0 : qcmAnswers.hashCode());
-		result = prime * result + ((viewNumber == null) ? 0 : viewNumber.hashCode());
-		result = prime * result + ((wording == null) ? 0 : wording.hashCode());
-		return result;
+		return Objects.hash(category, comments, content, creationDate, description, id, notations, ownUser, qcmAnswers,
+				viewNumber, wording);
 	}
 
 	@Override
@@ -177,69 +166,74 @@ public class Trick implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Trick other = (Trick) obj;
-		if (category == null) {
-			if (other.category != null)
-				return false;
-		} else if (!category.equals(other.category))
-			return false;
-		if (comments == null) {
-			if (other.comments != null)
-				return false;
-		} else if (!comments.equals(other.comments))
-			return false;
-		if (content == null) {
-			if (other.content != null)
-				return false;
-		} else if (!content.equals(other.content))
-			return false;
-		if (creationDate == null) {
-			if (other.creationDate != null)
-				return false;
-		} else if (!creationDate.equals(other.creationDate))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (notations == null) {
-			if (other.notations != null)
-				return false;
-		} else if (!notations.equals(other.notations))
-			return false;
-		if (ownUser == null) {
-			if (other.ownUser != null)
-				return false;
-		} else if (!ownUser.equals(other.ownUser))
-			return false;
-		if (qcmAnswers == null) {
-			if (other.qcmAnswers != null)
-				return false;
-		} else if (!qcmAnswers.equals(other.qcmAnswers))
-			return false;
-		if (viewNumber == null) {
-			if (other.viewNumber != null)
-				return false;
-		} else if (!viewNumber.equals(other.viewNumber))
-			return false;
-		if (wording == null) {
-			if (other.wording != null)
-				return false;
-		} else if (!wording.equals(other.wording))
-			return false;
-		return true;
+		return Objects.equals(category, other.category) && Objects.equals(comments, other.comments)
+				&& Objects.equals(content, other.content) && Objects.equals(creationDate, other.creationDate)
+				&& Objects.equals(description, other.description) && Objects.equals(id, other.id)
+				&& Objects.equals(notations, other.notations) && Objects.equals(ownUser, other.ownUser)
+				&& Objects.equals(qcmAnswers, other.qcmAnswers) && Objects.equals(viewNumber, other.viewNumber)
+				&& Objects.equals(wording, other.wording);
 	}
 
 	@Override
 	public String toString() {
-		return "Trick [id=" + id + ", wording=" + wording + ", description=" + description + ", content=" + content
-				+ ", category=" + category + ", notations=" + notations + ", comments=" + comments + ", qcmAnswers="
-				+ qcmAnswers + ", ownUser=" + ownUser + ", creationDate=" + creationDate + ", viewNumber=" + viewNumber
-				+ "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Trick [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (wording != null) {
+			builder.append("wording=");
+			builder.append(wording);
+			builder.append(", ");
+		}
+		if (description != null) {
+			builder.append("description=");
+			builder.append(description);
+			builder.append(", ");
+		}
+		if (content != null) {
+			builder.append("content=");
+			builder.append(content);
+			builder.append(", ");
+		}
+		if (category != null) {
+			builder.append("category=");
+			builder.append(category);
+			builder.append(", ");
+		}
+		if (notations != null) {
+			builder.append("notations=");
+			builder.append(notations);
+			builder.append(", ");
+		}
+		if (comments != null) {
+			builder.append("comments=");
+			builder.append(comments);
+			builder.append(", ");
+		}
+		if (qcmAnswers != null) {
+			builder.append("qcmAnswers=");
+			builder.append(qcmAnswers);
+			builder.append(", ");
+		}
+		if (ownUser != null) {
+			builder.append("ownUser=");
+			builder.append(ownUser);
+			builder.append(", ");
+		}
+		if (creationDate != null) {
+			builder.append("creationDate=");
+			builder.append(creationDate);
+			builder.append(", ");
+		}
+		if (viewNumber != null) {
+			builder.append("viewNumber=");
+			builder.append(viewNumber);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
+
 }

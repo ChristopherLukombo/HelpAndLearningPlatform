@@ -1,7 +1,10 @@
 package fr.esgi.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import fr.esgi.service.dto.TrickDTO;
@@ -24,6 +27,27 @@ public interface TrickService {
 	 * @return list of entities
      */
     List<TrickDTO> findAllByUserIdAndStatus(Long userId, Boolean status);
+    
+    /**
+     * Returns the trick by id.
+     * @param id : the id of trick
+     * @return trick
+     */
+    Optional<TrickDTO> findOne(Long id);
+    
+    /**
+     * Find all tricks by user id.
+	 * @param userId : the id of the owner of Trick
+	 * @return list of entities
+     */
+    Page<TrickDTO> findAllByOwnUserId(Pageable pageable, Long userId);
+    
+    /**
+     * Find all tricks by wording.
+	 * @param wording : the wording of the trick
+	 * @return list of entities
+     */
+    Page<TrickDTO> findAllByWording(Pageable pageable, String wording);
 
 	/**
      * Find all new tricks which are available according to the id
@@ -31,6 +55,13 @@ public interface TrickService {
 	 * @return list of entities
      */
     List<TrickDTO> findAllNewTricksAvailableByUserId(Long userId);
+    
+    /**
+     * Save a Trick
+     * @param trick
+     * @return entity
+     */
+    TrickDTO save(TrickDTO trickDTO);
     
     /**
      * Update a Trick
@@ -57,4 +88,6 @@ public interface TrickService {
      * @return the entity
      */
     TrickDTO addViewToTrick(Long trickId);
+    
+    void delete(Long id);
 }

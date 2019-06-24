@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +31,7 @@ import fr.esgi.service.mapper.TrickMapper;
 @Transactional
 public class TrickServiceImpl implements TrickService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(NotationServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrickServiceImpl.class);
 
     private final TrickRepository trickRepository;
 
@@ -79,6 +81,45 @@ public class TrickServiceImpl implements TrickService {
     			.distinct()
     			.collect(Collectors.toList());
     }
+    
+    /**
+     * Find by user id.
+	 * @param userId : the id of the owner of Trick
+	 * @return list of entities
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Optional<TrickDTO> findOne(Long id) {
+    	LOGGER.debug("Request to get trick by id: {}", id);
+    	return trickRepository.findById(id)
+    			.map(trickMapper::trickToTrickDTO);
+    }
+    
+    /**
+     * Find all tricks by user id.
+	 * @param userId : the id of the owner of Trick
+	 * @return list of entities
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Page<TrickDTO> findAllByOwnUserId(Pageable pageable, Long userId) {
+    	LOGGER.debug("Request to get all tricks by userId: {}", userId);
+        return trickRepository.findAllByOwnUserId(pageable, userId)
+        		.map(trickMapper::trickToTrickDTO);
+    }
+    
+    /**
+     * Find all tricks by wording.
+	 * @param userId : the id of the owner of Trick
+	 * @return list of entities
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public Page<TrickDTO> findAllByWording(Pageable pageable, String wording) {
+    	LOGGER.debug("Request to get all tricks by wording: {}", wording);
+    	return trickRepository.findAllByWording(pageable, wording)
+    			.map(trickMapper::trickToTrickDTO);
+    }
 
 	/**
      * Find all new tricks which are available according to the id
@@ -109,6 +150,19 @@ public class TrickServiceImpl implements TrickService {
     private LocalDate getDateBefore() {
         final LocalDate today = LocalDate.now();
         return today.minusDays(2);
+    }
+    
+    /**
+     * Save a Trick
+     * @param trick
+     * @return entity
+     */
+    @Override
+    public TrickDTO save(TrickDTO trickDTO) {
+    	LOGGER.debug("Request to save a trick: {}", trickDTO);
+    	Trick trick = trickMapper.trickDTOToTrick(trickDTO);
+    	trick = trickRepository.save(trick);
+    	return trickMapper.trickToTrickDTO(trick);
     }
 
     /**
@@ -165,6 +219,14 @@ public class TrickServiceImpl implements TrickService {
 		}
 		return null;
 	}
-	
 
+	/**
+     * Delete a trick by id
+     * @param trickId : the id of trick.
+     * @return the entity
+     */
+	@Override
+	public void delete(Long id) {
+		trickRepository.deleteById(id);
+	}
 }

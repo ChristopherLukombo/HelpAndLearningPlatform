@@ -14,9 +14,6 @@ import fr.esgi.domain.Subscription;
  */
 @Repository
 public interface SubscriptionRepository extends JpaRepository<Subscription, Long> {
-
-//	 @Query("SELECT s FROM Subscription s WHERE s.user.id = :userId")
-//	 List<Subscription> findAllByUserId(@Param("userId") Long userId);
 	
     @Query("SELECT s FROM Subscription s WHERE s.user.id = :userId AND s.finished = :finished")
     List<Subscription> findAllByUserIdAndStatus(@Param("userId") Long userId, @Param("finished") Boolean finished);
