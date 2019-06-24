@@ -38,7 +38,6 @@ public class AuthenticatorHelper {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(jsonObjectRequest);
-
     }
 
     public static void authenticate(final Context context, String url, Map<String, String> params, final VolleyJSONObjectCallback callback){
