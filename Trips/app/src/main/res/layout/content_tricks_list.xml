@@ -42,14 +42,6 @@
             android:hint="@string/name_sort"
             android:layout_weight="1" />
         <Button
-            android:id="@+id/sortDateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:background="@color/TripsAquaBlue"
-            android:hint="@string/date_sort"
-            android:layout_weight="3"
-            />
-        <Button
             android:id="@+id/sortMarkButton"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
@@ -57,6 +49,15 @@
             android:hint="@string/mark_sort"
             android:layout_weight="1"
             />
+        <Button
+            android:id="@+id/sortDateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@color/TripsAquaBlue"
+            android:hint="@string/date_sort"
+            android:layout_weight="3"
+            />
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,7 +53,14 @@ public class HTTPRequestHelper {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        parseErrorMEssage(error, context);
+                        NetworkResponse networkResponse = error.networkResponse;
+                        if(networkResponse.statusCode == HttpURLConnection.HTTP_NOT_FOUND){
+                                callback.onResponse(null);
+                        }
+                        else{
+                            parseErrorMEssage(error, context);
+                        }
+
                     }
                 }) {
 
