@@ -41,8 +41,10 @@ class User {
     $this->token    = $auth['id_token'];
   }
 
+  function getId() { return $this->user_id; }
+
   function getLogin() { return $this->login; }
-  
+
   function getToken() {
     $this->refreshToken();
     return $this->token;
