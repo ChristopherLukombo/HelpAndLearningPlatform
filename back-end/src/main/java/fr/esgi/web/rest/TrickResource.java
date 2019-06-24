@@ -95,12 +95,12 @@ public class TrickResource {
     @ApiOperation(value = "Get all tricks by user id, created by owner.")
     @GetMapping("/tricks/owner")
     public ResponseEntity<Page<TrickDTO>> getAllTricksByUserId(
-    		@ApiParam(value = "First index of page is 0") @RequestParam int page,
-      		@RequestParam int size,
+    		@ApiParam(value = "First index of page is 0") @RequestParam String page,
+    		@RequestParam String size,
     		@RequestParam Long userId
     		) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find all tricks by user: {}", userId);
-    	final Page<TrickDTO> tricksDTO = trickService.findAllByOwnUserId(PageRequest.of(page, size), userId);
+    	final Page<TrickDTO> tricksDTO = trickService.findAllByOwnUserId(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)), userId);
     	if (tricksDTO.isEmpty()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
     				"Pas de tricks");
@@ -118,12 +118,12 @@ public class TrickResource {
     @ApiOperation(value = "Get all tricks by wording")
     @GetMapping("/tricks/wording")
     public ResponseEntity<Page<TrickDTO>> getAllTricksByWording(
-    		@ApiParam(value = "First index of page is 0") @RequestParam int page,
-      		@RequestParam int size,
+    		@ApiParam(value = "First index of page is 0") @RequestParam String page,
+    		@RequestParam String size,
     		@RequestParam String wording
     		) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find all tricks by wording: {}", wording);
-    	final Page<TrickDTO> tricksDTO = trickService.findAllByWording(PageRequest.of(page, size), wording);
+    	final Page<TrickDTO> tricksDTO = trickService.findAllByWording(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)), wording);
     	if (tricksDTO.isEmpty()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
     				"Pas de tricks");
