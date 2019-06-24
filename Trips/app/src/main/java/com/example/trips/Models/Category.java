@@ -1,16 +1,22 @@
-package com.example.trips;
+package com.example.trips.Models;
 
-public class Category {
-    private static int id;
+import java.io.Serializable;
+
+public class Category implements Serializable {
+
+    private long id;
     private String name;
 
     public Category(String name) {
         this.name = name;
-        this.id ++;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getName() {

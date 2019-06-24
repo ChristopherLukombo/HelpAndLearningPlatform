@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:background="@null"
+    android:layout_margin="5dp"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="8dp">
+
+
+    <LinearLayout
+        android:id="@+id/trickRow"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@null"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
+            android:background="@null"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:id="@+id/rowTrickTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:textSize="14sp"
+                android:text="Apprendre l'anglais"
+                android:textStyle="bold"
+                android:fontFamily="serif"/>
+
+            <RatingBar
+                android:id="@+id/trickListRatingBar"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:isIndicator="true"
+                android:stepSize="0.1"/>
+
+            <TextView
+                android:id="@+id/rowTrickCategoryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:textSize="10sp"
+                android:text="Langues"
+                android:textStyle="italic"
+                android:gravity="end"
+                android:fontFamily="serif"
+                android:layout_marginRight="20dp"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/trickListAuthor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:textSize="8dp"
+            android:textStyle="italic"
+            android:layout_marginLeft="20dp"
+            />
+
+        <TextView
+            android:id="@+id/rowTrickDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Un petit guide pour vous aider à apprendre l'anglais plus facilement."
+            android:fontFamily="serif"
+            android:layout_marginTop="5dp"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginLeft="10dp"
+    android:layout_margin="10dp"
+    android:layout_gravity="bottom">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/rowTrickCreationDateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="serif"
+            android:text="Date d'ajout:"
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/rowTrickCreationDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="serif"
+            android:text=""
+            android:textSize="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/rowTrickCreationDateTitle" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/subscribeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="bottom|right"
+        android:background="@color/TripsAquaBlue"
+        android:textStyle="italic"
+        android:fontFamily="serif"
+        android:text="Suivre"
+        android:textSize="10dp"
+        android:layout_weight="1"
+        />
+</LinearLayout>
+
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
