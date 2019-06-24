@@ -41,6 +41,13 @@ public interface TrickService {
 	 * @return list of entities
      */
     Page<TrickDTO> findAllByOwnUserId(Pageable pageable, Long userId);
+    
+    /**
+     * Find all tricks by wording.
+	 * @param wording : the wording of the trick
+	 * @return list of entities
+     */
+    Page<TrickDTO> findAllByWording(Pageable pageable, String wording);
 
 	/**
      * Find all new tricks which are available according to the id

@@ -28,6 +28,9 @@ public interface TrickRepository extends JpaRepository<Trick, Long> {
     @Query("SELECT t FROM Trick t WHERE t.ownUser.id = :userId")
     Page<Trick> findAllByOwnUserId(Pageable pageable, @Param("userId") Long userId);
     
+    @Query("SELECT t FROM Trick t WHERE lower(t.wording) LIKE concat('%',lower(:wording),'%')")
+    Page<Trick> findAllByWording(Pageable pageable, @Param("wording") String wording);
+    
     @Query(value = "SELECT * FROM trick t ORDER BY t.creation_date DESC LIMIT 3", nativeQuery = true)
     List<Trick> findTheMostLatests();
     

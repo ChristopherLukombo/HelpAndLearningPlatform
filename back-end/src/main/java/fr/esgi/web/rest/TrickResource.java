@@ -95,12 +95,35 @@ public class TrickResource {
     @ApiOperation(value = "Get all tricks by user id, created by owner.")
     @GetMapping("/tricks/owner")
     public ResponseEntity<Page<TrickDTO>> getAllTricksByUserId(
-    		@ApiParam(value = "First index of page is 0") @RequestParam int page,
-      		@RequestParam int size,
+    		@ApiParam(value = "First index of page is 0") @RequestParam String page,
+    		@RequestParam String size,
     		@RequestParam Long userId
     		) throws HelpAndLearningPlatformException {
     	LOGGER.debug("REST request to find all tricks by user: {}", userId);
-    	final Page<TrickDTO> tricksDTO = trickService.findAllByOwnUserId(PageRequest.of(page, size), userId);
+    	final Page<TrickDTO> tricksDTO = trickService.findAllByOwnUserId(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)), userId);
+    	if (tricksDTO.isEmpty()) {
+    		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
+    				"Pas de tricks");
+    	}
+    	return ResponseEntity.ok()
+    			.body(tricksDTO);
+    }
+    
+    /**
+     * GET  /tricks : get all tricks by wording.
+     * @param  wording : the wording of trick to search
+     * @return the ResponseEntity with status 200 (OK) and the list of entities in body.
+     * @throws HelpAndLearningPlatformException if there is no tricks.
+     */
+    @ApiOperation(value = "Get all tricks by wording")
+    @GetMapping("/tricks/wording")
+    public ResponseEntity<Page<TrickDTO>> getAllTricksByWording(
+    		@ApiParam(value = "First index of page is 0") @RequestParam String page,
+    		@RequestParam String size,
+    		@RequestParam String wording
+    		) throws HelpAndLearningPlatformException {
+    	LOGGER.debug("REST request to find all tricks by wording: {}", wording);
+    	final Page<TrickDTO> tricksDTO = trickService.findAllByWording(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)), wording);
     	if (tricksDTO.isEmpty()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
     				"Pas de tricks");
