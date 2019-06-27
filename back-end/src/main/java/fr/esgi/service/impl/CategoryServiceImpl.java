@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.esgi.dao.CategoryRepository;
-import fr.esgi.domain.Category;
 import fr.esgi.service.CategoryService;
 import fr.esgi.service.dto.CategoryDTO;
 import fr.esgi.service.mapper.CategoryMapper;
@@ -46,9 +45,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDTO> findAllByWording(String wording) {
         LOGGER.debug("Request to find Categories by wording : {}", wording);
-        final List<Category> categories = categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE);
-        return categories.stream()
-                .map(categoryMapper::categoryToCategoryDTO).collect(Collectors.toList());
+        return categoryRepository.findCategoriesByWording(PERCENTAGE + wording + PERCENTAGE).stream()
+                .map(categoryMapper::categoryToCategoryDTO)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -60,8 +59,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<CategoryDTO> findAll() {
         LOGGER.debug("Request to get all Categories");
-        final List<Category> categories = categoryRepository.findAll();
-		return categories.stream()
-                .map(categoryMapper::categoryToCategoryDTO).collect(Collectors.toList());
+        return categoryRepository.findAll().stream()
+                .map(categoryMapper::categoryToCategoryDTO)
+                .collect(Collectors.toList());
     }
 }

@@ -85,8 +85,8 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	@Override
 	public Optional<SubscriptionDTO> findOne(Long id) {
 		LOGGER.debug("Request to get Subscription : {}", id);
-		final Optional<Subscription> subscription = subscriptionRepository.findById(id);
-		return subscription.map(subscriptionMapper::subscriptionToSubscriptionDTO);
+		return subscriptionRepository.findById(id)
+				.map(subscriptionMapper::subscriptionToSubscriptionDTO);
 	}
 
 	/**
@@ -97,9 +97,9 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 	@Override
 	public List<SubscriptionDTO> findAll() {
 		LOGGER.debug("Request to get all Subscriptions");
-		final List<Subscription> subscriptions = subscriptionRepository.findAll();
-		return subscriptions.stream()
-				.map(subscriptionMapper::subscriptionToSubscriptionDTO).collect(Collectors.toList());
+		return subscriptionRepository.findAll().stream()
+				.map(subscriptionMapper::subscriptionToSubscriptionDTO)
+				.collect(Collectors.toList());
 	}
 
 	/**
