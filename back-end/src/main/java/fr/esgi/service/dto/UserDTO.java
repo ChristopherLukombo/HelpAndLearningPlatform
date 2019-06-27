@@ -155,19 +155,58 @@ public class UserDTO {
         return Objects.hash(id, login, firstName, lastName, email, countryOfResidence, activated, langKey, imageUrl, authorityId);
     }
 
-    @Override
-    public String toString() {
-        return "UserDTO{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", countryOfResidence='" + countryOfResidence + '\'' +
-                ", activated=" + activated +
-                ", langKey='" + langKey + '\'' +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", authorityId=" + authorityId +
-                '}';
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("UserDTO [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (login != null) {
+			builder.append("login=");
+			builder.append(login);
+			builder.append(", ");
+		}
+		if (firstName != null) {
+			builder.append("firstName=");
+			builder.append(firstName);
+			builder.append(", ");
+		}
+		if (lastName != null) {
+			builder.append("lastName=");
+			builder.append(lastName);
+			builder.append(", ");
+		}
+		if (email != null) {
+			builder.append("email=");
+			builder.append(email);
+			builder.append(", ");
+		}
+		if (countryOfResidence != null) {
+			builder.append("countryOfResidence=");
+			builder.append(countryOfResidence);
+			builder.append(", ");
+		}
+		builder.append("activated=");
+		builder.append(activated);
+		builder.append(", ");
+		if (langKey != null) {
+			builder.append("langKey=");
+			builder.append(langKey);
+			builder.append(", ");
+		}
+		if (imageUrl != null) {
+			builder.append("imageUrl=");
+			builder.append(imageUrl);
+			builder.append(", ");
+		}
+		if (authorityId != null) {
+			builder.append("authorityId=");
+			builder.append(authorityId);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

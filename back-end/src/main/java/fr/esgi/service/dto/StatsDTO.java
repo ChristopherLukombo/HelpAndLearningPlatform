@@ -45,11 +45,14 @@ public class StatsDTO {
         return Objects.hash(mark, numberOfSubscribedUsers);
     }
 
-    @Override
-    public String toString() {
-        return "StatsDTO{" +
-                "mark=" + mark +
-                ", numberOfSubscribedUsers=" + numberOfSubscribedUsers +
-                '}';
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("StatsDTO [mark=");
+		builder.append(mark);
+		builder.append(", numberOfSubscribedUsers=");
+		builder.append(numberOfSubscribedUsers);
+		builder.append("]");
+		return builder.toString();
+	}
 }

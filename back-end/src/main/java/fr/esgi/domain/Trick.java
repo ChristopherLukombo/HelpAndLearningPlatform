@@ -236,5 +236,4 @@ public class Trick implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
-
 }

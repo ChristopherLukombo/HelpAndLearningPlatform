@@ -97,10 +97,33 @@ public class Subscription implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Subscription [id=" + id + ", trick=" + trick + ", subscriptionDate=" + subscriptionDate + ", user="
-				+ user + ", finished=" + finished + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Subscription [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (trick != null) {
+			builder.append("trick=");
+			builder.append(trick);
+			builder.append(", ");
+		}
+		if (subscriptionDate != null) {
+			builder.append("subscriptionDate=");
+			builder.append(subscriptionDate);
+			builder.append(", ");
+		}
+		if (user != null) {
+			builder.append("user=");
+			builder.append(user);
+			builder.append(", ");
+		}
+		if (finished != null) {
+			builder.append("finished=");
+			builder.append(finished);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
-
-    
-	
 }

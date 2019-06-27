@@ -67,13 +67,30 @@ public class QCMAnswersDTO {
         return Objects.hash(id, qcmId, answer, trickId);
     }
 
-    @Override
-    public String toString() {
-        return "QCMAnswersDTO{" +
-                "id=" + id +
-                ", qcmId=" + qcmId +
-                ", answer='" + answer + '\'' +
-                ", trickId=" + trickId +
-                '}';
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("QCMAnswersDTO [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (qcmId != null) {
+			builder.append("qcmId=");
+			builder.append(qcmId);
+			builder.append(", ");
+		}
+		if (answer != null) {
+			builder.append("answer=");
+			builder.append(answer);
+			builder.append(", ");
+		}
+		if (trickId != null) {
+			builder.append("trickId=");
+			builder.append(trickId);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

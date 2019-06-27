@@ -85,13 +85,30 @@ public class QCMAnswers implements Serializable {
         return Objects.hash(id, qcm, answer, trick);
     }
 
-    @Override
-    public String toString() {
-        return "QCMAnswers{" +
-                "id=" + id +
-                ", qcm=" + qcm +
-                ", answer='" + answer + '\'' +
-                ", trick=" + trick +
-                '}';
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("QCMAnswers [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (qcm != null) {
+			builder.append("qcm=");
+			builder.append(qcm);
+			builder.append(", ");
+		}
+		if (answer != null) {
+			builder.append("answer=");
+			builder.append(answer);
+			builder.append(", ");
+		}
+		if (trick != null) {
+			builder.append("trick=");
+			builder.append(trick);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

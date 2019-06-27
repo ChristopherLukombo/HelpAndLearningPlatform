@@ -63,8 +63,6 @@ public class SubscriptionDTO {
     public void setSubscriptionDate(LocalDate subscriptionDate) {
         this.subscriptionDate = subscriptionDate;
     }
-    
-    
 
 	public Boolean getFinished() {
 		return finished;
@@ -95,7 +93,33 @@ public class SubscriptionDTO {
 
 	@Override
 	public String toString() {
-		return "SubscriptionDTO [id=" + id + ", trickId=" + trickId + ", subscriptionDate=" + subscriptionDate
-				+ ", userId=" + userId + ", finished=" + finished + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("SubscriptionDTO [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (trickId != null) {
+			builder.append("trickId=");
+			builder.append(trickId);
+			builder.append(", ");
+		}
+		if (subscriptionDate != null) {
+			builder.append("subscriptionDate=");
+			builder.append(subscriptionDate);
+			builder.append(", ");
+		}
+		if (userId != null) {
+			builder.append("userId=");
+			builder.append(userId);
+			builder.append(", ");
+		}
+		if (finished != null) {
+			builder.append("finished=");
+			builder.append(finished);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 }
