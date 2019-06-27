@@ -1,6 +1,7 @@
 package fr.esgi.domain;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -69,15 +70,7 @@ public class Notation implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(note);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((trick == null) ? 0 : trick.hashCode());
-		result = prime * result + ((user == null) ? 0 : user.hashCode());
-		return result;
+		return Objects.hash(id, note, trick, user);
 	}
 
 	@Override
@@ -89,28 +82,32 @@ public class Notation implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Notation other = (Notation) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (Double.doubleToLongBits(note) != Double.doubleToLongBits(other.note))
-			return false;
-		if (trick == null) {
-			if (other.trick != null)
-				return false;
-		} else if (!trick.equals(other.trick))
-			return false;
-		if (user == null) {
-			if (other.user != null)
-				return false;
-		} else if (!user.equals(other.user))
-			return false;
-		return true;
+		return Objects.equals(id, other.id) && Double.doubleToLongBits(note) == Double.doubleToLongBits(other.note)
+				&& Objects.equals(trick, other.trick) && Objects.equals(user, other.user);
 	}
 
 	@Override
 	public String toString() {
-		return "Notation [id=" + id + ", note=" + note + ", trick=" + trick + ", user=" + user + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Notation [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		builder.append("note=");
+		builder.append(note);
+		builder.append(", ");
+		if (trick != null) {
+			builder.append("trick=");
+			builder.append(trick);
+			builder.append(", ");
+		}
+		if (user != null) {
+			builder.append("user=");
+			builder.append(user);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 }

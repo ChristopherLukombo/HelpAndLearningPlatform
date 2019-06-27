@@ -1,6 +1,7 @@
 package fr.esgi.service.dto;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import javax.validation.constraints.NotNull;
 
@@ -99,17 +100,7 @@ public class TrickDTO {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((categoryId == null) ? 0 : categoryId.hashCode());
-		result = prime * result + ((content == null) ? 0 : content.hashCode());
-		result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((ownUserId == null) ? 0 : ownUserId.hashCode());
-		result = prime * result + ((viewNumber == null) ? 0 : viewNumber.hashCode());
-		result = prime * result + ((wording == null) ? 0 : wording.hashCode());
-		return result;
+		return Objects.hash(categoryId, content, creationDate, description, id, ownUserId, viewNumber, wording);
 	}
 
 	@Override
@@ -121,53 +112,56 @@ public class TrickDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		TrickDTO other = (TrickDTO) obj;
-		if (categoryId == null) {
-			if (other.categoryId != null)
-				return false;
-		} else if (!categoryId.equals(other.categoryId))
-			return false;
-		if (content == null) {
-			if (other.content != null)
-				return false;
-		} else if (!content.equals(other.content))
-			return false;
-		if (creationDate == null) {
-			if (other.creationDate != null)
-				return false;
-		} else if (!creationDate.equals(other.creationDate))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (ownUserId == null) {
-			if (other.ownUserId != null)
-				return false;
-		} else if (!ownUserId.equals(other.ownUserId))
-			return false;
-		if (viewNumber == null) {
-			if (other.viewNumber != null)
-				return false;
-		} else if (!viewNumber.equals(other.viewNumber))
-			return false;
-		if (wording == null) {
-			if (other.wording != null)
-				return false;
-		} else if (!wording.equals(other.wording))
-			return false;
-		return true;
+		return Objects.equals(categoryId, other.categoryId) && Objects.equals(content, other.content)
+				&& Objects.equals(creationDate, other.creationDate) && Objects.equals(description, other.description)
+				&& Objects.equals(id, other.id) && Objects.equals(ownUserId, other.ownUserId)
+				&& Objects.equals(viewNumber, other.viewNumber) && Objects.equals(wording, other.wording);
 	}
 
 	@Override
 	public String toString() {
-		return "TrickDTO [id=" + id + ", wording=" + wording + ", description=" + description + ", content=" + content
-				+ ", categoryId=" + categoryId + ", ownUserId=" + ownUserId + ", creationDate=" + creationDate
-				+ ", viewNumber=" + viewNumber + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("TrickDTO [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (wording != null) {
+			builder.append("wording=");
+			builder.append(wording);
+			builder.append(", ");
+		}
+		if (description != null) {
+			builder.append("description=");
+			builder.append(description);
+			builder.append(", ");
+		}
+		if (content != null) {
+			builder.append("content=");
+			builder.append(content);
+			builder.append(", ");
+		}
+		if (categoryId != null) {
+			builder.append("categoryId=");
+			builder.append(categoryId);
+			builder.append(", ");
+		}
+		if (ownUserId != null) {
+			builder.append("ownUserId=");
+			builder.append(ownUserId);
+			builder.append(", ");
+		}
+		if (creationDate != null) {
+			builder.append("creationDate=");
+			builder.append(creationDate);
+			builder.append(", ");
+		}
+		if (viewNumber != null) {
+			builder.append("viewNumber=");
+			builder.append(viewNumber);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
 }

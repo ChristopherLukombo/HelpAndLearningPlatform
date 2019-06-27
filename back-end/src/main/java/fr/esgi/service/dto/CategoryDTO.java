@@ -56,11 +56,20 @@ public class CategoryDTO {
         return Objects.hash(id, wording);
     }
 
-    @Override
-    public String toString() {
-        return "CategoryDTO{" +
-                "id=" + id +
-                ", wording='" + wording + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CategoryDTO [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (wording != null) {
+			builder.append("wording=");
+			builder.append(wording);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }
