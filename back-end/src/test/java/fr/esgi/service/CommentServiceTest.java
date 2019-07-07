@@ -1,17 +1,23 @@
 package fr.esgi.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.annotation.Profile;
 
 import fr.esgi.dao.CommentRepository;
 import fr.esgi.domain.Comment;
@@ -19,8 +25,7 @@ import fr.esgi.service.dto.CommentDTO;
 import fr.esgi.service.impl.CommentServiceImpl;
 import fr.esgi.service.mapper.CommentMapper;
 
-@Profile("test")
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(MockitoJUnitRunner.class)
 public class CommentServiceTest {
 
 	private static final String NAME = "Bien";
@@ -32,54 +37,149 @@ public class CommentServiceTest {
 
 	@Mock
 	private CommentMapper commentMapper;
-	
+
 	@InjectMocks 
 	private CommentServiceImpl commentServiceImpl;
-	
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-		commentServiceImpl = new CommentServiceImpl(commentRepository, commentMapper);
-	}
-	
+
 	private Comment getComment() {
 		Comment comment = new Comment();
 		comment.setId(ID);
 		comment.setName(NAME);
 		return comment;
 	}
-	
+
 	private CommentDTO getCommentDTO() {
 		CommentDTO commentDTO = new CommentDTO();
 		commentDTO.setId(ID);
 		commentDTO.setName(NAME);
 		return commentDTO;
 	}
-	
+
 	@Test
 	public void shouldSaveCommentWhenIsOK() {
 		// Given
 		Comment comment = getComment();
-		
+
 		// When
-		when(commentRepository.save(mock(Comment.class))).thenReturn(comment);
-		when(commentServiceImpl.save(mock(CommentDTO.class))).thenReturn(getCommentDTO());
-		
+		when(commentRepository.save((Comment) any())).thenReturn(comment);
+		when(commentMapper.commentToCommentDTO(((Comment) any()))).thenReturn(getCommentDTO());
+
 		// Then
-		assertThat(commentServiceImpl.save(mock(CommentDTO.class))).isNotNull();
+		assertThat(commentServiceImpl.save(getCommentDTO())).isNotNull();
 	}
 
-
-	
 	@Test
 	public void shouldSaveCommentWhenIsKO() {
 		// Given
 		Comment comment = null;
+
+		// When
+		when(commentRepository.save((Comment) any())).thenReturn(comment);
+		when(commentMapper.commentToCommentDTO(((Comment) any()))).thenReturn(null);
+
+		// Then
+		assertThat(commentServiceImpl.save(null)).isNull();
+	}
+
+	@Test
+	public void shouldUpdateCommentWhenIsOK() {
+		// Given
+		Comment comment = getComment();
+
+		// When
+		when(commentRepository.saveAndFlush((Comment) any())).thenReturn(comment);
+		when(commentMapper.commentToCommentDTO(((Comment) any()))).thenReturn(getCommentDTO());
+
+		// Then
+		assertThat(commentServiceImpl.update(getCommentDTO())).isNotNull();
+	}
+
+	@Test
+	public void shouldUpdateCommentWhenIsKO() {
+		// Given
+		CommentDTO commentDTO = null;
+
+		// When
+		when(commentMapper.commentToCommentDTO(((Comment) any()))).thenReturn(commentDTO);
+
+		// Then
+		assertThat(commentServiceImpl.update(commentDTO)).isNull();
+	}
+	
+	@Test
+	public void shouldFindCommentsWhenIsOK() {
+		// Given
+		Comment comment = getComment();
+		List<Comment> comments = new ArrayList<Comment>();
+		comments.add(comment);
+
+		// When
+		when(commentRepository.findAll()).thenReturn(comments);
+		when(commentMapper.commentToCommentDTO(((Comment) any()))).thenReturn(getCommentDTO());
+
+		// Then
+		assertThat(commentServiceImpl.findAll()).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldFindCommentsWhenIsEmpty() {
+		// Given
+		List<Comment> comments = new ArrayList<Comment>();
+
+		// When
+		when(commentRepository.findAll()).thenReturn(comments);
+
+		// Then
+		assertThat(commentServiceImpl.findAll()).isEmpty();
+	}
+	
+	@Test
+	public void shouldFindCommentsWhenIsKO() {
+		// Given
+		List<Comment> comments = null;
+
+		// When
+		when(commentRepository.findAll()).thenReturn(comments);
+
+		// Then
+		assertThatThrownBy(() -> commentServiceImpl.findAll())
+		.isInstanceOf(NullPointerException.class);
+	}
+	
+	@Test
+	public void shouldFindOneWhenIsOK() {
+		// Given
+		Comment comment = getComment();
 		
 		// When
-		when(commentRepository.save(mock(Comment.class))).thenReturn(comment);
+		when(commentRepository.findById(anyLong())).thenReturn(Optional.ofNullable(comment));
+		when(commentMapper.commentToCommentDTO(((Comment) any()))).thenReturn(getCommentDTO());
 		
 		// Then
-		assertThat(commentServiceImpl.save(mock(CommentDTO.class))).isNull();
+		assertThat(commentServiceImpl.findOne(ID)).isNotEqualTo(Optional.empty());
+	}
+	
+	@Test
+	public void shouldFindOneWhenIsKO() {
+		// Given
+		Comment comment = null;
+		
+		// When
+		when(commentRepository.findById(anyLong())).thenReturn(Optional.ofNullable(comment));
+		
+		// Then
+		assertThat(commentServiceImpl.findOne(ID)).isEqualTo(Optional.empty());
+	}
+	
+	@Test
+	public void shouldDeleteWhenIsOK() {
+		// Given
+		doNothing().when(commentRepository).deleteById(anyLong());
+		
+		// When
+		commentServiceImpl.delete(1L);
+		
+		// Then
+		 verify(commentRepository, times(1)).deleteById(anyLong());
 	}
 }

@@ -2,47 +2,46 @@ package fr.esgi.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import fr.esgi.dao.SubscriptionRepository;
 import fr.esgi.dao.TrickRepository;
 import fr.esgi.domain.Category;
 import fr.esgi.domain.Subscription;
 import fr.esgi.domain.Trick;
-import fr.esgi.domain.User;
 import fr.esgi.service.dto.TrickDTO;
 import fr.esgi.service.impl.TrickServiceImpl;
 import fr.esgi.service.mapper.TrickMapper;
 
-@Profile("test")
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class TrickServiceTest {
 
 	private static final String DESCRIPTION = "Blo blob";
 
-	private static final long OWN_USER_ID = 1L;
-
-	private static final long CATEGORY_ID = 1L;
-
 	private static final String WORDING = "Computer Science";
-
-	private static final long OWNER_USER_ID = 1L;
 
 	private static final long ID = 1L;
 
@@ -58,20 +57,14 @@ public class TrickServiceTest {
 	@InjectMocks
 	private TrickServiceImpl trickServiceImpl;
 
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-		trickServiceImpl = new TrickServiceImpl(
-				trickRepository, subscriptionRepository, trickMapper);
-	}
-	
 	private static Trick getTrick() {
 		Trick trick = new Trick();
 		trick.setId(ID);
 		trick.setWording(WORDING);
-		trick.setCategory(new Category());
+		trick.setCategory( getCategory());
 		trick.setCreationDate(LocalDate.now());
 		trick.setDescription(DESCRIPTION);
+		trick.setViewNumber(0);
 		return trick;
 	}
 
@@ -84,209 +77,427 @@ public class TrickServiceTest {
 		trickdto.setDescription(DESCRIPTION);
 		return trickdto;
 	}
-	
+
+	private static Subscription getSubscription() {
+		Subscription subscription = new Subscription();
+		subscription.setId(ID);
+		subscription.setSubscriptionDate(LocalDate.now());
+		subscription.setTrick(getTrick());
+		return subscription;
+	}
+
+	private static Category getCategory() {
+		Category category = new Category();
+		category.setId(ID);
+		category.setWording(WORDING);
+		return category;
+	}
+
 	@Test
 	public void shouldfindAllTricksWhenIsEmpty() {
 		// Given
-		List<TrickDTO> tricksDTOs = new ArrayList<>();
+		List<Trick> tricks = new ArrayList<>();
 
 		// When
-		when(trickServiceImpl.findAll()).thenReturn(tricksDTOs);
+		when(trickRepository.findAll()).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO());
 
 		// Then
-		assertThat(trickServiceImpl.findAll()).isEqualTo(tricksDTOs);
+		assertThat(trickServiceImpl.findAll()).isEmpty();
 	}
-	
+
 	@Test
 	public void shouldfindAllTricksWhenIsKO() {
 		// Given
-		List<TrickDTO> tricksDTOs = null;
+		List<Trick> tricks = null;
 
 		// When
-		when(trickServiceImpl.findAll()).thenReturn(tricksDTOs);
-		
+		when(trickRepository.findAll()).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(null);
+
 		// Then
 		assertThatThrownBy(() -> trickServiceImpl.findAll())
-        .isInstanceOf(NullPointerException.class);
+		.isInstanceOf(NullPointerException.class);
 	}
-// FIXME voir les tests
-//	@Test
-//	public void shouldfindAllNewTricksAvailableByUserIdWhenIsEmpty() {
-//		// Given
-//		List<TrickDTO> tricksDTO = new ArrayList<>();
-//
-//		// When
-//		when(trickServiceImpl.findAllNewTricksAvailableByUserId(anyLong())).thenReturn(tricksDTO);
-//
-//		// Then
-//		assertThat(trickServiceImpl.findAllNewTricksAvailableByUserId(anyLong())).isEmpty();
-//	}
+
+	@Test
+	public void shouldfindAllNewTricksAvailableByUserIdWhenIsOK() {
+		// Given
+		List<Trick> tricks = new ArrayList<>();
+		tricks.add(getTrick());
+
+		List<Subscription> subscriptions = new ArrayList<>();
+		subscriptions.add(getSubscription());
+
+		// When
+		when(subscriptionRepository.findAllByUserIdAndStatus(anyLong(), anyBoolean())).thenReturn(subscriptions);
+		when(trickRepository.findAllNewTricksAvailableByDateAndCategoryId(any(), anyLong())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(getTrickDTO());
+
+		// Then
+		assertThat(trickServiceImpl.findAllNewTricksAvailableByUserId(ID)).isNotEmpty();
+	}
+
+	@Test
+	public void shouldfindAllNewTricksAvailableByUserIdWhenIsEmpty() {
+		// Given
+		List<Trick> tricks = new ArrayList<>();
+
+		List<Subscription> subscriptions = new ArrayList<>();
+
+		// When
+		when(subscriptionRepository.findAllByUserIdAndStatus(anyLong(), anyBoolean())).thenReturn(subscriptions);
+		when(trickRepository.findAllNewTricksAvailableByDateAndCategoryId(any(), anyLong())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(getTrickDTO());
+
+		// Then
+		assertThat(trickServiceImpl.findAllNewTricksAvailableByUserId(ID)).isEmpty();
+	}
+
+	@Test
+	public void shouldfindAllNewTricksAvailableByUserIdWhenIsNull() {
+		// Given
+		List<Trick> tricks = new ArrayList<>();
+
+		List<Subscription> subscriptions = null;
+
+		// When
+		when(subscriptionRepository.findAllByUserIdAndStatus(anyLong(), anyBoolean())).thenReturn(subscriptions);
+		when(trickRepository.findAllNewTricksAvailableByDateAndCategoryId(any(), anyLong())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(getTrickDTO());
+
+		// Then
+		assertThat(trickServiceImpl.findAllNewTricksAvailableByUserId(ID)).isEmpty();
+	}
 
 
-//	@Test
-//	public void shouldfindAllNewTricksAvailableByUserIdWhenIsNull() {
-//		// Given
-//		List<TrickDTO> tricksDTO = new ArrayList<>();
-//
-//		// When
-//		when(subscriptionRepository.findAllByUserIdAndStatus(anyLong(), anyBoolean())).thenReturn(null);
-//		when(trickServiceImpl.findAllNewTricksAvailableByUserId(anyLong())).thenReturn(tricksDTO);
-//
-//		// Then
-//		assertThat(trickServiceImpl.findAllNewTricksAvailableByUserId(anyLong())).isEmpty();
-//	}
-//
-//	@Test
-//	public void shouldfindAllNewTricksAvailableByUserIdWhenIsOK() {
-//		// Given
-//		TrickDTO trickDTO = new TrickDTO();
-//		trickDTO.setId(ID);
-//		trickDTO.setOwnUserId(OWNER_USER_ID);
-//		trickDTO.setWording(WORDING);
-//		trickDTO.setCategoryId(CATEGORY_ID);
-//		trickDTO.setOwnUserId(OWN_USER_ID);
-//		trickDTO.setCreationDate(LocalDate.now());
-//		trickDTO.setDescription(DESCRIPTION);
-//		
-//		Category category = new Category();
-//		category.setId(ID);
-//		category.setWording(WORDING);
-//
-//		Trick trick = new Trick();
-//		trick.setId(ID);
-//		trick.setOwnUser(new User());
-//		trick.setWording(WORDING);
-//
-//		trick.setCategory(category);
-//		trick.setCreationDate(LocalDate.now());
-//		trick.setDescription(DESCRIPTION);	
-//
-//		List<Trick> tricks = new ArrayList<>();
-//		tricks.add(trick);
-//
-//		List<TrickDTO> tricksDTO = new ArrayList<>();
-//		tricksDTO.add(trickDTO);
-//
-//		Subscription subscription = new Subscription();
-//		subscription.setId(ID);
-//		subscription.setTrick(trick);
-//		subscription.setUser(new User());
-//		subscription.setFinished(true);
-//		subscription.setSubscriptionDate(LocalDate.now());
-//
-//		List<Subscription> subscriptions = new ArrayList<>();
-//		subscriptions.add(subscription);
-//
-//		// When
-//		when(subscriptionRepository.findAllByUserIdAndStatus(anyLong(), anyBoolean())).thenReturn(subscriptions);
-//		List<TrickDTO> trc = trickServiceImpl.findAllNewTricksAvailableByUserId(anyLong());
-//		when(trc).thenReturn(tricksDTO);
-//
-//		// Then
-//		assertThat(trc).isNotNull();
-//	}
-	
+	@Test
+	public void shouldSaveTrickWhenIsOK() {
+		// Given
+		Trick trick = getTrick();
+
+		TrickDTO trickdto = getTrickDTO();
+
+		// When
+		when(trickRepository.save(mock(Trick.class))).thenReturn(trick);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(trickdto);
+
+		// Then
+		assertThat(trickServiceImpl.save(trickdto)).isNotNull();
+	}
+
+	@Test
+	public void shouldSaveTrickWhenIsKO() {
+		// Given
+		TrickDTO trickdto = null;
+
+		// When
+		when(trickRepository.save(mock(Trick.class))).thenReturn(null);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(null);
+
+		// Then
+		assertThat(trickServiceImpl.save(trickdto)).isNull();
+	}
+
 	@Test
 	public void shouldUpdateTrickWhenIsOK() {
 		// Given
 		Trick trick = getTrick();
-		
+
 		TrickDTO trickdto = getTrickDTO();
-		
+
 		// When
 		when(trickRepository.saveAndFlush(mock(Trick.class))).thenReturn(trick);
-		when(trickServiceImpl.update(mock(TrickDTO.class))).thenReturn(trickdto);
-		
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(trickdto);
+
 		// Then
-		assertThat(trickServiceImpl.update(mock(TrickDTO.class))).isNotNull();
+		assertThat(trickServiceImpl.update(trickdto)).isNotNull();
+	}
+
+	@Test
+	public void shouldUpdateTrickWhenIsKO() {
+		// Given
+		TrickDTO trickDTO = null;
+
+		// When
+		when(trickRepository.saveAndFlush(mock(Trick.class))).thenReturn(null);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(null);
+
+		// Then
+		assertThat(trickServiceImpl.update(trickDTO)).isNull();
+	}
+
+	@Test
+	public void shouldFindTheMostLatestsWhenIsEmpty() {
+		// Given
+		List<Trick> tricks = new ArrayList<>();
+
+		// When
+		when(trickRepository.findTheMostLatests()).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(null);
+
+		// Then
+		assertThat(trickServiceImpl.findTheMostLatests()).isEmpty();
+	}
+
+	@Test
+	public void shouldFindTheMostLatestsWhenIsOK() {
+		// Given
+		List<Trick> tricks = new ArrayList<>();
+		tricks.add(new Trick());
+
+		// When
+		when(trickRepository.findTheMostLatests()).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(getTrickDTO());
+
+		// Then
+		assertThat(trickServiceImpl.findTheMostLatests()).isNotEmpty();
+	}
+
+	@Test
+	public void shouldFindTheMostLatestsWhenIsKO() {
+		// Given
+		List<Trick> tricks = null;
+
+		// When
+		when(trickRepository.findTheMostLatests()).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(null);
+
+		// Then
+		assertThatThrownBy(() -> trickServiceImpl.findTheMostLatests())
+		.isInstanceOf(NullPointerException.class);
+	}
+
+	@Test
+	public void shouldFindTheMostViewedWhenIsOK() {
+		// Given
+		List<Trick> tricks = new ArrayList<>();
+		tricks.add(new Trick());
+
+		// When
+		when(trickRepository.findTheMostViewed()).thenReturn(tricks);
+
+		// Then
+		assertThat(trickServiceImpl.findTheMostViewed()).isNotEmpty();
+	}
+
+	@Test
+	public void shouldFindTheMostViewedWhenIsEmpty() {
+		// Given
+		List<Trick> tricks = new ArrayList<>();
+
+		// When
+		when(trickRepository.findTheMostViewed()).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(null);
+
+		// Then
+		assertThat(trickServiceImpl.findTheMostViewed()).isEmpty();
+	}
+
+	@Test
+	public void shouldFindTheMostViewedWhenIsKO() {
+		// Given
+		List<Trick> tricks = null;
+
+		// When
+		when(trickRepository.findTheMostViewed()).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO(((Trick) any()))).thenReturn(getTrickDTO()).thenReturn(null);
+
+		// Then
+		assertThatThrownBy(() -> trickServiceImpl.findTheMostViewed())
+		.isInstanceOf(NullPointerException.class);
+	}
+
+	@Test
+	public void shouldDeleteWhenIsOK() {
+		// Given
+		doNothing().when(trickRepository).deleteById(anyLong());
+
+		// When
+		trickServiceImpl.delete(anyLong());
+
+		// Then
+		verify(trickRepository, times(1)).deleteById(anyLong());
+	}
+
+	@Test
+	public void shouldAddViewToTrickWhenIsOK() {
+		// Given
+		Trick trick = getTrick();
+
+		// When
+		when(trickRepository.findById(anyLong())).thenReturn(Optional.ofNullable(trick));
+		when(trickRepository.saveAndFlush((Trick) any())).thenReturn(trick);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(getTrickDTO());
+
+		// Then
+		assertThat(trickServiceImpl.addViewToTrick(ID)).isNotNull();
+	}
+
+	@Test
+	public void shouldAddViewToTrickWhenIsKO() {
+		// Given
+		Trick trick = null;
+
+		// When
+		when(trickRepository.findById(anyLong())).thenReturn(Optional.ofNullable(trick));
+		when(trickRepository.saveAndFlush((Trick) any())).thenReturn(trick);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(null);
+
+		// Then
+		assertThat(trickServiceImpl.addViewToTrick(ID)).isNull();
+	}
+
+	@Test
+	public void shouldFindAllByWordingWhenIsOK() {
+		// Given
+		List<Trick> content = new ArrayList<>();
+		content.add(getTrick());
+		Page<Trick> tricks = new PageImpl<Trick>(content);
+
+		// When
+		when(trickRepository.findAllByWording((Pageable) any(), anyString())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(getTrickDTO());
+
+		// Then		
+		assertThat(trickServiceImpl.findAllByWording((Pageable) any(), anyString())).isNotEmpty();
+	}
+
+	@Test
+	public void shouldFindAllByWordingWhenIsEmpty() {
+		// Given
+		List<Trick> content = new ArrayList<>();
+		Page<Trick> tricks = new PageImpl<Trick>(content);
+
+		// When
+		when(trickRepository.findAllByWording((Pageable) any(), anyString())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(null);
+
+		// Then		
+		assertThat(trickServiceImpl.findAllByWording((Pageable) any(), anyString())).isEmpty();
+	}
+
+	@Test
+	public void shouldFindAllByWordingWhenIsKO() {
+		// Given
+		Page<Trick> tricks = null;
+
+		// When
+		when(trickRepository.findAllByWording((Pageable) any(), anyString())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(null);
+
+		// Then		
+		assertThatThrownBy(() -> trickServiceImpl.findAllByWording((Pageable) any(), anyString()))
+		.isInstanceOf(NullPointerException.class);
 	}
 	
 	@Test
-	public void shouldUpdateTrickWhenIsKO() {
+	public void shouldFindAllByOwnUserIdWhenIsOK() {
+		// Given
+		List<Trick> content = new ArrayList<>();
+		content.add(getTrick());
+		Page<Trick> tricks = new PageImpl<Trick>(content);
+
+		// When
+		when(trickRepository.findAllByOwnUserId((Pageable) any(), anyLong())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(getTrickDTO());
+
+		// Then		
+		assertThat(trickServiceImpl.findAllByOwnUserId((Pageable) any(), anyLong())).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldFindAllByOwnUserIdWhenIsEmpty() {
+		// Given
+		List<Trick> content = new ArrayList<>();
+		Page<Trick> tricks = new PageImpl<Trick>(content);
+
+		// When
+		when(trickRepository.findAllByOwnUserId((Pageable) any(), anyLong())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(null);
+
+		// Then		
+		assertThat(trickServiceImpl.findAllByOwnUserId(PageRequest.of(0, 10), ID)).isEmpty();
+	}
+	
+	@Test
+	public void shouldFindAllByOwnUserIdWhenIsKO() {
+		// Given
+		Page<Trick> tricks = null;
+
+		// When
+		when(trickRepository.findAllByOwnUserId((Pageable) any(), anyLong())).thenReturn(tricks);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(null);
+
+		// Then		
+		assertThatThrownBy(() -> trickServiceImpl.findAllByOwnUserId(PageRequest.of(0, 10), ID))
+		.isInstanceOf(NullPointerException.class);
+	}
+	
+	@Test
+	public void shouldFindOneWhenIsOK() {
+		// Given
+		Trick trick = getTrick();
+		
+		// When
+		when(trickRepository.findById(anyLong())).thenReturn(Optional.ofNullable(trick));
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(getTrickDTO());
+		
+		// Then
+		assertThat(trickServiceImpl.findOne(ID)).isNotEqualTo(Optional.empty());
+	}
+	
+	@Test
+	public void shouldFindOneWhenIsEmpty() {
 		// Given
 		Trick trick = null;
 		
 		// When
-		when(trickRepository.saveAndFlush(mock(Trick.class))).thenReturn(trick);
+		when(trickRepository.findById(anyLong())).thenReturn(Optional.ofNullable(trick));
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(null);
 		
 		// Then
-		assertThat(trickServiceImpl.update(mock(TrickDTO.class))).isNull();
+		assertThat(trickServiceImpl.findOne(ID)).isEqualTo(Optional.empty());
 	}
 	
-    @Test
-    public void shouldFindTheMostLatestsWhenIsEmpty() {
-    	// Given
-    	List<Trick> tricks = new ArrayList<>();
-    	
-    	// When
-    	when(trickRepository.findTheMostLatests()).thenReturn(tricks);
-    	
-    	// Then
-    	assertThat(trickServiceImpl.findTheMostLatests()).isEmpty();
-    }
-    
-    @Test
-    public void shouldFindTheMostLatestsWhenIsOK() {
-    	// Given
-    	List<Trick> tricks = new ArrayList<>();
-    	tricks.add(new Trick());
-    	
-    	// When
-    	when(trickRepository.findTheMostLatests()).thenReturn(tricks);
-    	
-    	// Then
-    	assertThat(trickServiceImpl.findTheMostLatests()).isNotEmpty();
-    }
-    
-    @Test
-    public void shouldFindTheMostLatestsWhenIsKO() {
-    	// Given
-    	List<Trick> tricks = null;
-    	
-    	// When
-    	when(trickRepository.findTheMostLatests()).thenReturn(tricks);
-    	
-    	// Then
-    	assertThatThrownBy(() -> trickServiceImpl.findTheMostLatests())
-		.isInstanceOf(NullPointerException.class);
-    }
-    
-    @Test
-    public void shouldFindTheMostViewedWhenIsOK() {
-    	// Given
-    	List<Trick> tricks = new ArrayList<>();
-    	tricks.add(new Trick());
-    	
-    	// When
-    	when(trickRepository.findTheMostViewed()).thenReturn(tricks);
-    	
-    	// Then
-    	assertThat(trickServiceImpl.findTheMostViewed()).isNotEmpty();
-    }
-    
-    @Test
-    public void shouldFindTheMostViewedWhenIsEmpty() {
-    	// Given
-    	List<Trick> tricks = new ArrayList<>();
-    	
-    	// When
-    	when(trickRepository.findTheMostViewed()).thenReturn(tricks);
-    	
-    	// Then
-    	assertThat(trickServiceImpl.findTheMostViewed()).isEmpty();
-    }
-    
-    @Test
-    public void shouldFindTheMostViewedWhenIsKO() {
-    	// Given
-    	List<Trick> tricks = null;
-    	
-    	// When
-    	when(trickRepository.findTheMostViewed()).thenReturn(tricks);
-    	
-    	// Then
-    	assertThatThrownBy(() -> trickServiceImpl.findTheMostViewed())
-		.isInstanceOf(NullPointerException.class);
-    }
+	@Test
+	public void shouldFindAllByUserIdAndStatusWhenIsOK() {
+		// Given
+		List<Subscription> subscriptions = new ArrayList<>();
+		subscriptions.add(getSubscription());
+		
+		// When
+		when(subscriptionRepository.findAllByUserIdAndStatus(anyLong(), anyBoolean())).thenReturn(subscriptions);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(getTrickDTO());
+		
+		// Then
+		assertThat(trickServiceImpl.findAllByUserIdAndStatus(ID, true)).isNotEmpty();
+	}
 	
+	@Test
+	public void shouldFindAllByUserIdAndStatusWhenIsEmpty() {
+		// Given
+		List<Subscription> subscriptions = new ArrayList<>();
+		
+		// When
+		when(subscriptionRepository.findAllByUserIdAndStatus(anyLong(), anyBoolean())).thenReturn(subscriptions);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(null);
+		
+		// Then
+		assertThat(trickServiceImpl.findAllByUserIdAndStatus(ID, true)).isEmpty();
+	}
+	
+	@Test
+	public void shouldFindAllByUserIdAndStatusWhenIsKO() {
+		// Given
+		List<Subscription> subscriptions = null;
+		
+		// When
+		when(subscriptionRepository.findAllByUserIdAndStatus(anyLong(), anyBoolean())).thenReturn(subscriptions);
+		when(trickMapper.trickToTrickDTO((Trick) any())).thenReturn(null);
+		
+		// Then
+		assertThat(trickServiceImpl.findAllByUserIdAndStatus(ID, true)).isEmpty();
+	}
+
 }
