@@ -43,7 +43,7 @@ public class ContactResource {
      */
     @ApiOperation(value = "Contact Company in sending a mail.")
     @PostMapping(value = "/contacts")
-    public ResponseEntity<Void> contactCompany(@RequestBody @Valid ContactDTO contactDTO) throws HelpAndLearningPlatformException {
+    public ResponseEntity<String> contactCompany(@RequestBody @Valid ContactDTO contactDTO) throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to contact Company: {}", contactDTO);
         try {
             contactService.contact(contactDTO);
@@ -51,6 +51,6 @@ public class ContactResource {
             throw new HelpAndLearningPlatformException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                     "Error trying to contact Company", e);
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body("Mail sent successfully !");
     }
 }
