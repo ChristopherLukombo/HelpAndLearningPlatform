@@ -2,28 +2,26 @@ package fr.esgi.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.annotation.Profile;
 
 import fr.esgi.dao.CategoryRepository;
 import fr.esgi.domain.Category;
+import fr.esgi.service.dto.CategoryDTO;
 import fr.esgi.service.impl.CategoryServiceImpl;
 import fr.esgi.service.mapper.CategoryMapper;
 
-@Profile("test")
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(MockitoJUnitRunner.class)
 public class CategoryServiceTest {
 
 	private static final long ID = 1L;
@@ -39,17 +37,18 @@ public class CategoryServiceTest {
 	@InjectMocks
 	private CategoryServiceImpl categoryServiceImpl;
 
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-		categoryServiceImpl = new CategoryServiceImpl(categoryRepository, categoryMapper);
-	}
-
 	private static Category getCategory() {
 		Category category = new Category();
 		category.setId(ID);
 		category.setWording(WORDING);
 		return category;
+	}
+	
+	private static CategoryDTO getCategoryDTO() {
+		CategoryDTO categoryDTO = new CategoryDTO();
+		categoryDTO.setId(ID);
+		categoryDTO.setWording(WORDING);
+		return categoryDTO;
 	}
 
 	@Test
@@ -60,6 +59,7 @@ public class CategoryServiceTest {
 
 		// When
 		when(categoryRepository.findCategoriesByWording(anyString())).thenReturn(categorys);
+		when(categoryMapper.categoryToCategoryDTO(((Category) any()))).thenReturn(getCategoryDTO());
 
 		// Then
 		assertThat(categoryServiceImpl.findAllByWording(anyString())).isNotNull();
@@ -98,6 +98,7 @@ public class CategoryServiceTest {
 
 		// When
 		when(categoryRepository.findAll()).thenReturn(categorys);
+		when(categoryMapper.categoryToCategoryDTO(((Category) any()))).thenReturn(getCategoryDTO());
 
 		// Then
 		assertThat(categoryServiceImpl.findAll()).isNotEmpty();
