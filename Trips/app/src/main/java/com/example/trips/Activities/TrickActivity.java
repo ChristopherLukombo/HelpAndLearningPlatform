@@ -1,5 +1,8 @@
 package com.example.trips.Activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.trips.Fragment.MarkFragment;
 import com.example.trips.Helpers.HTTPRequestHelper;
-import com.example.trips.Models.Mark;
 import com.example.trips.Models.Trick;
 import com.example.trips.R;
 import com.example.trips.VolleyJSONArrayCallback;
@@ -23,7 +25,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class TrickActivity extends BaseActivity {
 
@@ -123,6 +124,7 @@ public class TrickActivity extends BaseActivity {
                 buttonUnsubscribe.setVisibility(View.GONE);
                 buttonFinish.setVisibility(View.GONE);
                 setFragment();
+                addNotification();
             }
 
         };
@@ -146,5 +148,25 @@ public class TrickActivity extends BaseActivity {
         String token = sharedPreferences.getString("token", "");
 
         return token;
+    }
+
+    private void addNotification() {
+        String message = "Vous avez apprecié l'astuce ? Il en existe d'autres dans la catégorie " + this.trick.getCategory().getName() + ", jetez un oeil !";
+
+        Notification.Builder notif = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.trips_logo)
+                .setAutoCancel(true)
+                .setStyle(new Notification.BigTextStyle().bigText(message))
+                .setContentTitle("Trips")
+                .setContentText(message);
+
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, notif.build());
     }
 }
