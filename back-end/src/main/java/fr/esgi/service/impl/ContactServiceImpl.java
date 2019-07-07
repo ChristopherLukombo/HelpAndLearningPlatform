@@ -35,14 +35,17 @@ public class ContactServiceImpl implements ContactService {
      * @throws HelpAndLearningPlatformException if there is an error
      */
     @Override
-    public void contact(ContactDTO contactDTO) throws HelpAndLearningPlatformException {
+    public ContactDTO contact(ContactDTO contactDTO) throws HelpAndLearningPlatformException {
+    	ContactDTO result = null;
         try {
             LOGGER.debug("Contact Company: {}", contactDTO);
             mailService.send(
                     configurationService.getRecipients(), contactDTO.getSubject(), contactDTO.getInformation()
             );
+            result = contactDTO;
         } catch (HelpAndLearningPlatformException e) {
             throw new HelpAndLearningPlatformException("Error during sending mail", e);
         }
+        return result;
     }
 }

@@ -16,5 +16,5 @@ public interface ContactService {
      * @param contactDTO the contactDTO to contact
      * @throws HelpAndLearningPlatformException if there is an error
      */
-    void contact(ContactDTO contactDTO) throws HelpAndLearningPlatformException;
+	ContactDTO contact(ContactDTO contactDTO) throws HelpAndLearningPlatformException;
 }
