@@ -77,6 +77,7 @@ public class CommentResource {
 	 * @param commentDTO the comment to update
 	 * @return the ResponseEntity with status 200 (Ok) and with body the updated comment.
 	 */
+	@ApiOperation(value = "Update a comment.")
 	@PutMapping("/comments")
 	public ResponseEntity<CommentDTO> updateComment(@RequestBody @Valid CommentDTO commentDTO) throws HelpAndLearningPlatformException {
 		LOGGER.debug("REST request to update a comment: {}", commentDTO);
@@ -94,6 +95,7 @@ public class CommentResource {
 	 * 
 	 * @return the ResponseEntity with status 200 (Ok) and with body the comments.
 	 */
+	@ApiOperation(value = "Get all comments.")
 	@GetMapping("/comments")
 	public ResponseEntity<List<CommentDTO>> getAllComments() throws HelpAndLearningPlatformException {
 		LOGGER.debug("REST request to get all comments");
@@ -102,8 +104,7 @@ public class CommentResource {
 			throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(),
 					"Pas de commentaire");
 		}
-		return ResponseEntity.ok()
-				.body(commentsDTO);
+		return ResponseEntity.ok().body(commentsDTO);
 	}
 
 	/**
@@ -111,6 +112,7 @@ public class CommentResource {
 	 * 
 	 * @return the ResponseEntity with status 200 (Ok) and with body the comment.
 	 */
+	@ApiOperation(value = "Get comment by id.")
 	@GetMapping("/comments/{id}")
 	public ResponseEntity<CommentDTO> getComment(@PathVariable Long id) throws HelpAndLearningPlatformException {
 		LOGGER.debug("REST request to get all comments");
@@ -129,10 +131,30 @@ public class CommentResource {
 	 * 
 	 * @return the ResponseEntity with status 204 (No Content) and no comment.
 	 */
+	@ApiOperation(value = "Delete the comment by id.")
 	@DeleteMapping("/comments/{id}")
 	public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
 		LOGGER.debug("REST request to delete comment : {}", id);
 		commentService.delete(id);
 		return ResponseEntity.noContent().build();
+	}
+
+	/**
+	 * GET /comments/trick/{trickId} : get all comments by trickId.
+	 * 
+	 * @param trickId
+	 * @return the ResponseEntity with status 200 (Ok) and with body the comments.
+	 * @throws HelpAndLearningPlatformException if no comments are found. 
+	 */
+	@ApiOperation(value = "Get all comments by trickId.")
+	@GetMapping("/comments/trick/{trickId}")
+	public ResponseEntity<List<CommentDTO>> getAllCommentsByTrickId(@PathVariable Long trickId) throws HelpAndLearningPlatformException {
+		LOGGER.debug("REST request to get all comments by trickId : {}", trickId);
+		List<CommentDTO> commentsDTO = commentService.findAllByTrickId(trickId);
+		if (commentsDTO.isEmpty()) {
+			throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(),
+					"Pas de commentaire");
+		}
+		return ResponseEntity.ok().body(commentsDTO);
 	}
 }
