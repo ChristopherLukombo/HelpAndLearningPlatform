@@ -1,8 +1,69 @@
-div.trick {
-  background-color: #F0F0F0;
-  border: 1px solid grey;
+body {
+  background-color: #0088a3;
+  margin: 0px;
+  font-family: Roboto;
+}
+
+header {
+  background-color: grey;
+  border-bottom: 1px solid white;
   padding: 10px;
+}
+
+div.pattern-tricks {
+  padding: 0px 50px;
+  margin: 0px;
+  max-width: 1000px;
+  box-sizing: border-box;
+}
+
+div.trick {
+  border-radius: 5px;
+  border: 1px solid white;
+  padding: 0px;
   margin-top: 10px;
+  overflow: hidden;
+}
+
+div.trick div.trick-header {
+  background-color: #00b8d4;
+  border-bottom: 1px solid white;
+  padding: 10px;
+}
+
+div.trick div.trick-header h1.trick-title {
+  margin: 0px;
+}
+
+div.trick div.trick-header button.trick-button-edit {
+  float: right;
+}
+
+div.trick div.trick-body {
+  background-color: #62ebff;
+  padding: 10px;
+}
+
+div.trick div.trick-body p.trick-description {
+  text-align: justify;
+  margin: 0px;
+}
+
+div.trick div.trick-body p.trick-content {
+  text-align: justify;
+  margin: 0px;
+  margin-top: 10px;
+}
+
+div.trick div.trick-body span.trick-category {
+  float: right;
+  margin: 0px;
+}
+
+div.trick div.trick-body p.trick-creation-date {
+  text-align: right;
+  margin: 0px;
+  margin-top: 5px;
 }
 
 
