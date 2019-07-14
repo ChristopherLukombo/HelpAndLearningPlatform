@@ -50,4 +50,12 @@ public interface CommentService {
 	 * @param id : the id of entity.
 	 */
 	void delete(Long id);
+	
+	/**
+	 * Get all comments by trickId.
+	 * 
+	 * @param trickId : the id of trick
+	 * @return the list of entities
+	 */
+	List<CommentDTO> findAllByTrickId(Long trickId);
 }

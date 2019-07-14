@@ -99,4 +99,19 @@ public class CommentServiceImpl implements CommentService {
 		LOGGER.debug("Request to delete comment : {}", id);
 		commentRepository.deleteById(id);
 	}
+
+	/**
+	 * Get all comments by trickId.
+	 * 
+	 * @param trickId : the id of trick
+	 * @return the list of entities
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<CommentDTO> findAllByTrickId(Long trickId) {
+		LOGGER.debug("Request to get all comment by trick id : {}", trickId);
+		return commentRepository.findAllByTrickId(trickId).stream()
+				.map(commentMapper::commentToCommentDTO)
+				.collect(Collectors.toList());
+	}
 }

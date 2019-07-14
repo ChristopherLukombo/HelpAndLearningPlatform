@@ -21,6 +21,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import fr.esgi.dao.CommentRepository;
 import fr.esgi.domain.Comment;
+import fr.esgi.domain.Trick;
 import fr.esgi.service.dto.CommentDTO;
 import fr.esgi.service.impl.CommentServiceImpl;
 import fr.esgi.service.mapper.CommentMapper;
@@ -45,16 +46,24 @@ public class CommentServiceTest {
 		Comment comment = new Comment();
 		comment.setId(ID);
 		comment.setName(NAME);
+		comment.setTrick(getTrick());
 		return comment;
+	}
+
+	private Trick getTrick() {
+		Trick trick = new Trick();
+		trick.setId(ID);
+		return trick;
 	}
 
 	private CommentDTO getCommentDTO() {
 		CommentDTO commentDTO = new CommentDTO();
 		commentDTO.setId(ID);
 		commentDTO.setName(NAME);
+		commentDTO.setTrickId(ID);
 		return commentDTO;
 	}
-
+	
 	@Test
 	public void shouldSaveCommentWhenIsOK() {
 		// Given
@@ -181,5 +190,45 @@ public class CommentServiceTest {
 		
 		// Then
 		 verify(commentRepository, times(1)).deleteById(anyLong());
+	}
+	
+	@Test
+	public void shouldFindCommentsByTrickIdWhenIsOK() {
+		// Given
+		Comment comment = getComment();
+		List<Comment> comments = new ArrayList<Comment>();
+		comments.add(comment);
+
+		// When
+		when(commentRepository.findAllByTrickId(anyLong())).thenReturn(comments);
+		when(commentMapper.commentToCommentDTO(((Comment) any()))).thenReturn(getCommentDTO());
+
+		// Then
+		assertThat(commentServiceImpl.findAllByTrickId(ID)).isNotEmpty();
+	}
+	
+	@Test
+	public void shouldFindCommentsByTrickIdWhenIsEmpty() {
+		// Given
+		List<Comment> comments = new ArrayList<Comment>();
+
+		// When
+		when(commentRepository.findAllByTrickId(anyLong())).thenReturn(comments);
+
+		// Then
+		assertThat(commentServiceImpl.findAllByTrickId(ID)).isEmpty();
+	}
+	
+	@Test
+	public void shouldFindCommentsByTrickIdWhenIsKO() {
+		// Given
+		List<Comment> comments = null;
+
+		// When
+		when(commentRepository.findAllByTrickId(anyLong())).thenReturn(comments);
+
+		// Then
+		assertThatThrownBy(() -> commentServiceImpl.findAllByTrickId(ID))
+		.isInstanceOf(NullPointerException.class);
 	}
 }
