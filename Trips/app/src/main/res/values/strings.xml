@@ -14,6 +14,7 @@
     <string name="nav_parameters">Paramètres</string>
     <string name="nav_deconnexion">Déconnexion</string>
 
+    <string name="hint_comment">Tapez votre comentaire</string>
     <string name="hint_email">Adresse Mail</string>
     <string name="hint_password">Mot de passe</string>
     <string name="hint_firstname">Nom</string>
@@ -47,4 +48,5 @@
     <string name="date_sort">Ancienneté</string>
     <string name="name_sort">Nom</string>
     <string name="mark_sort">Note</string>
+
 </resources>

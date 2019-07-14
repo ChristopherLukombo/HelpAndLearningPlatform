@@ -8,12 +8,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.trips.Fragment.MarkFragment;
+import com.example.trips.Fragment.PopupFragment;
 import com.example.trips.Helpers.HTTPRequestHelper;
 import com.example.trips.Models.Trick;
 import com.example.trips.R;
@@ -30,7 +32,7 @@ public class TrickActivity extends BaseActivity {
 
     private Trick trick;
     private TextView trickTitle, trickAuthor, trickCategory,trickContent;
-    private Button buttonFinish, buttonUnsubscribe;
+    private Button buttonFinish, buttonUnsubscribe, commentButton;
     private Fragment markFragment;
     private String url;
     private long userId;
@@ -44,6 +46,7 @@ public class TrickActivity extends BaseActivity {
         trickCategory = findViewById(R.id.trickCategory);
         trickContent = findViewById(R.id.trickContent);
         buttonFinish = findViewById(R.id.buttonFinish);
+        commentButton = findViewById(R.id.commentButton);
         buttonUnsubscribe = findViewById(R.id.trickUnsubscribeButton);
         markFragment = new MarkFragment();
         url = getString(R.string.api_url);
@@ -93,6 +96,13 @@ public class TrickActivity extends BaseActivity {
 
             setFragment();
         }
+
+        commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPopup();
+            }
+        });
     }
 
     private void unsubscribeTrick() {
@@ -130,6 +140,13 @@ public class TrickActivity extends BaseActivity {
         };
 
         HTTPRequestHelper.patchRequest(getApplicationContext(), fullUrl, subscriptionVolleyCallback, getToken(), new JSONObject(new HashMap<String, String>()));
+    }
+
+    private void openPopup() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PopupFragment popupFragment = new PopupFragment();
+        popupFragment.setData(trick, userId);
+        popupFragment.show(fragmentManager, "comments");
     }
 
     private JSONObject makeSubscriptionBody(long subscriptionId) {
