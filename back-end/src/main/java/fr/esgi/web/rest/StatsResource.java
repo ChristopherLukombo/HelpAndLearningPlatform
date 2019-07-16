@@ -46,8 +46,7 @@ public class StatsResource {
             @RequestParam(value = "categoryId") Long categoryId) {
         LOGGER.debug("REST request to get stats: {} {}", userId, categoryId);
         final StatsDTO stats = statsService.getStatsTricksForOwner(userId, categoryId);
-		return ResponseEntity.ok()
-                .body(stats);
+		return ResponseEntity.ok().body(stats);
     }
     
     /**
@@ -60,8 +59,7 @@ public class StatsResource {
     public ResponseEntity<StatsTrickDTO> getStatsForTrick(@RequestParam(value = "trickId") Long trickId) {
     	LOGGER.debug("REST request to get stats for a trick: {}", trickId);
     	final StatsTrickDTO stats = statsService.getStatsForTrick(trickId);
-    	return ResponseEntity.ok()
-    			.body(stats);
+    	return ResponseEntity.ok().body(stats);
     }
 
 }
