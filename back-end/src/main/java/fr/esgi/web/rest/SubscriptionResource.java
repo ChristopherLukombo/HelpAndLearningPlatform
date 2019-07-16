@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esgi.config.ErrorMessage;
 import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.SubscriptionService;
 import fr.esgi.service.dto.SubscriptionDTO;
@@ -58,11 +59,11 @@ public class SubscriptionResource {
 		LOGGER.debug("REST request to save Subscription: {}", subscriptionDTO);
 		if (null != subscriptionDTO.getId()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-					"A new subscription cannot already have an ID");
+					ErrorMessage.A_NEW_SUBSCRIPTION_CANNOT_ALREADY_HAVE_AN_ID);
 		}
 		if (subscriptionService.isSubscribed(subscriptionDTO)) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-					"Trick is already subscribed by the user");
+					ErrorMessage.TRICK_IS_ALREADY_SUBSCRIBED_BY_THE_USER);
 		}
 		final SubscriptionDTO subscription = subscriptionService.save(subscriptionDTO);
 		return ResponseEntity.created(new URI("/api/subscription/" + subscription.getId()))
@@ -100,7 +101,7 @@ public class SubscriptionResource {
 		LOGGER.debug("REST request to set subscription of trick to true: {}", subscriptionId);
 		if (null == subscriptionId) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-					"The field subscriptionId can be empty.");
+					ErrorMessage.THE_FIELD_SUBSCRIPTION_ID_CAN_BE_EMPTY);
 		}
 		SubscriptionDTO subscriptionDTO = subscriptionService.setToFinished(subscriptionId);
 		return ResponseEntity.ok().body(subscriptionDTO);

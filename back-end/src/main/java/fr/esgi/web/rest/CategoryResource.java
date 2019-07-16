@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esgi.config.ErrorMessage;
 import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.CategoryService;
 import fr.esgi.service.dto.CategoryDTO;
@@ -27,7 +28,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api")
 public class CategoryResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CategoryResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CategoryResource.class);
 
     private final CategoryService categoryService;
 
@@ -52,10 +53,9 @@ public class CategoryResource {
     	final List<CategoryDTO> categoriesDTO = categoryService.findAllByWording(wording);
         if (categoriesDTO.isEmpty()) {
            	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-        			"Pas de catégories");
+        			ErrorMessage.NO_CATEGORIES);
         }
-        return ResponseEntity.ok()
-                .body(categoriesDTO);
+        return ResponseEntity.ok().body(categoriesDTO);
     }
 
     /**
@@ -73,9 +73,8 @@ public class CategoryResource {
     	final List<CategoryDTO> categoriesDTO = categoryService.findAll();
         if (categoriesDTO.isEmpty()) {
            	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-        			"Pas de catégories");
+        			ErrorMessage.NO_CATEGORIES);
         }
-        return ResponseEntity.ok()
-                .body(categoriesDTO);
+        return ResponseEntity.ok().body(categoriesDTO);
     }
 }
