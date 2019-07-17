@@ -1,5 +1,7 @@
 package fr.esgi.service.dto;
 
+import java.util.Objects;
+
 /**
  * A DTO for the Notation entity.
  */
@@ -48,18 +50,10 @@ public class NotationDTO {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		long temp;
-		temp = Double.doubleToLongBits(note);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		result = prime * result + ((trickId == null) ? 0 : trickId.hashCode());
-		result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-		return result;
+		return Objects.hash(id, note, trickId, userId);
 	}
 
 	@Override
@@ -71,32 +65,32 @@ public class NotationDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		NotationDTO other = (NotationDTO) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (Double.doubleToLongBits(note) != Double.doubleToLongBits(other.note))
-			return false;
-		if (trickId == null) {
-			if (other.trickId != null)
-				return false;
-		} else if (!trickId.equals(other.trickId))
-			return false;
-		if (userId == null) {
-			if (other.userId != null)
-				return false;
-		} else if (!userId.equals(other.userId))
-			return false;
-		return true;
+		return Objects.equals(id, other.id) && Double.doubleToLongBits(note) == Double.doubleToLongBits(other.note)
+				&& Objects.equals(trickId, other.trickId) && Objects.equals(userId, other.userId);
 	}
 
 	@Override
-    public String toString() {
-        return "NotationDTO{" +
-                "id=" + id +
-                ", note=" + note +
-                ", trickId=" + trickId +
-                '}';
-    }
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("NotationDTO [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		builder.append("note=");
+		builder.append(note);
+		builder.append(", ");
+		if (trickId != null) {
+			builder.append("trickId=");
+			builder.append(trickId);
+			builder.append(", ");
+		}
+		if (userId != null) {
+			builder.append("userId=");
+			builder.append(userId);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

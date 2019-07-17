@@ -56,11 +56,20 @@ public class QCM implements Serializable {
         return Objects.hash(id, question);
     }
 
-    @Override
-    public String toString() {
-        return "QCM{" +
-                "id=" + id +
-                ", question='" + question + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("QCM [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (question != null) {
+			builder.append("question=");
+			builder.append(question);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

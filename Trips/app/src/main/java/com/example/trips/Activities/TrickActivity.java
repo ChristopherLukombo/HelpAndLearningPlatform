@@ -1,18 +1,22 @@
 package com.example.trips.Activities;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.trips.Fragment.MarkFragment;
+import com.example.trips.Fragment.PopupFragment;
 import com.example.trips.Helpers.HTTPRequestHelper;
-import com.example.trips.Models.Mark;
 import com.example.trips.Models.Trick;
 import com.example.trips.R;
 import com.example.trips.VolleyJSONArrayCallback;
@@ -23,13 +27,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class TrickActivity extends BaseActivity {
 
     private Trick trick;
     private TextView trickTitle, trickAuthor, trickCategory,trickContent;
-    private Button buttonFinish, buttonUnsubscribe;
+    private Button buttonFinish, buttonUnsubscribe, commentButton;
     private Fragment markFragment;
     private String url;
     private long userId;
@@ -43,6 +46,7 @@ public class TrickActivity extends BaseActivity {
         trickCategory = findViewById(R.id.trickCategory);
         trickContent = findViewById(R.id.trickContent);
         buttonFinish = findViewById(R.id.buttonFinish);
+        commentButton = findViewById(R.id.commentButton);
         buttonUnsubscribe = findViewById(R.id.trickUnsubscribeButton);
         markFragment = new MarkFragment();
         url = getString(R.string.api_url);
@@ -92,6 +96,13 @@ public class TrickActivity extends BaseActivity {
 
             setFragment();
         }
+
+        commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPopup();
+            }
+        });
     }
 
     private void unsubscribeTrick() {
@@ -123,11 +134,19 @@ public class TrickActivity extends BaseActivity {
                 buttonUnsubscribe.setVisibility(View.GONE);
                 buttonFinish.setVisibility(View.GONE);
                 setFragment();
+                addNotification();
             }
 
         };
 
         HTTPRequestHelper.patchRequest(getApplicationContext(), fullUrl, subscriptionVolleyCallback, getToken(), new JSONObject(new HashMap<String, String>()));
+    }
+
+    private void openPopup() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PopupFragment popupFragment = new PopupFragment();
+        popupFragment.setData(trick, userId);
+        popupFragment.show(fragmentManager, "comments");
     }
 
     private JSONObject makeSubscriptionBody(long subscriptionId) {
@@ -146,5 +165,25 @@ public class TrickActivity extends BaseActivity {
         String token = sharedPreferences.getString("token", "");
 
         return token;
+    }
+
+    private void addNotification() {
+        String message = "Vous avez apprecié l'astuce ? Il en existe d'autres dans la catégorie " + this.trick.getCategory().getName() + ", jetez un oeil !";
+
+        Notification.Builder notif = new Notification.Builder(this)
+                .setSmallIcon(R.drawable.trips_logo)
+                .setAutoCancel(true)
+                .setStyle(new Notification.BigTextStyle().bigText(message))
+                .setContentTitle("Trips")
+                .setContentText(message);
+
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        notif.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, notif.build());
     }
 }

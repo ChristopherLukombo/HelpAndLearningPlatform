@@ -20,21 +20,13 @@
 
     if (is_array($tricks)) {
       echo '<form action="edit.php" method="GET">';
-      foreach($tricks['content'] as $trick)
-        showTrick($trick);
+        echo '<div class="pattern-tricks">';
+          foreach($tricks['content'] as $trick)
+            showTrick($trick);
+        echo '</div>';
       echo '</form>';
     } else {
-      echo '<p>Aucun trick pour le moment</p>';
+      showEmptyTrickMessage();
     }
-  }
-
-  function showTrick($trick) {
-    echo '<div class="trick">';
-      echo '<button name="id", value="'.$trick['id'].'">Éditer</button>';
-      echo '<h1>'.$trick['wording'].'</h1>';
-      echo '<p>'.$trick['description'].'</p>';
-      echo '<p>'.$trick['categoryId'].'</p>';
-      echo '<p>Créé le '.$trick['creationDate'].'</p>';
-    echo '</div>';
   }
 ?>
