@@ -1,5 +1,6 @@
 package fr.esgi.web.rest;
 
+import fr.esgi.config.ErrorMessage;
 import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.ContactService;
 import fr.esgi.service.dto.ContactDTO;
@@ -26,7 +27,7 @@ import javax.validation.Valid;
 @RequestMapping("/api")
 public class ContactResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ContactResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ContactResource.class);
 
     private final ContactService contactService;
 
@@ -43,14 +44,15 @@ public class ContactResource {
      */
     @ApiOperation(value = "Contact Company in sending a mail.")
     @PostMapping(value = "/contacts")
-    public ResponseEntity<Void> contactCompany(@RequestBody @Valid ContactDTO contactDTO) throws HelpAndLearningPlatformException {
+    public ResponseEntity<ContactDTO> contactCompany(@RequestBody @Valid ContactDTO contactDTO) throws HelpAndLearningPlatformException {
         LOGGER.debug("REST request to contact Company: {}", contactDTO);
+        ContactDTO result = null;
         try {
-            contactService.contact(contactDTO);
+        	result = contactService.contact(contactDTO);
         } catch (HelpAndLearningPlatformException e) {
             throw new HelpAndLearningPlatformException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                    "Error trying to contact Company", e);
+                    ErrorMessage.ERROR_TRYING_TO_CONTACT_COMPANY, e);
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(result);
     }
 }

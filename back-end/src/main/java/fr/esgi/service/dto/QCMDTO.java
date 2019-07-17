@@ -34,24 +34,36 @@ public class QCMDTO {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        QCMDTO qcm = (QCMDTO) o;
-        return Objects.equals(id, qcm.id) &&
-                Objects.equals(question, qcm.question);
-    }
+	public int hashCode() {
+		return Objects.hash(id, question);
+	}
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, question);
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		QCMDTO other = (QCMDTO) obj;
+		return Objects.equals(id, other.id) && Objects.equals(question, other.question);
+	}
 
-    @Override
-    public String toString() {
-        return "QCMDTO{" +
-                "id=" + id +
-                ", question='" + question + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("QCMDTO [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (question != null) {
+			builder.append("question=");
+			builder.append(question);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

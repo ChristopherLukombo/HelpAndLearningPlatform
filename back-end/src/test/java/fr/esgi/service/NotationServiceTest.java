@@ -1,31 +1,30 @@
 package fr.esgi.service;
 
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.context.annotation.Profile;
 
 import fr.esgi.dao.NotationRepository;
 import fr.esgi.domain.Notation;
+import fr.esgi.domain.Trick;
 import fr.esgi.service.dto.NotationDTO;
 import fr.esgi.service.impl.NotationServiceImpl;
 import fr.esgi.service.mapper.NotationMapper;
 
-@Profile("test")
-@RunWith(MockitoJUnitRunner.Silent.class)
+@RunWith(MockitoJUnitRunner.class)
 public class NotationServiceTest {
 
 	private static final long TRICK_ID = 1L;
@@ -42,27 +41,43 @@ public class NotationServiceTest {
 
 	@InjectMocks
 	private NotationServiceImpl notationServiceImpl;
+	
+	private static NotationDTO getNotationDTO() {
+		NotationDTO notationDTO = new NotationDTO();
+		notationDTO.setId(ID);
+		notationDTO.setNote(NOTE);
+		notationDTO.setTrickId(TRICK_ID);
+		return notationDTO;
+	}
+	
+	private static Notation getNotation() {
+		Notation notation = new Notation();
+		notation.setId(ID);
+		notation.setNote(NOTE);
+		notation.setTrick(getTrick());
+		return notation;
+	}
 
-	@Before
-	public void setUp() {
-		MockitoAnnotations.initMocks(this);
-		notationServiceImpl = new NotationServiceImpl(notationRepository, notationMapper);
+	private static Trick getTrick() {
+		Trick trick = new Trick();
+		trick.setId(TRICK_ID);
+		return trick;
 	}
 
 	@Test
 	public void shouldSaveNotationWhenIsOK() {
 		// Given
-		NotationDTO notationDTO = new NotationDTO();
-		notationDTO.setId(ID);
-		notationDTO.setNote(NOTE);
-		notationDTO.setTrickId(TRICK_ID);
+		NotationDTO notationDTO = getNotationDTO();
 
 		// When
-		when(notationServiceImpl.save(mock(NotationDTO.class))).thenReturn(notationDTO);
+		when(notationRepository.save((Notation) any())).thenReturn(getNotation());
+		when(notationMapper.notationToNotationDTO(((Notation) any()))).thenReturn(getNotationDTO());
 
 		// Then
 		assertThat(notationServiceImpl.save(mock(NotationDTO.class))).isEqualTo(notationDTO);
 	}
+
+	
 
 	@Test
 	public void shouldSaveNotationWhenIsKO() {
@@ -70,10 +85,39 @@ public class NotationServiceTest {
 		NotationDTO notationDTO = null;
 
 		// When
-		when(notationServiceImpl.save(mock(NotationDTO.class))).thenReturn(null);
+		when(notationRepository.save((Notation) any())).thenReturn(null);
+		when(notationMapper.notationToNotationDTO(((Notation) any()))).thenReturn(notationDTO);
 
 		// Then
-		assertThat(notationServiceImpl.save(mock(NotationDTO.class))).isEqualTo(notationDTO);
+		assertThat(notationServiceImpl.save(mock(NotationDTO.class))).isNull();
+	}
+	
+	@Test
+	public void shouldUpdateNotationWhenIsOK() {
+		// Given
+		NotationDTO notationDTO = getNotationDTO();
+
+		// When
+		when(notationRepository.saveAndFlush((Notation) any())).thenReturn(getNotation());
+		when(notationMapper.notationToNotationDTO(((Notation) any()))).thenReturn(notationDTO);
+
+		// Then
+		assertThat(notationServiceImpl.update(mock(NotationDTO.class))).isEqualTo(notationDTO);
+	}
+
+	
+
+	@Test
+	public void shouldUpdateNotationWhenIsKO() {
+		// Given
+		NotationDTO notationDTO = null;
+
+		// When
+		when(notationRepository.saveAndFlush((Notation) any())).thenReturn(null);
+		when(notationMapper.notationToNotationDTO(((Notation) any()))).thenReturn(null);
+
+		// Then
+		assertThat(notationServiceImpl.update(mock(NotationDTO.class))).isEqualTo(notationDTO);
 	}
 	
 	@Test
@@ -112,5 +156,30 @@ public class NotationServiceTest {
 		// Then
 		assertThatThrownBy(() -> notationServiceImpl.findAllByTrickId(anyLong()))
 		.isInstanceOf(NullPointerException.class);
+	}
+	
+	@Test
+	public void shouldFindOneWhenIsOK() {
+		// Given
+		Notation notation = getNotation();
+		
+		// When
+		when(notationRepository.findById(anyLong())).thenReturn(Optional.ofNullable(notation));
+		when(notationMapper.notationToNotationDTO(((Notation) any()))).thenReturn(getNotationDTO());
+		
+		// Then
+		assertThat(notationServiceImpl.findOne(ID)).isNotEqualTo(Optional.empty());
+	}
+	
+	@Test
+	public void shouldFindOneWhenIsKO() {
+		// Given
+		Notation notation = null;
+		
+		// When
+		when(notationRepository.findById(anyLong())).thenReturn(Optional.ofNullable(notation));
+		
+		// Then
+		assertThat(notationServiceImpl.findOne(ID)).isEqualTo(Optional.empty());
 	}
 }

@@ -73,14 +73,35 @@ public class Company implements Serializable {
         return Objects.hash(id, name, address, socialReason, email);
     }
 
-    @Override
-    public String toString() {
-        return "Company{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", address='" + address + '\'' +
-                ", socialReason='" + socialReason + '\'' +
-                ", email='" + email + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Company [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (name != null) {
+			builder.append("name=");
+			builder.append(name);
+			builder.append(", ");
+		}
+		if (address != null) {
+			builder.append("address=");
+			builder.append(address);
+			builder.append(", ");
+		}
+		if (socialReason != null) {
+			builder.append("socialReason=");
+			builder.append(socialReason);
+			builder.append(", ");
+		}
+		if (email != null) {
+			builder.append("email=");
+			builder.append(email);
+		}
+		builder.append("]");
+		return builder.toString();
+	}
 }

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esgi.config.ErrorMessage;
 import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.UserService;
 import fr.esgi.service.dto.UserDTO;
@@ -36,7 +37,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api")
 public class AccountResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccountResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AccountResource.class);
 
     private final UserService userService;
 
@@ -66,15 +67,15 @@ public class AccountResource {
     ) throws HelpAndLearningPlatformException, URISyntaxException {
         if (!checkPasswordLength(managedUser.getPassword())) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-                    "Password is not valid.");
+            		ErrorMessage.PASS_IS_NOT_VALID);
         }
         if (userService.findUserByLogin(managedUser.getLogin()).isPresent()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-                   "Login is already registered.");
+            		ErrorMessage.LOGIN_IS_ALREADY_REGISTERED);
         }
         if (userService.findUserByEmail(managedUser.getEmail()).isPresent()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-                    "Email is already used.");
+            		ErrorMessage.EMAIL_IS_ALREADY_USED);
         }
         UserDTO userDTO = userService.registerUser(managedUser, managedUser.getPassword());
         return ResponseEntity.created(new URI("/api/users/" + userDTO.getId()))

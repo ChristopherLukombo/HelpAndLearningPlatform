@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -42,13 +43,13 @@ public class Trick implements Serializable {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Notation> notations;
 
-    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "trick", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private List<QCMAnswers> qcmAnswers;
 
     @ManyToOne
@@ -235,5 +236,4 @@ public class Trick implements Serializable {
 		builder.append("]");
 		return builder.toString();
 	}
-
 }

@@ -69,9 +69,9 @@ public class NotationServiceImpl implements NotationService {
 	@Transactional(readOnly = true)
 	@Override
 	public List<NotationDTO> findAllByTrickId(Long trickId) {
-		final List<Notation> notations = notationRepository.findAllByTrickId(trickId);
-		return notations.stream()
-				.map(notationMapper::notationToNotationDTO).collect(Collectors.toList());
+		return notationRepository.findAllByTrickId(trickId).stream()
+				.map(notationMapper::notationToNotationDTO)
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -82,8 +82,8 @@ public class NotationServiceImpl implements NotationService {
 	@Transactional(readOnly = true)
 	@Override
 	public Optional<NotationDTO> findOne(Long id) {
-		final Optional<Notation> notation = notationRepository.findById(id);
-		return notation.map(notationMapper::notationToNotationDTO);
+		return notationRepository.findById(id)
+				.map(notationMapper::notationToNotationDTO);
 	}
 
 }

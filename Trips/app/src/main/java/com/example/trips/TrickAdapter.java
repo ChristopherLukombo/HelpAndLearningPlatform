@@ -27,12 +27,13 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
     Context context;
     List<Trick> tricks;
     List<Trick> filteredTricks;
-    TrickCustomClickListener listener;
+    TrickCustomClickListener listenerFollow, listenerComments;
 
-    public TrickAdapter(Context context, List<Trick> tricks, TrickCustomClickListener listener) {
+    public TrickAdapter(Context context, List<Trick> tricks, TrickCustomClickListener listenerFollow, TrickCustomClickListener listenerComments) {
         this.context = context;
         this.tricks = tricks;
-        this.listener = listener;
+        this.listenerFollow = listenerFollow;
+        this.listenerComments = listenerComments;
         this.filteredTricks = tricks;
     }
 
@@ -64,9 +65,17 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         myViewHolder.subscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.onTrickItemClick(v, trick);
+                listenerFollow.onTrickItemClick(v, trick);
             }
         });
+
+        myViewHolder.commentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listenerComments.onTrickItemClick(v, trick);
+            }
+        });
+
         myViewHolder.trickRow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,7 +228,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
         TextView rowTrickDescription;
         TextView rowTrickAuthor;
         RatingBar rowRatingBar;
-        Button subscribeButton;
+        Button subscribeButton, commentButton;
         TextView rowTrickCreationDate;
 
 
@@ -233,6 +242,7 @@ public class TrickAdapter extends RecyclerView.Adapter<TrickAdapter.MyViewHolder
             rowTrickAuthor = itemView.findViewById(R.id.trickListAuthor);
             subscribeButton = itemView.findViewById(R.id.subscribeButton);
             rowTrickCreationDate = itemView.findViewById(R.id.rowTrickCreationDate);
+            commentButton = itemView.findViewById(R.id.commentButton);
         }
     }
 }

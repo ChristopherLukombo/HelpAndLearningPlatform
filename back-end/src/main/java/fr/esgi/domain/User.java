@@ -232,10 +232,71 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", login=" + login + ", password=" + password + ", firstName=" + firstName
-				+ ", lastName=" + lastName + ", email=" + email + ", countryOfResidence=" + countryOfResidence
-				+ ", activated=" + activated + ", langKey=" + langKey + ", imageUrl=" + imageUrl + ", friends="
-				+ friends + ", authority=" + authority + ", dateOfLastConnection=" + dateOfLastConnection + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("User [");
+		if (id != null) {
+			builder.append("id=");
+			builder.append(id);
+			builder.append(", ");
+		}
+		if (login != null) {
+			builder.append("login=");
+			builder.append(login);
+			builder.append(", ");
+		}
+		if (password != null) {
+			builder.append("password=");
+			builder.append(password);
+			builder.append(", ");
+		}
+		if (firstName != null) {
+			builder.append("firstName=");
+			builder.append(firstName);
+			builder.append(", ");
+		}
+		if (lastName != null) {
+			builder.append("lastName=");
+			builder.append(lastName);
+			builder.append(", ");
+		}
+		if (email != null) {
+			builder.append("email=");
+			builder.append(email);
+			builder.append(", ");
+		}
+		if (countryOfResidence != null) {
+			builder.append("countryOfResidence=");
+			builder.append(countryOfResidence);
+			builder.append(", ");
+		}
+		builder.append("activated=");
+		builder.append(activated);
+		builder.append(", ");
+		if (langKey != null) {
+			builder.append("langKey=");
+			builder.append(langKey);
+			builder.append(", ");
+		}
+		if (imageUrl != null) {
+			builder.append("imageUrl=");
+			builder.append(imageUrl);
+			builder.append(", ");
+		}
+		if (friends != null) {
+			builder.append("friends=");
+			builder.append(friends);
+			builder.append(", ");
+		}
+		if (authority != null) {
+			builder.append("authority=");
+			builder.append(authority);
+			builder.append(", ");
+		}
+		if (dateOfLastConnection != null) {
+			builder.append("dateOfLastConnection=");
+			builder.append(dateOfLastConnection);
+		}
+		builder.append("]");
+		return builder.toString();
 	}
-  
 }

@@ -1,5 +1,7 @@
 package fr.esgi.service.dto;
 
+import java.util.Objects;
+
 /**
  * A DTO StatsTrickDTO.
  */
@@ -21,12 +23,7 @@ public class StatsTrickDTO {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		long temp;
-		temp = Double.doubleToLongBits(mark);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
+		return Objects.hash(mark);
 	}
 
 	@Override
@@ -38,9 +35,16 @@ public class StatsTrickDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		StatsTrickDTO other = (StatsTrickDTO) obj;
-		if (Double.doubleToLongBits(mark) != Double.doubleToLongBits(other.mark))
-			return false;
-		return true;
+		return Double.doubleToLongBits(mark) == Double.doubleToLongBits(other.mark);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("StatsTrickDTO [mark=");
+		builder.append(mark);
+		builder.append("]");
+		return builder.toString();
 	}
 }
 

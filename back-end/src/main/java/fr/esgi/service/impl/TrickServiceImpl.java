@@ -187,7 +187,8 @@ public class TrickServiceImpl implements TrickService {
 	public List<TrickDTO> findTheMostLatests() {
 		LOGGER.debug("Request to find the lastests tricks");
 		return trickRepository.findTheMostLatests().stream()
-		.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
+				.map(trickMapper::trickToTrickDTO)
+				.collect(Collectors.toList());
 	}
 
 	 /**
@@ -199,7 +200,8 @@ public class TrickServiceImpl implements TrickService {
 	public List<TrickDTO> findTheMostViewed() {
 		LOGGER.debug("Request to find the most viewed tricks");
 		return trickRepository.findTheMostViewed().stream()
-				.map(trickMapper::trickToTrickDTO).collect(Collectors.toList());
+				.map(trickMapper::trickToTrickDTO)
+				.collect(Collectors.toList());
 	}
 
 	/**
