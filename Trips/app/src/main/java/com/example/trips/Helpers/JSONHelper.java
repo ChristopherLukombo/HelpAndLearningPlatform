@@ -1,6 +1,7 @@
 package com.example.trips.Helpers;
 
 import com.example.trips.Models.Category;
+import com.example.trips.Models.Comment;
 import com.example.trips.Models.Mark;
 import com.example.trips.Models.Subscription;
 import com.example.trips.Models.Trick;
@@ -159,6 +160,34 @@ public class JSONHelper {
             }
 
             return subscriptions;
+        }
+
+        return null;
+    }
+
+    public static List<Comment> commentListFromJSONArray(JSONArray commentJSONArray) {
+        List<Comment> comments = new ArrayList<>();
+
+        if(commentJSONArray != null) {
+            for (int i = 0; i < commentJSONArray.length(); i++) {
+                try {
+                    JSONObject jsonobject = commentJSONArray.getJSONObject(i);
+                    long id = jsonobject.getLong("id");
+                    String name = jsonobject.getString("name");
+                    long trickId = jsonobject.getLong("trickId");
+                    long userId = jsonobject.getLong("userId");
+
+                    Comment comment = new Comment(name, trickId, userId);
+                    comment.setId(id);
+
+                    comments.add(comment);
+
+                } catch (JSONException exception) {
+
+                }
+            }
+
+            return comments;
         }
 
         return null;

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Trips</string>
-    <string name="api_url">http://192.168.43.253:8080/api/</string>
+    <string name="api_url">http://192.168.0.250:8080/api/</string>
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_close">Close</string>
     <string name="nav_header_title">Trips</string>
@@ -14,6 +14,7 @@
     <string name="nav_parameters">Paramètres</string>
     <string name="nav_deconnexion">Déconnexion</string>
 
+    <string name="hint_comment">Tapez votre comentaire</string>
     <string name="hint_email">Adresse Mail</string>
     <string name="hint_password">Mot de passe</string>
     <string name="hint_firstname">Nom</string>
@@ -47,4 +48,5 @@
     <string name="date_sort">Ancienneté</string>
     <string name="name_sort">Nom</string>
     <string name="mark_sort">Note</string>
+
 </resources>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,24 +7,57 @@
     tools:context=".Activities.ContactActivity"
     android:background="@drawable/side_nav_drawer">
 
-
-    <TextView
-        android:id="@+id/contactTitle"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:layout_weight="1"
-        android:textSize="20dp"
-        android:fontFamily="serif"
-        android:textStyle="bold"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Activities.ContactActivity"
+        android:background="@drawable/side_nav_drawer">
 
-    <TextView
-        android:id="@+id/contactContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:fontFamily="serif"
-        android:layout_weight="10"
-         />
+        <TextView
+            android:id="@+id/contactTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="serif"
+            android:text="Contactez nous !!"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <EditText
+            android:id="@+id/contactObject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:hint="Objet"
+            android:background="@color/White"
+            android:layout_marginBottom="10dp"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="10"
+            android:background="@drawable/side_nav_drawer"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/contactContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fontFamily="serif"
+                android:hint="Tapez votre message"
+                android:background="@color/White"/>
+        </ScrollView>
+
+
+        <Button
+            android:id="@+id/buttonSendMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:text="Envoyer le Message"/>
+    </LinearLayout>
+
+</RelativeLayout>
