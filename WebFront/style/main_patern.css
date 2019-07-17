@@ -1,13 +1,100 @@
 body {
-  background-color: #0088a3;
+  background: linear-gradient(to bottom right, white, 80%, #62ebff);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
   margin: 0px;
-  font-family: Roboto;
+  font-family: 'Roboto', sans-serif;
+  padding-top: 60px;
+  width: 100%;
+  height: 100%;
+}
+
+body button {
+  background-color: #F0F0F0;
+  border-radius: 5px;
+  border: none;
+  box-sizing: border-box;
+  padding: 5px 8px;
+  margin: 0px;
+
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
 }
 
 header {
-  background-color: grey;
-  border-bottom: 1px solid white;
+  background-color: #00b8d4;
   padding: 10px;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+header span.right {
+  float: right;
+}
+
+header span.left {
+  float: left;
+}
+
+header p {
+  color: white;
+  padding: 2px;
+  margin: 0px;
+  text-align: center;
+  font-size: 20px;
+}
+
+body h1 {
+  font-weight: inherit;
+  font-size: 22px;
+}
+
+body div.section {
+  margin: 10px;
+  margin-bottom: 0px;
+  border-radius: 5px;
+  border: 1px solid #CACACA;
+  width: 1000px;
+}
+
+body div.section img {
+  float: left;
+  margin: 10px;
+}
+
+div.login {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 120px;
+  text-align: center;
+}
+
+div.login form {
+  display: inline-block;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: left;
+  width: 300px;
+}
+
+div.login form input {
+  background-color: white;
+  border-radius: 5px;
+  border: none;
+  padding: 5px 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+div.separator {
+  height: 0px;
+  padding: 0px;
+  margin: 0px;
+  margin-bottom: 10px;
 }
 
 div.pattern-tricks {
@@ -19,15 +106,16 @@ div.pattern-tricks {
 
 div.trick {
   border-radius: 5px;
-  border: 1px solid white;
+  border: 1px solid #CACACA;
   padding: 0px;
   margin-top: 10px;
   overflow: hidden;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 div.trick div.trick-header {
-  background-color: #00b8d4;
-  border-bottom: 1px solid white;
+  background-color: #62ebff;
+  border-bottom: 1px solid #CACACA;
   padding: 10px;
 }
 
@@ -40,7 +128,7 @@ div.trick div.trick-header button.trick-button-edit {
 }
 
 div.trick div.trick-body {
-  background-color: #62ebff;
+  background-color: white;
   padding: 10px;
 }
 

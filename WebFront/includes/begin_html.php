@@ -14,13 +14,20 @@
   <body>
     <header>
       <form action="" method="POST">
-        <button formaction="home.php" type="submit">Accueil</button>
-        <?php if (isset($_SESSION['PROG_VAR__USER'])) : ?>
-          <button formaction="tricks.php" type="submit">Mes tricks</button>
-          <span><?php echo $_SESSION['PROG_VAR__USER']->getLogin() ?></span>
-          <button formaction="" type="submit" name="Logout">Déconnexion</button>
-        <?php else : ?>
-          <button formaction="login.php" type="submit">Connexion</button>
-        <?php endif ?>
+        <span class="left">
+          <button formaction="index.php" type="submit">Accueil</button>
+          <?php if (isset($_SESSION['PROG_VAR__USER'])) : ?>
+            <button formaction="tricks.php" type="submit">Mes tricks</button>
+          <?php endif ?>
+        </span>
+        <span class="right">
+          <?php if (isset($_SESSION['PROG_VAR__USER'])) : ?>
+            <span><?php echo $_SESSION['PROG_VAR__USER']->getLogin() ?></span>
+            <button formaction="" type="submit" name="Logout">Se déconnecter</button>
+          <?php else : ?>
+            <button formaction="login.php" type="submit">Se connecter</button>
+          <?php endif ?>
+        </span>
+        <p><?php echo $__APP_NAME ?></p>
       </form>
     </header>
