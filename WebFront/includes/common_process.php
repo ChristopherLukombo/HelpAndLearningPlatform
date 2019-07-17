@@ -13,6 +13,6 @@
 
   if (isset($_POST['Logout'])) {
     unset($_SESSION['PROG_VAR__USER']);
-    header("Location: home.php");
+    header("Location: index.php");
   }
 ?>

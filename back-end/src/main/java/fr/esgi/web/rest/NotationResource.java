@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esgi.config.ErrorMessage;
 import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.NotationService;
 import fr.esgi.service.dto.NotationDTO;
@@ -57,7 +58,7 @@ public class NotationResource {
 		LOGGER.debug("REST request to create a notation: {}", notationDTO);
 		if (null != notationDTO.getId()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-					"A new notation cannot already have an ID");
+					ErrorMessage.A_NEW_NOTATION_CANNOT_ALREADY_HAVE_AN_ID);
 		}
 		final NotationDTO notation = notationService.save(notationDTO);
 		return ResponseEntity.created(new URI("/notations/" + notation.getId()))
@@ -76,7 +77,7 @@ public class NotationResource {
 		LOGGER.debug("REST request to update a notation: {}", notationDTO);
 		if (null == notationDTO.getId()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-					"A notation should have an ID");
+					ErrorMessage.A_NOTATION_SHOULD_HAVE_AN_ID);
 		}
 		final NotationDTO notation = notationService.update(notationDTO);
 		return ResponseEntity.ok().body(notation);

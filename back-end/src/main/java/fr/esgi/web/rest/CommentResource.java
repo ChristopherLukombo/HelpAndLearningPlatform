@@ -1,5 +1,6 @@
 package fr.esgi.web.rest;
 
+import fr.esgi.config.ErrorMessage;
 import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.CommentService;
 import fr.esgi.service.dto.CommentDTO;
@@ -36,6 +37,8 @@ import java.util.Optional;
 @RequestMapping("/api")
 public class CommentResource {
 
+	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommentResource.class);
 
 	private final CommentService commentService;
@@ -64,7 +67,7 @@ public class CommentResource {
 		LOGGER.debug("REST request to save a comment: {}", commentDTO);
 		if (null != commentDTO.getId()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-					"Un nouveau commentaire ne peut pas déjà avoir un id.");
+					ErrorMessage.A_NEW_COMMENT_CANNOT_HAVE_ALREADY_HAVE_UN_ID);
 		}
 		final CommentDTO comment = commentService.save(commentDTO);
 		return ResponseEntity.created(new URI("/api/comments" + comment.getId()))
@@ -83,7 +86,7 @@ public class CommentResource {
 		LOGGER.debug("REST request to update a comment: {}", commentDTO);
 		if (null == commentDTO.getId()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-					"Un commentaire doit avoir un id.");
+					ErrorMessage.A_COMMENT_CANNOT_HAVE_AN_ID);
 		}
 		final CommentDTO comment = commentService.update(commentDTO);
 		return ResponseEntity.ok()
@@ -102,7 +105,7 @@ public class CommentResource {
 		List<CommentDTO> commentsDTO = commentService.findAll();
 		if (commentsDTO.isEmpty()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(),
-					"Pas de commentaire");
+					ErrorMessage.NO_COMMENT);
 		}
 		return ResponseEntity.ok().body(commentsDTO);
 	}
@@ -122,7 +125,7 @@ public class CommentResource {
 					.body(commentDTO.get());
 		} else {
 			throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(),
-					"Pas de commentaire");
+					ErrorMessage.NO_COMMENT);
 		}
 	}
 
@@ -153,7 +156,7 @@ public class CommentResource {
 		List<CommentDTO> commentsDTO = commentService.findAllByTrickId(trickId);
 		if (commentsDTO.isEmpty()) {
 			throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(),
-					"Pas de commentaire");
+					ErrorMessage.NO_COMMENT);
 		}
 		return ResponseEntity.ok().body(commentsDTO);
 	}

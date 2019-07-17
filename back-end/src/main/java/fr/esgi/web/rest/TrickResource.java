@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.esgi.config.ErrorMessage;
 import fr.esgi.exception.HelpAndLearningPlatformException;
 import fr.esgi.service.TrickService;
 import fr.esgi.service.dto.TrickDTO;
@@ -37,7 +38,7 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/api")
 public class TrickResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TrickResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(TrickResource.class);
 
     private final TrickService trickService;
 
@@ -58,10 +59,9 @@ public class TrickResource {
         final List<TrickDTO> tricksDTO = trickService.findAll();
         if (tricksDTO.isEmpty()) {
            	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-        			"Pas de tricks");
+           			ErrorMessage.NO_TRICKS);
         }
-        return ResponseEntity.ok()
-                .body(tricksDTO);
+        return ResponseEntity.ok().body(tricksDTO);
     }
     
     /**
@@ -80,10 +80,9 @@ public class TrickResource {
     	final List<TrickDTO> tricksDTO = trickService.findAllByUserIdAndStatus(userId, finished);
     	if (tricksDTO.isEmpty()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-    				"Pas de tricks");
+    				ErrorMessage.NO_TRICKS);
     	}
-    	return ResponseEntity.ok()
-    			.body(tricksDTO);
+    	return ResponseEntity.ok().body(tricksDTO);
     }
     
     /**
@@ -103,10 +102,9 @@ public class TrickResource {
     	final Page<TrickDTO> tricksDTO = trickService.findAllByOwnUserId(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)), userId);
     	if (tricksDTO.isEmpty()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-    				"Pas de tricks");
+    				ErrorMessage.NO_TRICKS);
     	}
-    	return ResponseEntity.ok()
-    			.body(tricksDTO);
+    	return ResponseEntity.ok().body(tricksDTO);
     }
     
     /**
@@ -126,10 +124,9 @@ public class TrickResource {
     	final Page<TrickDTO> tricksDTO = trickService.findAllByWording(PageRequest.of(Integer.parseInt(page), Integer.parseInt(size)), wording);
     	if (tricksDTO.isEmpty()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-    				"Pas de tricks");
+    				ErrorMessage.NO_TRICKS);
     	}
-    	return ResponseEntity.ok()
-    			.body(tricksDTO);
+    	return ResponseEntity.ok().body(tricksDTO);
     }
     
     /**
@@ -147,7 +144,7 @@ public class TrickResource {
     		return ResponseEntity.ok().body(trick.get());
     	} else {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-    				"Trick non trouvé");
+    				ErrorMessage.TRICK_NOT_FOUND);
     	}
     }
     
@@ -165,10 +162,9 @@ public class TrickResource {
         List<TrickDTO> tricksDTO = trickService.findAllNewTricksAvailableByUserId(userId);
         if (tricksDTO.isEmpty()) {
            	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-        			"Pas de tricks");
+           			ErrorMessage.NO_TRICKS);
         }
-		return ResponseEntity.ok()
-                .body(tricksDTO);
+		return ResponseEntity.ok().body(tricksDTO);
     }
     
     /**
@@ -184,10 +180,9 @@ public class TrickResource {
         List<TrickDTO> tricksDTO = trickService.findTheMostLatests();
         if (tricksDTO.isEmpty()) {
            	throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-        			"Pas de tricks");
+           			ErrorMessage.NO_TRICKS);
         }
-		return ResponseEntity.ok()
-                .body(tricksDTO);
+		return ResponseEntity.ok().body(tricksDTO);
     }
     
     /**
@@ -202,10 +197,9 @@ public class TrickResource {
     	List<TrickDTO> tricksDTO = trickService.findTheMostViewed();
     	if (tricksDTO.isEmpty()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.NOT_FOUND.value(), 
-    				"Pas de tricks");
+    				ErrorMessage.NO_TRICKS);
     	}
-    	return ResponseEntity.ok()
-    			.body(tricksDTO);
+    	return ResponseEntity.ok().body(tricksDTO);
     }
     
     /**
@@ -223,8 +217,7 @@ public class TrickResource {
     				"Erreur l'id du trick doit être nul !");
     	}
     	final TrickDTO trick = trickService.save(trickDTO);
-    	return ResponseEntity.ok()
-    			.body(trick);
+    	return ResponseEntity.ok().body(trick);
 
     }
     
@@ -240,11 +233,10 @@ public class TrickResource {
     	LOGGER.debug("REST request to update a trick: {}", trickDTO);
     	if (null == trickDTO.getId()) {
     		throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(), 
-    				"Erreur l'id du trick ne peut être nul !");
+    				ErrorMessage.ERORR_ID_OF_TRICK_CANNOT_BE_NUL);
     	}
     	final TrickDTO trick = trickService.update(trickDTO);
-    	return ResponseEntity.ok()
-    			.body(trick);
+    	return ResponseEntity.ok().body(trick);
 
     }
     
@@ -258,8 +250,7 @@ public class TrickResource {
     public ResponseEntity<TrickDTO> addViewToTrick(@PathVariable Long trickId) {
     	LOGGER.debug("REST request to add view to a trick by trickId: {}", trickId);
     	TrickDTO trickDTO = trickService.addViewToTrick(trickId);
-    	return ResponseEntity.ok()
-    			.body(trickDTO);
+    	return ResponseEntity.ok().body(trickDTO);
     }
     
     /**
@@ -274,7 +265,4 @@ public class TrickResource {
     	trickService.delete(trickId);
     	return ResponseEntity.noContent().build();
     }
-    
-    
-    
 }

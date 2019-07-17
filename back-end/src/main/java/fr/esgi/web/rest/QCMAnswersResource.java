@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 
 import javax.validation.Valid;
 
+import fr.esgi.config.ErrorMessage;
 import fr.esgi.exception.HelpAndLearningPlatformException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +31,7 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api")
 public class QCMAnswersResource {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(QCMAnswersResource.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(QCMAnswersResource.class);
 
     private final QCMAnswersService qcmAnswersService;
 
@@ -51,7 +52,7 @@ public class QCMAnswersResource {
 		LOGGER.debug("REST request to save a QCM: {}", qcmAnswersDTO);
         if (null != qcmAnswersDTO.getId()) {
             throw new HelpAndLearningPlatformException(HttpStatus.BAD_REQUEST.value(),
-                    "A new qcmAnswers cannot already have an ID");
+                    ErrorMessage.A_NEW_QCM_ANSWERS_CANNOT_ALREADY_HAVE_AN_ID);
         }
 		QCMAnswersDTO qcmAnswers = qcmAnswersService.save(qcmAnswersDTO);
 		return ResponseEntity.created(new URI("/qcmanswers/" + qcmAnswers.getId()))
