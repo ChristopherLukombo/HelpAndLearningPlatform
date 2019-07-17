@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Spinner;
 
+import com.example.trips.Fragment.PopupFragment;
 import com.example.trips.Helpers.HTTPRequestHelper;
 import com.example.trips.Helpers.JSONHelper;
 import com.example.trips.Models.Category;
@@ -241,16 +243,21 @@ public class TricksListActivity extends BaseActivity {
         final RecyclerView.Adapter adapter = new TrickAdapter(getApplicationContext(), tricks, new TrickCustomClickListener() {
             @Override
             public void onTrickItemClick(View v, Trick trick) {
-                if(trick.isSubscribed()){
+                if (trick.isSubscribed()) {
                     Intent intent = new Intent(TricksListActivity.this, TrickActivity.class);
                     intent.putExtra("trick", trick);
                     intent.putExtra("userId", userId);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     trick.setSubscribed(true);
                     subscribeTrick(trick);
                 }
+            }
+        },
+        new TrickCustomClickListener() {
+            @Override
+            public void onTrickItemClick(View v, Trick trick) {
+                openPopup(trick);
             }
         });
 
@@ -310,6 +317,13 @@ public class TricksListActivity extends BaseActivity {
         });
 
         tricksRecyclerView.setAdapter(adapter);
+    }
+
+    private void openPopup(Trick trick) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PopupFragment popupFragment = new PopupFragment();
+        popupFragment.setData(trick, userId);
+        popupFragment.show(fragmentManager, "comments");
     }
 
     private void subscribeTrick(final Trick trick) {

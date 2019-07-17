@@ -74,7 +74,7 @@ public class MarkFragment extends Fragment {
     }
 
     private void rateTrick(){
-         String finalUrl = this.url + "notations";
+        String finalUrl = this.url + "notations";
 
         VolleyJSONObjectCallback markCallback = new VolleyJSONObjectCallback() {
             @Override

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.example.trips.Fragment.PopupFragment;
 import com.example.trips.Helpers.HTTPRequestHelper;
 import com.example.trips.Helpers.JSONHelper;
 import com.example.trips.Models.Category;
@@ -99,6 +101,12 @@ public class MainActivity extends BaseActivity  {
                     subscribeTrick(mostRecentTricks ,trick, userId);
                 }
             }
+        },
+        new TrickCustomClickListener() {
+            @Override
+            public void onTrickItemClick(View v, Trick trick) {
+                openPopup(trick);
+            }
         }));
 
         mostViewedTricksRecyclerView.setAdapter(new TrickAdapter(getApplicationContext(), mostViewedTricks, new TrickCustomClickListener() {
@@ -115,7 +123,20 @@ public class MainActivity extends BaseActivity  {
                     subscribeTrick(mostViewedTricks ,trick, userId);
                 }
             }
+        },
+        new TrickCustomClickListener() {
+            @Override
+            public void onTrickItemClick(View v, Trick trick) {
+                openPopup(trick);
+            }
         }));
+    }
+
+    private void openPopup(Trick trick) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        PopupFragment popupFragment = new PopupFragment();
+        popupFragment.setData(trick, userId);
+        popupFragment.show(fragmentManager, "comments");
     }
 
     private void getData(){
