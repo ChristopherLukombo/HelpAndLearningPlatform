@@ -169,18 +169,19 @@ public class TrickActivity extends BaseActivity {
 
     private void addNotification() {
         String message = "Vous avez apprecié l'astuce ? Il en existe d'autres dans la catégorie " + this.trick.getCategory().getName() + ", jetez un oeil !";
+        Intent intent  = new Intent(this, TricksListActivity.class);
+        intent.putExtra("category", this.trick.getCategory().getName());
+        intent.putExtra("userId", this.userId);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
 
         Notification.Builder notif = new Notification.Builder(this)
                 .setSmallIcon(R.drawable.trips_logo)
                 .setAutoCancel(true)
                 .setStyle(new Notification.BigTextStyle().bigText(message))
                 .setContentTitle("Trips")
-                .setContentText(message);
-
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        notif.setContentIntent(contentIntent);
+                .setContentText(message)
+                .setContentIntent(pendingIntent);
 
         // Add as notification
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);

@@ -1,5 +1,6 @@
 package com.example.trips.Activities;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,6 +49,7 @@ public class TricksListActivity extends BaseActivity {
     private List<Category> categories;
     private List<User> users;
     private List<Subscription> subscriptions;
+    private ArrayAdapter<String> spinnerAdapter;
     private long userId;
     String url;
     Intent intent;
@@ -63,7 +65,9 @@ public class TricksListActivity extends BaseActivity {
         sortNameButton = findViewById(R.id.sortByNameButton);
         sortMarkButton = findViewById(R.id.sortMarkButton);
         intent = getIntent();
+        NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         userId = (long) intent.getLongExtra("userId", 0);
+
 
         url = getString(R.string.api_url);
 
@@ -84,6 +88,7 @@ public class TricksListActivity extends BaseActivity {
 
     private void handleIntent() {
         String value = intent.getExtras().getString("TRICKS");
+
 
         if("FOLLOWED".equals(value)){
             getData(this.userId, false);
@@ -230,16 +235,18 @@ public class TricksListActivity extends BaseActivity {
             categoriesName.add(category.getName());
         }
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoriesName);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoriesName);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
     }
 
 
     private void setAdapter(){
         tricksRecyclerView = findViewById(R.id.trickListRecyclerView);
         tricksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        String categoryIntent = intent.getStringExtra("category");
         setSpinner();
+
         final RecyclerView.Adapter adapter = new TrickAdapter(getApplicationContext(), tricks, new TrickCustomClickListener() {
             @Override
             public void onTrickItemClick(View v, Trick trick) {
@@ -316,7 +323,12 @@ public class TricksListActivity extends BaseActivity {
             }
         });
 
+
         tricksRecyclerView.setAdapter(adapter);
+
+        if(categoryIntent != null){
+            spinner.setSelection(spinnerAdapter.getPosition(categoryIntent));
+        }
     }
 
     private void openPopup(Trick trick) {
