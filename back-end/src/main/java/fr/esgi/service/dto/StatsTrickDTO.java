@@ -8,6 +8,10 @@ import java.util.Objects;
 public class StatsTrickDTO {
 
     private double mark;
+    
+    private int numberOfSubscribedUsers;
+    
+    private int numberOfComments;
 
     public StatsTrickDTO() {
         // Empty constructor needed for Jackson.
@@ -21,9 +25,25 @@ public class StatsTrickDTO {
         this.mark = mark;
     }
 
+	public int getNumberOfSubscribedUsers() {
+		return numberOfSubscribedUsers;
+	}
+
+	public void setNumberOfSubscribedUsers(int numberOfSubscribedUsers) {
+		this.numberOfSubscribedUsers = numberOfSubscribedUsers;
+	}
+
+	public int getNumberOfComments() {
+		return numberOfComments;
+	}
+
+	public void setNumberOfComments(int numberOfComments) {
+		this.numberOfComments = numberOfComments;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(mark);
+		return Objects.hash(mark, numberOfComments, numberOfSubscribedUsers);
 	}
 
 	@Override
@@ -35,7 +55,9 @@ public class StatsTrickDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		StatsTrickDTO other = (StatsTrickDTO) obj;
-		return Double.doubleToLongBits(mark) == Double.doubleToLongBits(other.mark);
+		return Double.doubleToLongBits(mark) == Double.doubleToLongBits(other.mark)
+				&& numberOfComments == other.numberOfComments
+				&& numberOfSubscribedUsers == other.numberOfSubscribedUsers;
 	}
 
 	@Override
@@ -43,8 +65,14 @@ public class StatsTrickDTO {
 		StringBuilder builder = new StringBuilder();
 		builder.append("StatsTrickDTO [mark=");
 		builder.append(mark);
+		builder.append(", numberOfSubscribedUsers=");
+		builder.append(numberOfSubscribedUsers);
+		builder.append(", numberOfComments=");
+		builder.append(numberOfComments);
 		builder.append("]");
 		return builder.toString();
 	}
+
+	
 }
 

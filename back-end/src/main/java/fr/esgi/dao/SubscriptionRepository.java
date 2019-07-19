@@ -20,6 +20,9 @@ public interface SubscriptionRepository extends JpaRepository<Subscription, Long
     
     @Query("SELECT s FROM Subscription s WHERE s.trick.id = :trickId AND s.user.id = :userId")
     List<Subscription> findAllByTrickId(@Param("trickId") Long trickId, @Param("userId") Long userId);
+    
+    @Query(value = "SELECT count(DISTINCT user_id) AS NUMBER_SUBSCRIBER, trick_id FROM subscription WHERE trick_id = :trickId GROUP BY trick_id", nativeQuery = true)
+    int findNumberSubcriber(@Param("trickId") Long trickId);
 
     @Query("SELECT COUNT(s) FROM Subscription s WHERE s.trick.category.id = :categoryId")
     Long findNumberSubscriptionsByCategoryId(@Param("categoryId") Long categoryId);

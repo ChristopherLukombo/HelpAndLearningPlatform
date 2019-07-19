@@ -15,10 +15,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import fr.esgi.dao.CommentRepository;
 import fr.esgi.dao.NotationRepository;
 import fr.esgi.dao.SubscriptionRepository;
 import fr.esgi.dao.TrickRepository;
 import fr.esgi.domain.Category;
+import fr.esgi.domain.Comment;
 import fr.esgi.domain.Notation;
 import fr.esgi.domain.Trick;
 import fr.esgi.service.impl.StatsServiceImpl;
@@ -42,6 +44,9 @@ public class StatsServiceTest {
 
 	@Mock
 	private SubscriptionRepository subscriptionRepository;
+	
+	@Mock
+	private CommentRepository commentRepository;
 
 	@InjectMocks
 	private StatsServiceImpl statsServiceImpl;
@@ -119,10 +124,16 @@ public class StatsServiceTest {
 		// Given
 		List<Notation> notations = new ArrayList<>();
 		notations.add(getNotation());
+		
+		List<Comment> comments = new ArrayList<Comment>();
+		comments.add(new Comment());
 
 		// When
 		when(notationRepository.findAllByTrickId(anyLong())).thenReturn(notations);
-
+		when(commentRepository.findAllByTrickId(anyLong())).thenReturn(comments);
+		when(subscriptionRepository.findNumberSubcriber(anyLong())).thenReturn(1);
+		
+		
 		// Then
 		assertThat(statsServiceImpl.getStatsForTrick(ID)).isNotNull();
 	}
