@@ -4,6 +4,7 @@ body {
   background-attachment: fixed;
   background-position: center;
   margin: 0px;
+  margin-bottom: 10px;
   font-family: 'Roboto', sans-serif;
   padding-top: 60px;
   width: 100%;
@@ -128,24 +129,46 @@ div.trick div.trick-header button.trick-button-edit {
 }
 
 div.trick div.trick-body {
-  background-color: white;
+  background-color: #fafafa;
   padding: 10px;
+  cursor: pointer;
+}
+
+div.trick div.trick-body:hover {
+  background-color: #ffffff;
 }
 
 div.trick div.trick-body p.trick-description {
   text-align: justify;
   margin: 0px;
+  margin-top: 10px;
 }
 
 div.trick div.trick-body p.trick-content {
+  display: none;
   text-align: justify;
   margin: 0px;
   margin-top: 10px;
 }
 
-div.trick div.trick-body span.trick-category {
-  float: right;
+div.trick div.trick-body p.trick-category {
+  text-align: right;
   margin: 0px;
+}
+
+div.trick div.trick-body span.trick-stats-mark,
+div.trick div.trick-body span.trick-stats-subscribers,
+div.trick div.trick-body span.trick-stats-comments {
+  display: none;
+}
+
+div.trick.trickExpanded div.trick-body p.trick-content {
+  display: block;
+}
+div.trick.trickExpanded div.trick-body span.trick-stats-mark,
+div.trick.trickExpanded div.trick-body span.trick-stats-subscribers,
+div.trick.trickExpanded div.trick-body span.trick-stats-comments {
+  display: inline;
 }
 
 div.trick div.trick-body p.trick-creation-date {
