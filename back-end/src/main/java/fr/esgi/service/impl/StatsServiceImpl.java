@@ -95,14 +95,14 @@ public class StatsServiceImpl implements StatsService {
 		LOGGER.debug("request to get stats for a trick: {}", trickId);
         final List<Notation> notations = notationRepository.findAllByTrickId(trickId);
         final List<Comment> comments = commentRepository.findAllByTrickId(trickId);
-        int numberSusbcribeur = subscriptionRepository.findNumberSubcriber(trickId);
+        Integer numberSubcriber = subscriptionRepository.findNumberSubcriber(trickId);
         
         final Optional<Double> sum = calculateMark(notations);
 
         final StatsTrickDTO statsTrickDTO = new StatsTrickDTO();
         statsTrickDTO.setMark((sum.isPresent() && sum.get() > 0) ? sum.get() / notations.size() : 0);
         statsTrickDTO.setNumberOfComments((null != comments && !comments.isEmpty()) ? comments.size() : 0);
-        statsTrickDTO.setNumberOfSubscribedUsers(numberSusbcribeur);
+        statsTrickDTO.setNumberOfSubscribedUsers((null != numberSubcriber) ? numberSubcriber : 0);
 
         return statsTrickDTO;
 	}
