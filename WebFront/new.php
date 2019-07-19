@@ -13,15 +13,18 @@
 ?>
 
 <form action="" method="POST">
-  <button type="submit" name="Back" formnovalidate>Retour</button>
-  <button type="submit" name="Create">Enregistrer</button>
-  <hr>
-  <input type="text" minLength="10" maxlength="255" name="wording" placeholder="Titre du Trick" required>
-  <select name="categoryId" required>
-    <?php getCategoryList($API) ?>
-  </select>
-  <textarea name="description" minLength="10" maxlength="255" rows="8" cols="80" placeholder="Description" required></textarea>
-  <textarea name="content" minLength="10" rows="8" cols="80" placeholder="Contenu" required></textarea>
+  <div class="tool-bar">
+    <button type="submit" name="Back" formnovalidate>Retour</button>
+    <button type="submit" name="Create">Enregistrer</button>
+  </div>
+  <div class="formulaire">
+    <input type="text" minLength="10" maxlength="255" name="wording" placeholder="Titre du Trick" required>
+    <select name="categoryId" required>
+      <?php getCategoryList($API) ?>
+    </select>
+    <textarea name="description" minLength="10" maxlength="255" rows="8" placeholder="Description" required></textarea>
+    <textarea name="content" minLength="10" rows="16" placeholder="Contenu" required></textarea>
+  </div>
 </form>
 
 

@@ -5,7 +5,9 @@
 ?>
 
 <form action="new.php" method="POST">
-  <button type="submit" name="Add">Nouveau</button>
+  <div class="tool-bar">
+    <button type="submit" name="Add">Nouveau</button>
+  </div>
 </form>
 
 <?php showTricks($API) ?>
