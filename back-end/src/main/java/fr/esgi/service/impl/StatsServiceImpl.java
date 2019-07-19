@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import fr.esgi.dao.CommentRepository;
 import fr.esgi.dao.NotationRepository;
 import fr.esgi.dao.SubscriptionRepository;
 import fr.esgi.dao.TrickRepository;
+import fr.esgi.domain.Comment;
 import fr.esgi.domain.Notation;
 import fr.esgi.domain.Trick;
 import fr.esgi.service.StatsService;
@@ -33,23 +35,26 @@ public class StatsServiceImpl implements StatsService {
     private final NotationRepository notationRepository;
 
     private final SubscriptionRepository subscriptionRepository;
-
+    
+    private final CommentRepository commentRepository;
+   
     @Autowired
     public StatsServiceImpl(TrickRepository trickRepository, NotationRepository notationRepository,
-                            SubscriptionRepository subscriptionRepository) {
-        this.trickRepository = trickRepository;
-        this.notationRepository = notationRepository;
-        this.subscriptionRepository = subscriptionRepository;
-    }
+			SubscriptionRepository subscriptionRepository, CommentRepository commentRepository) {
+		this.trickRepository = trickRepository;
+		this.notationRepository = notationRepository;
+		this.subscriptionRepository = subscriptionRepository;
+		this.commentRepository = commentRepository;
+	}
 
-    /**
+	/**
 	 * Get the stats for a trick
 	 * @param userId the id of user
 	 * @param categoryId the id of category
 	 * @return the entity
 	 */
-    @Transactional(readOnly = true)
     @Override
+    @Transactional(readOnly = true)
     public StatsDTO getStatsTricksForOwner(Long userId, Long categoryId) {
         LOGGER.debug("request to get stats");
         List<Trick> tricks = trickRepository.findAllByOwnUserId(userId);
@@ -85,14 +90,19 @@ public class StatsServiceImpl implements StatsService {
      * @return the entity stats 
      */
 	@Override
+    @Transactional(readOnly = true)
 	public StatsTrickDTO getStatsForTrick(Long trickId) {
 		LOGGER.debug("request to get stats for a trick: {}", trickId);
         final List<Notation> notations = notationRepository.findAllByTrickId(trickId);
+        final List<Comment> comments = commentRepository.findAllByTrickId(trickId);
+        int numberSusbcribeur = subscriptionRepository.findNumberSubcriber(trickId);
         
         final Optional<Double> sum = calculateMark(notations);
 
         final StatsTrickDTO statsTrickDTO = new StatsTrickDTO();
         statsTrickDTO.setMark((sum.isPresent() && sum.get() > 0) ? sum.get() / notations.size() : 0);
+        statsTrickDTO.setNumberOfComments((null != comments && !comments.isEmpty()) ? comments.size() : 0);
+        statsTrickDTO.setNumberOfSubscribedUsers(numberSusbcribeur);
 
         return statsTrickDTO;
 	}
