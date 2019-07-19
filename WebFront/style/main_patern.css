@@ -149,6 +149,7 @@ div.trick div.trick-body p.trick-content {
   text-align: justify;
   margin: 0px;
   margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 div.trick div.trick-body p.trick-category {
@@ -160,6 +161,7 @@ div.trick div.trick-body span.trick-stats-mark,
 div.trick div.trick-body span.trick-stats-subscribers,
 div.trick div.trick-body span.trick-stats-comments {
   display: none;
+  margin-right: 5px;
 }
 
 div.trick.trickExpanded div.trick-body p.trick-content {

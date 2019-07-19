@@ -14,9 +14,9 @@
         echo '<p class="trick-description">'.$trick['description'].'</p>';
         echo '<p class="trick-content">'.$trick['content'].'</p>';
         if ($stats !== false) {
-          echo '<span class="trick-stats-mark">'.$stats['mark'].'</span>';
-          echo '<span class="trick-stats-subscribers">'.$stats['mark'].'</span>';
-          echo '<span class="trick-stats-comments">'.$stats['mark'].'</span>';
+          echo '<span class="trick-stats-mark">Note: '.$stats['mark'].'</span>';
+          echo '<span class="trick-stats-subscribers">Abonnés: '.$stats['numberOfSubscribedUsers'].'</span>';
+          echo '<span class="trick-stats-comments">Commentaires: '.$stats['numberOfComments'].'</span>';
         }
         echo '<p class="trick-creation-date">Créé le '.$trick['creationDate'].'</p>';
       echo '</div>';
