@@ -158,11 +158,13 @@ public class TricksListActivity extends BaseActivity {
     }
 
     private void setSubscriptions() {
-        for (Trick trick: tricks){
-            for (Subscription subscription: subscriptions) {
-                if(trick.getId() == subscription.getTrickId() && subscription.getUserId() == this.userId){
-                    trick.setSubscription(subscription);
-                    trick.setSubscribed(true);
+        if(tricks != null){
+            for (Trick trick: tricks){
+                for (Subscription subscription: subscriptions) {
+                    if(trick.getId() == subscription.getTrickId() && subscription.getUserId() == this.userId){
+                        trick.setSubscription(subscription);
+                        trick.setSubscribed(true);
+                    }
                 }
             }
         }
@@ -171,58 +173,64 @@ public class TricksListActivity extends BaseActivity {
     private void setTricksMark() {
 
         String markUrl = this.url + "notations/trick/";
-        for (final Trick trick: tricks){
-            String completeUrl = markUrl + trick.getId();
+        if(tricks != null){
+            for (final Trick trick: tricks){
+                String completeUrl = markUrl + trick.getId();
 
-            VolleyJSONArrayCallback markVolleyJSONArrayCallback = new VolleyJSONArrayCallback() {
-                @Override
-                public void onResponse(JSONArray result) {
-                    double totalMark = 0;
+                VolleyJSONArrayCallback markVolleyJSONArrayCallback = new VolleyJSONArrayCallback() {
+                    @Override
+                    public void onResponse(JSONArray result) {
+                        double totalMark = 0;
 
-                    if(result != null){
-                        List<Mark>  list = JSONHelper.markListFromJSONObject(result);
+                        if(result != null){
+                            List<Mark>  list = JSONHelper.markListFromJSONObject(result);
 
-                        for(Mark mark : list){
-                            totalMark += mark.getNote();
-                            if(mark.getUserId() == userId){
-                                trick.setMark(mark);
+                            for(Mark mark : list){
+                                totalMark += mark.getNote();
+                                if(mark.getUserId() == userId){
+                                    trick.setMark(mark);
+                                }
                             }
+
+                            totalMark = totalMark / list.size();
+                            trick.setMarkNotation(totalMark);
+                        }
+                        else{
+                            trick.setMarkNotation(0);
                         }
 
-                        totalMark = totalMark / list.size();
-                        trick.setMarkNotation(totalMark);
-                    }
-                    else{
-                        trick.setMarkNotation(0);
+                        if(tricks.indexOf(trick) == (tricks.size() -1)){
+                            setAdapter();
+                        }
                     }
 
-                    if(tricks.indexOf(trick) == (tricks.size() -1)){
-                        setAdapter();
-                    }
-                }
+                };
 
-            };
+                HTTPRequestHelper.getRequest(getApplicationContext(), completeUrl, markVolleyJSONArrayCallback, getToken());
 
-            HTTPRequestHelper.getRequest(getApplicationContext(), completeUrl, markVolleyJSONArrayCallback, getToken());
-
+            }
         }
     }
 
     private void setTricksCategories() {
-        for (Trick trick: tricks){
-            for (Category category: categories) {
-                if(trick.getCategoryId() == category.getId()){
-                    trick.setCategory(category);
+        if(tricks != null){
+            for (Trick trick: tricks){
+                for (Category category: categories) {
+                    if(trick.getCategoryId() == category.getId()){
+                        trick.setCategory(category);
+                    }
                 }
             }
         }
     }
 
     private void setTricksUsers() {
-        for (Trick trick: tricks){
-            for (User user: users) {
-                if(trick.getUserId() == user.getId()){
-                    trick.setUser(user);
+        if(tricks != null){
+            for (Trick trick: tricks){
+                for (User user: users) {
+                    if(trick.getUserId() == user.getId()){
+                        trick.setUser(user);
+                    }
                 }
             }
         }
