@@ -21,16 +21,19 @@
 ?>
 
 <form action="" method="POST">
-  <button type="submit" name="Back" formnovalidate>Retour</button>
-  <button type="submit" name="Save">Enregistrer</button>
-  <button type="submit" name="Delete">Supprimer</button>
-  <hr>
-  <input type="text" name="wording" placeholder="Titre du Trick" value="<?php echo $element['wording'] ?>" required>
-  <select name="categoryId" required>
-    <?php getCategoryList($API, $element['categoryId']) ?>
-  </select>
-  <textarea name="description" rows="8" cols="80" placeholder="Description" required><?php echo $element['description'] ?></textarea>
-  <textarea name="content" rows="8" cols="80" placeholder="Contenu" required><?php echo $element['content'] ?></textarea>
+  <div class="tool-bar">
+    <button type="submit" name="Back" formnovalidate>Retour</button>
+    <button type="submit" name="Save">Enregistrer</button>
+    <button type="submit" name="Delete">Supprimer</button>
+  </div>
+  <div class="formulaire">
+    <input type="text" name="wording" placeholder="Titre du Trick" value="<?php echo $element['wording'] ?>" required>
+    <select name="categoryId" required>
+      <?php getCategoryList($API, $element['categoryId']) ?>
+    </select>
+    <textarea name="description" rows="8" placeholder="Description" required><?php echo $element['description'] ?></textarea>
+    <textarea name="content" rows="16" placeholder="Contenu" required><?php echo $element['content'] ?></textarea>
+  </div>
 </form>
 
 
