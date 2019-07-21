@@ -100,6 +100,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         editor.putString("LOGIN_PSEUDO", "");
         editor.putString("LOGIN_PWD", "");
         editor.commit();
+        prefs = getSharedPreferences("USER", Context.MODE_PRIVATE);
+        editor.putString("USERID", "");
+        editor.commit();
     }
 
     public long getUserId(){
