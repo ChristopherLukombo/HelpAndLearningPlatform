@@ -2,7 +2,7 @@
   require_once("includes/common_process.php");
 
   if (isset($_POST['Create'])) {
-    $API->newTrick($_POST['wording'], $_POST['description'], $_POST['content'], $_POST['categoryId'], $_SESSION['PROG_VAR__USER']->getId(), $_SESSION['PROG_VAR__USER']->getToken());
+    $response = $API->newTrick($_POST['wording'], $_POST['description'], $_POST['content'], $_POST['categoryId'], $_SESSION['PROG_VAR__USER']->getId(), $_SESSION['PROG_VAR__USER']->getToken());
     header("Location: tricks.php");
   } elseif (isset($_POST['Back'])) {
     header("Location: tricks.php");
@@ -13,15 +13,18 @@
 ?>
 
 <form action="" method="POST">
-  <button type="submit" name="Back" formnovalidate>Retour</button>
-  <button type="submit" name="Create">Enregistrer</button>
-  <hr>
-  <input type="text" name="wording" placeholder="Titre du Trick" required>
-  <select name="categoryId" required>
-    <?php getCategoryList($API) ?>
-  </select>
-  <textarea name="description" rows="8" cols="80" placeholder="Description" required></textarea>
-  <textarea name="content" rows="8" cols="80" placeholder="Contenu" required></textarea>
+  <div class="tool-bar">
+    <button type="submit" name="Back" formnovalidate>Retour</button>
+    <button type="submit" name="Create">Enregistrer</button>
+  </div>
+  <div class="formulaire">
+    <input type="text" minLength="10" maxlength="255" name="wording" placeholder="Titre du Trick" required>
+    <select name="categoryId" required>
+      <?php getCategoryList($API) ?>
+    </select>
+    <textarea name="description" minLength="10" maxlength="255" rows="8" placeholder="Description" required></textarea>
+    <textarea name="content" minLength="10" rows="16" placeholder="Contenu" required></textarea>
+  </div>
 </form>
 
 
