@@ -25,7 +25,7 @@ public interface TrickRepository extends JpaRepository<Trick, Long> {
     @Query("SELECT t FROM Trick t WHERE t.ownUser.id = :userId")
     List<Trick> findAllByOwnUserId(@Param("userId") Long userId);
     
-    @Query("SELECT t FROM Trick t WHERE t.ownUser.id = :userId")
+    @Query("SELECT t FROM Trick t WHERE t.ownUser.id = :userId ORDER BY t.creationDate DESC")
     Page<Trick> findAllByOwnUserId(Pageable pageable, @Param("userId") Long userId);
     
     @Query("SELECT t FROM Trick t WHERE lower(t.wording) LIKE concat('%',lower(:wording),'%')")

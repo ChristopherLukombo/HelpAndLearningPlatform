@@ -14,6 +14,7 @@ INSERT INTO category (id, wording) VALUES(2, 'Mathematiques');
 INSERT INTO category (id, wording) VALUES(3, 'Francais');
 INSERT INTO category (id, wording) VALUES(4, 'Anglais');
 INSERT INTO category (id, wording) VALUES(5, 'Histoire');
+INSERT INTO category (id, wording) VALUES(6, 'Cuisine');
 
 -- user
 SELECT '[INFO] Insertion dans la table "user"' as '';
@@ -31,15 +32,15 @@ VALUES (5, b'1', 'France', NULL, 'melissa.goness@gmail.com', 'Melissa', NULL, 'f
 -- trick
 SELECT '[INFO] Insertion dans la table "trick"' as '';
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (1, 'ok', 'les structures', 1, 1, '2019-06-07', 1, 'une structure');
+VALUES (1, 'Déroulez, étalez et piquez la pâte dans un moule à tarte.', 'Recette de la tarte aux pommes', 6, 1, '2019-06-07', 1, 'Déroulez, étalez et piquez la pâte dans un moule à tarte. Pelez, videz et coupez en fines tranches les pommes. Posez-les sur la pâte en rosace.Dans un saladier, battez les œufs avec le sucre, puis ajoutez la crème et la cannelle. Versez le mélange sur les pommes.Mettez au four à 210°C (thermostat 7) pour 40 minutes environ. Vers la fin de la cuisson, répartissez sur la tarte le sucre vanillé et remettez au four pour caramélisé.');
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (2, 'ok', 'les equations', 2, 1, '2019-06-07', 1, 'bien');
+VALUES (2, 'On appelle discriminant du trinôme ax2 + bx + c, le nombre réel, noté delta, égal b2 - 4AC.', 'les equations du second degré', 2, 1, '2019-06-07', 1, '');
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (3, 'ok', 'la grammaire', 3, 1, '2019-06-07', 1, 'bien');
+VALUES (3, 'Les accents aigu et grave sont des signes placés sur les voyelles pour en modifier la prononciation ou pour le différencier des homonymes.', 'Les accents', 3, 1, '2019-06-07', 1, 'Les accents aigu et grave sont des signes placés sur les voyelles pour en modifier la prononciation ou pour le différencier des homonymes. L\'accent aigu se place uniquement sur la lettre E (é) et il se prononce (et). amitié - ténacité - prévenir - médecin');
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (4, 'ok', 'le gerondif', 4, 1, '2019-06-07', 1, 'bien');
+VALUES (4, 'La forme verbale en -ant précédée de en est appelée gérondif', 'le gerondif', 4, 1, '2019-07-21', 1, 'La forme verbale en -ant précédée de en est appelée gérondif. EXEMPLE : Le plombier chante en travaillant.(en travaillant équivaut à:pendant qu\'il travaille, ou à: pendant son travail).Le gérondif est l\'équivalent d\'une subordonnée circonstancielle ayant même sujet que la principale, d\'un groupe prépositionnel circonstanciel ou parfois, d\'un adverbe de manière.');
 INSERT INTO trick (id, description, wording, category_id, own_user_id_trick, creation_date, view_number, content)
-VALUES (5, 'ok', 'la prehistoire', 5, 1, '2019-06-07', 1, 'bien');
+VALUES (5, 'La Préhistoire est généralement définie comme la période comprise entre l\'apparition du genre humain', 'la prehistoire', 5, 1, '2019-07-21', 1, 'La Préhistoire est généralement définie comme la période comprise entre l\'apparition du genre humain et l\'apparition des premiers documents écrits. Cette définition laisse cependant la place à des interprétations divergentes selon les auteurs.');
 
 -- notation
 SELECT '[INFO] Insertion dans la table "notation"' as '';

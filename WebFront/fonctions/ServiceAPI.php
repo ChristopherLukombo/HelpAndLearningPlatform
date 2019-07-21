@@ -209,7 +209,7 @@ class ServiceAPI {
 
   function updateTrick($id, $wording, $description, $content, $categoryId, $token) {
     $trick = $this->getTrickById($token, $id);
-    
+
     $params = [
       "id"            => $id,
       "wording"       => $wording,
@@ -280,6 +280,31 @@ class ServiceAPI {
     $curl = curl_init();
 
     $url = self::$url."tricks/".$id;
+
+    // Paramètres de l'appel cURL :
+    $opts = [
+      CURLOPT_URL             => $url,
+      CURLOPT_RETURNTRANSFER  => true,
+      CURLOPT_SSL_VERIFYPEER  => false,
+      CURLOPT_HTTPHEADER      => array("Content-Type: application/json",
+                                        "Authorization: Bearer ".$token)
+    ];
+
+    // Ajout des paramètres à cURL :
+    curl_setopt_array($curl, $opts);
+
+    // Exécution de l'appel à l'API :
+    $response = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+
+    return $response;
+  }
+
+  function getStatsByTrickId($token, $id) {
+    // Initialisation de l'entité cURL :
+    $curl = curl_init();
+
+    $url = self::$url."stats/trick?trickId=".$id;
 
     // Paramètres de l'appel cURL :
     $opts = [

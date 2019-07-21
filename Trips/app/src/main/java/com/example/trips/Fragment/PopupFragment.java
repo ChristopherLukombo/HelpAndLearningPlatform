@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.trips.Helpers.HTTPRequestHelper;
@@ -37,6 +38,7 @@ public class PopupFragment extends DialogFragment {
 
     private List<Comment> comments;
     private EditText newComment;
+    private TextView noComments;
     private Button commentButton;
     private RecyclerView recyclerView;
     private PopupAdapter adapter;
@@ -54,6 +56,7 @@ public class PopupFragment extends DialogFragment {
 
         newComment = layoutInflater.findViewById(R.id.newComment);
         commentButton = layoutInflater.findViewById(R.id.commentButton);
+        noComments = layoutInflater.findViewById(R.id.noComments);
         recyclerView = layoutInflater.findViewById(R.id.commentRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         commentCardView = layoutInflater.findViewById(R.id.commentCardView);
@@ -150,6 +153,12 @@ public class PopupFragment extends DialogFragment {
 
                 HTTPRequestHelper.getRequest(layoutInflater.getContext(), finalUrl, callback, getToken());
             }
+        }
+        if(comments == null){
+            noComments.setVisibility(View.VISIBLE);
+        }
+        else{
+            noComments.setVisibility(View.GONE);
         }
     }
 

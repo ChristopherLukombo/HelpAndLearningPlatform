@@ -20,9 +20,9 @@
   <img src="res/img/trips_logo.png" alt="logo">
   <div class="separator"></div>
   <form action="" method="POST">
-    <p>Login :</p>
+    <p>Login</p>
     <input type="text" name="Login" required>
-    <p>Mot de passe :</p>
+    <p>Mot de passe</p>
     <input type="password" name="Password" required>
     <div class="separator"></div>
     <button type="submit" name="Connection">Connexion</button>

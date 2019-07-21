@@ -1,5 +1,6 @@
 package com.example.trips.Activities;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -48,6 +49,7 @@ public class TricksListActivity extends BaseActivity {
     private List<Category> categories;
     private List<User> users;
     private List<Subscription> subscriptions;
+    private ArrayAdapter<String> spinnerAdapter;
     private long userId;
     String url;
     Intent intent;
@@ -63,7 +65,9 @@ public class TricksListActivity extends BaseActivity {
         sortNameButton = findViewById(R.id.sortByNameButton);
         sortMarkButton = findViewById(R.id.sortMarkButton);
         intent = getIntent();
+        NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         userId = (long) intent.getLongExtra("userId", 0);
+
 
         url = getString(R.string.api_url);
 
@@ -84,6 +88,7 @@ public class TricksListActivity extends BaseActivity {
 
     private void handleIntent() {
         String value = intent.getExtras().getString("TRICKS");
+
 
         if("FOLLOWED".equals(value)){
             getData(this.userId, false);
@@ -153,11 +158,13 @@ public class TricksListActivity extends BaseActivity {
     }
 
     private void setSubscriptions() {
-        for (Trick trick: tricks){
-            for (Subscription subscription: subscriptions) {
-                if(trick.getId() == subscription.getTrickId() && subscription.getUserId() == this.userId){
-                    trick.setSubscription(subscription);
-                    trick.setSubscribed(true);
+        if(tricks != null){
+            for (Trick trick: tricks){
+                for (Subscription subscription: subscriptions) {
+                    if(trick.getId() == subscription.getTrickId() && subscription.getUserId() == this.userId){
+                        trick.setSubscription(subscription);
+                        trick.setSubscribed(true);
+                    }
                 }
             }
         }
@@ -166,58 +173,64 @@ public class TricksListActivity extends BaseActivity {
     private void setTricksMark() {
 
         String markUrl = this.url + "notations/trick/";
-        for (final Trick trick: tricks){
-            String completeUrl = markUrl + trick.getId();
+        if(tricks != null){
+            for (final Trick trick: tricks){
+                String completeUrl = markUrl + trick.getId();
 
-            VolleyJSONArrayCallback markVolleyJSONArrayCallback = new VolleyJSONArrayCallback() {
-                @Override
-                public void onResponse(JSONArray result) {
-                    double totalMark = 0;
+                VolleyJSONArrayCallback markVolleyJSONArrayCallback = new VolleyJSONArrayCallback() {
+                    @Override
+                    public void onResponse(JSONArray result) {
+                        double totalMark = 0;
 
-                    if(result != null){
-                        List<Mark>  list = JSONHelper.markListFromJSONObject(result);
+                        if(result != null){
+                            List<Mark>  list = JSONHelper.markListFromJSONObject(result);
 
-                        for(Mark mark : list){
-                            totalMark += mark.getNote();
-                            if(mark.getUserId() == userId){
-                                trick.setMark(mark);
+                            for(Mark mark : list){
+                                totalMark += mark.getNote();
+                                if(mark.getUserId() == userId){
+                                    trick.setMark(mark);
+                                }
                             }
+
+                            totalMark = totalMark / list.size();
+                            trick.setMarkNotation(totalMark);
+                        }
+                        else{
+                            trick.setMarkNotation(0);
                         }
 
-                        totalMark = totalMark / list.size();
-                        trick.setMarkNotation(totalMark);
-                    }
-                    else{
-                        trick.setMarkNotation(0);
+                        if(tricks.indexOf(trick) == (tricks.size() -1)){
+                            setAdapter();
+                        }
                     }
 
-                    if(tricks.indexOf(trick) == (tricks.size() -1)){
-                        setAdapter();
-                    }
-                }
+                };
 
-            };
+                HTTPRequestHelper.getRequest(getApplicationContext(), completeUrl, markVolleyJSONArrayCallback, getToken());
 
-            HTTPRequestHelper.getRequest(getApplicationContext(), completeUrl, markVolleyJSONArrayCallback, getToken());
-
+            }
         }
     }
 
     private void setTricksCategories() {
-        for (Trick trick: tricks){
-            for (Category category: categories) {
-                if(trick.getCategoryId() == category.getId()){
-                    trick.setCategory(category);
+        if(tricks != null){
+            for (Trick trick: tricks){
+                for (Category category: categories) {
+                    if(trick.getCategoryId() == category.getId()){
+                        trick.setCategory(category);
+                    }
                 }
             }
         }
     }
 
     private void setTricksUsers() {
-        for (Trick trick: tricks){
-            for (User user: users) {
-                if(trick.getUserId() == user.getId()){
-                    trick.setUser(user);
+        if(tricks != null){
+            for (Trick trick: tricks){
+                for (User user: users) {
+                    if(trick.getUserId() == user.getId()){
+                        trick.setUser(user);
+                    }
                 }
             }
         }
@@ -230,16 +243,18 @@ public class TricksListActivity extends BaseActivity {
             categoriesName.add(category.getName());
         }
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoriesName);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
+        spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoriesName);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(spinnerAdapter);
     }
 
 
     private void setAdapter(){
         tricksRecyclerView = findViewById(R.id.trickListRecyclerView);
         tricksRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        String categoryIntent = intent.getStringExtra("category");
         setSpinner();
+
         final RecyclerView.Adapter adapter = new TrickAdapter(getApplicationContext(), tricks, new TrickCustomClickListener() {
             @Override
             public void onTrickItemClick(View v, Trick trick) {
@@ -316,7 +331,12 @@ public class TricksListActivity extends BaseActivity {
             }
         });
 
+
         tricksRecyclerView.setAdapter(adapter);
+
+        if(categoryIntent != null){
+            spinner.setSelection(spinnerAdapter.getPosition(categoryIntent));
+        }
     }
 
     private void openPopup(Trick trick) {

@@ -7,6 +7,8 @@
     <link href="style/font.css" rel="stylesheet" type="text/css">
     <link href="style/constants.css" rel="stylesheet" type="text/css">
     <link href="style/main_patern.css" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="res/scripts/animations.js" type="text/javascript"></script>
 
     <!---------------------->
     <title><?php echo $__APP_NAME ?></title>
